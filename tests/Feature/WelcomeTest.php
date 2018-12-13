@@ -3,19 +3,18 @@
 namespace Tests\Feature;
 
 use App\User;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class WelcomeTest extends TestCase
 {
     use DatabaseTransactions;
-
     /**
      * A basic test example.
      *
      * @return void
      */
-    function testWelcomeStatus200()
+    function test_welcome_status_200()
     {
         $response = $this->get('/');
 
