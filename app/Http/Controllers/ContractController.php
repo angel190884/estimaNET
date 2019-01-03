@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contract;
 use Illuminate\Http\Request;
 
 class ContractController extends Controller
@@ -13,7 +14,8 @@ class ContractController extends Controller
      */
     public function index()
     {
-        return "index contract";
+        $contracts = auth()->user()->contracts()->get();
+        return view('contract.index',compact('contracts'));
     }
 
     /**
