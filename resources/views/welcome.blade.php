@@ -84,14 +84,15 @@
                     {{ env('APP_NAME') }}
                 </div>
 
-                <!--<div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
+                <div class="links">
+                    <a href="{{ route('login') }}" title="Ingresar">Sistema Integral para el seguimiento de estimaciones en Obra Pública</a>
+                    <!--<a href="https://laravel.com/docs">Documentation</a>
                     <a href="https://laracasts.com">Laracasts</a>
                     <a href="https://laravel-news.com">News</a>
                     <a href="https://nova.laravel.com">Nova</a>
                     <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>-->
+                    <a href="https://github.com/laravel/laravel">GitHub</a>-->
+                </div>
             </div>
         </div>
     </body>
