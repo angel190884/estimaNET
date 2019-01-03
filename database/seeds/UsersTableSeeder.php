@@ -1,9 +1,34 @@
 <?php
+/**
+ * Seeder Users
+ *
+ * Seeder Users Add.
+ * 
+ * PHP version 7.1
+ *
+ * @category   Components
+ * @package    WordPress
+ * @subpackage Theme_Name_Here
+ * @author     Your Name <yourname@example.com>
+ * @license    https://www.gnu.org/licenses/gpl-3.0.txt GNU/GPLv3
+ * @link       https://yoursite.com
+ * @since      1.0.0
+ */
 
+use App\Contract;
 use App\User;
 use Illuminate\Database\Seeder;
 use Silber\Bouncer\Bouncer;
 
+/**
+ * UsersTableSeeder Class Doc Comment
+ *
+ * @category Class
+ * @package  MyClass
+ * @author   Your Name <yourname@example.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.hashbangcode.com/
+ */
 class UsersTableSeeder extends Seeder
 {
     /**
@@ -13,18 +38,43 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $user=factory(User::class)->create([
+        /**
+         * +------------------------------------------------------------+
+         * | Role: admin                                                |
+         * +------------------------------------------------------------+
+         */
+
+        $user = factory(User::class)->create(
+            [
             'name' => 'angel daniel peregrino juarez',
-            'email' => 'angel190884@gmail.com',
-            'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-        ]);
+            'email' => 'angel190884@gmail.com'
+            ]
+        );
 
         $user->assign('admin');
 
         //Bouncer::allow('admin')->everything();
 
-        //Bouncer::allow('visor')->to('viewContract', Contract::class);
+        $user->allow()->to(
+            [
+                'viewContract',
+                'listContracts',
+                'newContract'
+            ]
+        );
 
+        /**
+         * +------------------------------------------------------------+
+         * | Role: visor                                                |
+         * +------------------------------------------------------------+
+         */
 
+        $user = factory(User::class)->create(
+            [
+                'name' => 'angel daniel peregrino juarez',
+                'email' => 'angel_190884@hotmail.com'
+            ]
+        );
+        $user->assign('visor');
     }
 }
