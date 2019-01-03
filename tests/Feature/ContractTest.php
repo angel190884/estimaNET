@@ -15,6 +15,6 @@ class ContractTest extends TestCase
     {
         $this->get('/contract')
             ->assertStatus(200)
-            ->assertSee('index contract');
+            ->assertSee('Contracts');
     }
 }
