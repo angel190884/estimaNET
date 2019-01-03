@@ -28,4 +28,14 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function contracts()
+    {
+        return $this->belongsToMany(Contract::class)->withTimestamps();
+    }
+
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class);
+    }
 }
