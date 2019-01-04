@@ -111,6 +111,14 @@
         <main class="py-3">
             @yield('content')
         </main>
+        <footer class="footer">
+            <div class="container">
+                <p class="text-center">
+                    <span class="float-right text-muted"><a href="#">Back to top</a></span>
+                    <span class="text-muted">© 2017-2018 ADX Software SA de CV. · <a href="#">Privacy</a> · <a href="#">Terms</a></span>
+                </p>
+            </div>
+        </footer>
     </div>
 </body>
 </html>
