@@ -59,7 +59,10 @@ class UsersTableSeeder extends Seeder
             [
                 'viewContract',
                 'listContracts',
-                'newContract'
+                'newContract',
+                'viewCompany',
+                'listCompanies',
+                'newCompany',
             ]
         );
 

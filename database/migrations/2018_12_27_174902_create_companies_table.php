@@ -16,9 +16,6 @@ class CreateCompaniesTable extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->unsignedInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
-
             $table->string('rfc')->unique();
             $table->string('reason_social');
             $table->string('admin_unique');
@@ -28,6 +25,7 @@ class CreateCompaniesTable extends Migration
             $table->string('background')->nullable();
             $table->string('interbank_key')->nullable();
             $table->string('bank_account')->nullable();
+
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Contract;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,8 @@ class ContractController extends Controller
      */
     public function create()
     {
-        //
+        $companies= Company::orderBy('reason_social')->pluck('reason_social','id');
+        return view('contract.create', compact('companies'));
     }
 
     /**
@@ -36,7 +38,7 @@ class ContractController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //session()->flash('danger', 'Post was created!');
     }
 
     /**

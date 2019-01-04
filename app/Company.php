@@ -24,8 +24,8 @@ class Company extends Model
 
     ];
 
-    public function user()
+    public function contracts()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(Contract::class)->withTimestamps();
     }
 }
