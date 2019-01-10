@@ -45,22 +45,30 @@
                                     @endcan
 
                                     @can('viewContract')
-                                        <a class="dropdown-item" href="{{ route('contract.index') }}">Ver</a>
+                                        <a class="dropdown-item" href="{{ route('contract.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>
                                     @endcan
 
                                     @can('newContract')
-                                        <a class="dropdown-item" href="{{ route('contract.index') }}">Nuevo</a>
+                                        <a class="dropdown-item" href="{{ route('contract.create') }}">Agregar</a>
                                     @endcan
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Dropdown link
+                                    Empresas
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
+                                    @can('listCompanies')
+                                        <a class="dropdown-item" href="{{ route('contract.index') }}">Listar<sup class="text-danger"> Pendiente</sup></a>
+                                    @endcan
+
+                                    @can('viewCompany')
+                                        <a class="dropdown-item" href="{{ route('contract.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>
+                                    @endcan
+
+                                    @can('newCompany')
+                                        <a class="dropdown-item" href="{{ route('contract.index') }}">Agregar<sup class="text-danger"> Pendiente</sup></a>
+                                    @endcan
                                 </div>
                             </li>
                         </ul>
@@ -109,6 +117,7 @@
         </nav>
 
         <main class="py-3">
+            @include('partials.alerts')
             @yield('content')
         </main>
         <footer class="footer">
