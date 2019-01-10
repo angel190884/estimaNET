@@ -13,8 +13,20 @@ class Contract extends Model
      * @var array
      */
     protected $fillable = [
-        'code', 'name', 'short_name', 'description', 'total', 'anticipated', 'extension', 'adjustment', 'start', 'finish',
-        'signature', 'covenant', 'modified', 'active'
+        'code',
+        'name',
+        'short_name',
+        'description',
+        'amount_total',
+        'amount_anticipated',
+        'amount_extension',
+        'amount_adjustment',
+        'date_start',
+        'date_finish',
+        'date_signature',
+        'date_signature_covenant',
+        'date_finish_modified',
+        'active'
     ];
 
     /**
@@ -43,11 +55,11 @@ class Contract extends Model
 
     public function getTotalOkAttribute()
     {
-        return number_format($this->total, 2, '.', ',');
+        return number_format($this->amount_total, 2, '.', ',');
     }
 
     public function getStartOkAttribute()
     {
-        return Carbon::parse($this->start)->format('d-m-Y');
+        return Carbon::parse($this->date_start)->format('d-m-Y');
     }
 }
