@@ -20,15 +20,17 @@
                                 <th scope="col"># Contrato</th>
                                 <th scope="col">Monto Total</th>
                                 <th scope="col">Inicio</th>
+                                <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($contracts as $contract)
+                            @foreach(auth()->user()->contracts()->get() as $contract)
                                 <tr>
                                     <th>{{ $contract->short_name }}</th>
                                     <td>{{ $contract->codeOk }}</td>
                                     <td>{{ $contract->totalOk }}</td>
                                     <td>{{ $contract->startOk }}</td>
+                                    <td><a href="{{ route('contract.edit',$contract) }}"><i class="fas fa-edit"></i></a></td>
                                 </tr>
                             @endforeach
                         </tbody>
