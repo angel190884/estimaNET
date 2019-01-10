@@ -9,16 +9,16 @@ $factory->define(App\Contract::class, function (Faker $faker) {
         'short_name'     =>  null,
         'description'   =>  $faker->realText($maxNbChars = 200, $indexSize = 2),
         
-        'total'         =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 10000000, $max = 20000000),
-        'anticipated'   =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 500000,   $max = 1000000),
-        'extension'     =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 1000000,  $max = 3000000),
-        'adjustment'    =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 1000000,  $max = 3000000),
+        'amount_total'         =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 10000000, $max = 20000000),
+        'amount_anticipated'   =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 500000,   $max = 1000000),
+        'amount_extension'     =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 1000000,  $max = 3000000),
+        'amount_adjustment'    =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 1000000,  $max = 3000000),
 
-        'start'         =>  $faker->date($format = 'Y-m-d', $max = 'now'),
-        'finish'        =>  $faker->date($format = 'Y-m-d', $max = 'now'),
-        'signature'     =>  $faker->date($format = 'Y-m-d', $max = 'now'),
-        'modified'      =>  $faker->date($format = 'Y-m-d', $max = 'now'),
-        'covenant'      =>  $faker->date($format = 'Y-m-d', $max = 'now'),
+        'date_start'         =>  $faker->date($format = 'Y-m-d', $max = 'now'),
+        'date_finish'        =>  $faker->date($format = 'Y-m-d', $max = 'now'),
+        'date_signature'     =>  $faker->date($format = 'Y-m-d', $max = 'now'),
+        'date_finish_modified'      =>  $faker->date($format = 'Y-m-d', $max = 'now'),
+        'date_signature_covenant'      =>  $faker->date($format = 'Y-m-d', $max = 'now'),
 
         'active'        =>  $faker->randomElement($array = array ('1','0'))    
     ];

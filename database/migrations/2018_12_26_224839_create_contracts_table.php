@@ -18,24 +18,25 @@ class CreateContractsTable extends Migration
             $table->string('code')->unique();
             $table->text('name');
             $table->string('short_name')->nullable();
-            $table->text('description');
+            $table->text('description')->nullable();
 
             //MONTOS
-            $table->decimal('total', 12, 2);
-            $table->decimal('anticipated', 12, 2);
-            $table->decimal('extension', 12, 2);
-            $table->decimal('adjustment', 12, 2);
+            $table->float('amount_total', 12, 2);
+            $table->float('amount_anticipated', 12, 2)->nullable();
+            $table->float('amount_extension', 12, 2)->nullable();
+            $table->float('amount_adjustment', 12, 2)->nullable();
 
             //FECHAS
-            $table->date('start');
-            $table->date('finish');
-            $table->date('signature');
-            $table->date('covenant')->nullable();
-            $table->date('modified')->nullable();
+            $table->date('date_start');
+            $table->date('date_finish');
+            $table->date('date_signature')->nullable();
+            $table->date('date_signature_covenant')->nullable();
+            $table->date('date_finish_modified')->nullable();
             
             
-            $table->boolean('active');
+            $table->boolean('active')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
