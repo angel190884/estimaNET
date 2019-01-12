@@ -4266,6 +4266,45 @@ code {
   font-size: 80%;
 }
 
+#table-block table {
+  width: 100%;
+}
+
+#table-block thead,
+#table-block tbody,
+#table-block tr,
+#table-block td,
+#table-block th {
+  display: block;
+}
+
+#table-block tr:after {
+  content: ' ';
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+#table-block thead th {
+  height: 30px;
+  /*text-align: left;*/
+}
+
+#table-block tbody {
+  height: 120px;
+  overflow-y: auto;
+}
+
+#table-block thead {
+  /* fallback */
+}
+
+#table-block tbody td,
+#table-block thead th {
+  width: 19.2%;
+  float: left;
+}
+
 /*!
  * Bootstrap v4.2.1 (https://getbootstrap.com/)
  * Copyright 2011-2018 The Bootstrap Authors

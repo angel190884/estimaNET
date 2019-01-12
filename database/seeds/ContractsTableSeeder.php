@@ -1,6 +1,7 @@
 <?php
 
 use App\Contract;
+use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
 
 class ContractsTableSeeder extends Seeder
@@ -10,9 +11,13 @@ class ContractsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Faker $faker)
     {
-        factory(Contract::class,10)->create();
+        for ($i=0;$i <= 10;$i++){
+            factory(Contract::class)->create([
+                'short_name' => $faker->numerify('####')
+            ]);
+        }
 
         //Bouncer::allow('admin')->everything();
         //Bouncer::allow('visor')->to('viewContract', Contract::class);

@@ -57,12 +57,20 @@ class UsersTableSeeder extends Seeder
 
         $user->allow()->to(
             [
+                //Contracts
                 'viewContract',
                 'listContracts',
                 'newContract',
+
+                //Companies
                 'viewCompany',
                 'listCompanies',
                 'newCompany',
+
+                //Estimates
+                'viewEstimate',
+                'listEstimates',
+                'newEstimate',
             ]
         );
 
