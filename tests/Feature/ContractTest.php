@@ -21,6 +21,6 @@ class ContractTest extends TestCase
         $this->actingAs($user)
             ->get('/contract')
             ->assertStatus(200)
-            ->assertSee('Contracts');
+            ->assertSee('Contratos');
     }
 }
