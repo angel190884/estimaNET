@@ -55,6 +55,24 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Estimaciones
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    @can('listEstimates')
+                                        <a class="dropdown-item" href="{{ route('estimate.index') }}">Listar<sup class="text-danger"> Pendiente</sup></a>
+                                    @endcan
+
+                                    @can('viewEstimate')
+                                        <a class="dropdown-item" href="{{ route('estimate.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>
+                                    @endcan
+
+                                    @can('newEstimate')
+                                        <a class="dropdown-item" href="{{ route('estimate.create') }}">Agregar<sup class="text-danger"> Pendiente</sup></a>
+                                    @endcan
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Empresas
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
