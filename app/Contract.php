@@ -48,6 +48,11 @@ class Contract extends Model
         return $this->belongsToMany(Company::class)->withTimestamps();
     }
 
+    public function estimates()
+    {
+        return $this->hasMany(Estimate::class);
+    }
+
     public function getCodeOkAttribute()
     {
         return strtoupper($this->code);
@@ -61,5 +66,21 @@ class Contract extends Model
     public function getStartOkAttribute()
     {
         return Carbon::parse($this->date_start)->format('d-m-Y');
+    }
+    public function getFinishOkAttribute()
+    {
+        return Carbon::parse($this->date_finish)->format('d-m-Y');
+    }
+    public function getSignatureOkAttribute()
+    {
+        return Carbon::parse($this->date_signature)->format('d-m-Y');
+    }
+    public function getCovenantOkAttribute()
+    {
+        return Carbon::parse($this->date_signature_covenant)->format('d-m-Y');
+    }
+    public function getDateModifiedOkAttribute()
+    {
+        return Carbon::parse($this->date_finish_modified)->format('d-m-Y');
     }
 }
