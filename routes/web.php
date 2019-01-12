@@ -26,3 +26,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::resource('contract', 'ContractController')->middleware('auth');
+Route::resource('estimate', 'EstimateController')->middleware('auth');
