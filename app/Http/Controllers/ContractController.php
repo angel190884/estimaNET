@@ -17,7 +17,7 @@ class ContractController extends Controller
      */
     public function index()
     {
-        return view('contract.index',compact('contracts'));
+        return view('contract.index');
     }
 
     /**
