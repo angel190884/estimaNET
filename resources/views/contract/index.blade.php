@@ -26,7 +26,7 @@
                     @endif
                     <div class="table-responsive text-center">
                         <table class="table table-hover table-striped">
-                            <thead>
+                            <thead class="thead-dark">
                             <tr>
                                 <th>Cod</th>
                                 <th class="d-none d-sm-table-cell"># Contrato</th>

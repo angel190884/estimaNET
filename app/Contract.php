@@ -83,4 +83,14 @@ class Contract extends Model
     {
         return Carbon::parse($this->date_finish_modified)->format('d-m-Y');
     }
+
+    //QUERY SCOPE
+    public function scopeCode($query, $code)
+    {
+        if ($code) {
+            return $query->where('code', 'LIKE', "%$code%");
+        }
+    }
+
+
 }
