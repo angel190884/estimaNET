@@ -11,9 +11,9 @@ class EstimateController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('estimate.index');
+        return view('estimate.index',compact('request'));
     }
 
     /**

@@ -31,11 +31,17 @@ class Estimate extends Model
 
     ];
 
+    /**
+     * Relations.
+     */
     public function contract()
     {
         return $this->belongsTo(Contract::class);
     }
 
+    /**
+     * Getters.
+     */
     public function getStartOkAttribute()
     {
         return Carbon::parse($this->start)->format('d-m-Y');
@@ -48,4 +54,9 @@ class Estimate extends Model
     {
         return Carbon::parse($this->release)->format('d-m-Y');
     }
+
+    /**
+     * Query Scope.
+     */
+
 }

@@ -45,7 +45,7 @@
                                     @endcan
 
                                     @can('viewContract')
-                                        <a class="dropdown-item" href="{{ route('contract.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>
+                                        <!--<a class="dropdown-item" href="{{ route('contract.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>-->
                                     @endcan
 
                                     @can('newContract')
@@ -59,11 +59,11 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     @can('listEstimates')
-                                        <a class="dropdown-item" href="{{ route('estimate.index') }}">Listar<sup class="text-danger"> Pendiente</sup></a>
+                                        <a class="dropdown-item" href="{{ route('estimate.index') }}">Listar</a>
                                     @endcan
 
                                     @can('viewEstimate')
-                                        <a class="dropdown-item" href="{{ route('estimate.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>
+                                        <!--<a class="dropdown-item" href="{{ route('estimate.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>-->
                                     @endcan
 
                                     @can('newEstimate')

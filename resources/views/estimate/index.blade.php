@@ -12,7 +12,29 @@
                                     Estimaciones
                                 </div>
                                 <div class="col-sm-12 col-md-6 text-md-right text-info hidden">
-                                    lista de estimaciones asignadas
+                                    <form action="{{ route('estimate.index') }}" method="get">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="sr-only" for="grupoNombre">Usuario</label>
+                                                <div class="input-group mb-2 mr-sm-2">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text"><i class="fas fa-snowplow"></i></div>
+                                                    </div>
+                                                    <select name="code" class="form-control" id="codeContract">
+                                                        <option value="" selected>selecciona...</option>
+                                                        @foreach(auth()->user()->contracts()->orderBy('code')->get() as $key => $contract)
+                                                            <option value="{{ $contract->codeOk }}">{{ $contract->codeOk }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @include('layouts.components.alert.field', ['field' => 'code'])
+                                                </div>
+                                                <!--<input name="code" type="text" value="{{ old('code') }}" class="form-control" placeholder="Filtrar Estimaciones por contrato">-->
+                                            </div>
+                                            <div class="col-auto">
+                                                <button class="btn btn-outline-success"><i class="fas fa-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -26,9 +48,10 @@
                         @endif
                         <div class="table-responsive text-center">
                             <table class="table table-hover table-striped">
-                                <thead>
+                                <thead class="thead-dark">
                                 <tr>
-                                    <th>Contrato</th>
+                                    <th class="d-none d-md-table-cell text-left">Contrato</th>
+                                    <th>Nombre Corto</th>
                                     <th># Estimación</th>
                                     <th>Inicio</th>
                                     <th>Fin</th>
@@ -37,9 +60,10 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse(auth()->user()->contracts()->get() as $contract)
+                                    @forelse(auth()->user()->contracts()->code($request->get('code'))->get() as $contract)
                                         @forelse($contract->estimates()->orderBy('number','desc')->get() as $estimate)
                                             <tr>
+                                                <td class="d-none d-md-table-cell text-left">{{ $contract->codeOk }}</td>
                                                 <th>{{ $contract->short_name }}</th>
                                                 <td>{{ $estimate->number }}</td>
                                                 <td>{{ $estimate->startOk }}</td>
