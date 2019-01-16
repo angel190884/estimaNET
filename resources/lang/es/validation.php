@@ -165,6 +165,16 @@ return [
         'active'        => 'activo',
 
         'company'       => 'company',
+
+        //estimate
+        'number'        => 'número',
+        'contract'      => 'contrato',
+        'type'          => 'tipo',
+        'start'         => 'inico',
+        'finish'        => 'fin',
+        'release'       => 'emisión',
+        'retention'     => 'retención'
+
     ],
 	
 ];

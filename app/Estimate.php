@@ -14,7 +14,7 @@ class Estimate extends Model
      */
     protected $fillable = [
         'number',
-        'id_contract',
+        'contract_id',
         'start',
         'finish',
         'release',
