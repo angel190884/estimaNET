@@ -67,7 +67,7 @@
                                     @endcan
 
                                     @can('newEstimate')
-                                        <a class="dropdown-item" href="{{ route('estimate.create') }}">Agregar<sup class="text-danger"> Pendiente</sup></a>
+                                        <a class="dropdown-item" href="{{ route('estimate.create') }}">Agregar</a>
                                     @endcan
                                 </div>
                             </li>

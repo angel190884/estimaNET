@@ -81,21 +81,38 @@ class EstimateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Estimate $estimate)
     {
-        //
+        return view('estimate.edit', compact('estimate'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreEstimate  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreEstimate $request, $id)
     {
-        //
+        $estimate = Estimate::find($id);
+
+        $estimate->number = $request['number'];
+        $estimate->contract_id = $request['contract'];
+        $estimate->start = $request['start'];
+        $estimate->finish = $request['finish'];
+        $estimate->release = $request['release'];
+        $estimate->retention = $request['retention'];
+        $estimate->type = $request['type'];
+
+
+        $estimate->save();
+
+
+        $user=auth()->user();
+        Log::info("update estimate $estimate $user");
+        session()->flash('success','La estimación a sido actualizada en la base de datos correctamente');
+        return redirect(route('estimate.index'));
     }
 
     /**
