@@ -38,9 +38,17 @@ class Contract extends Model
 
     ];
 
+    /**
+     * Relations
+     */
     public function users()
     {
         return $this->belongsToMany(User::class)->withTimestamps();
+    }
+
+    public function concepts()
+    {
+        return $this->hasMany(Concept::class);
     }
 
     public function companies()
