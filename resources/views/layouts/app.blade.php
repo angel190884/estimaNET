@@ -63,11 +63,29 @@
                                     @endcan
 
                                     @can('viewEstimate')
-                                        <!--<a class="dropdown-item" href="{{ route('estimate.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>-->
+                                    <!--<a class="dropdown-item" href="{{ route('estimate.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>-->
                                     @endcan
 
                                     @can('newEstimate')
                                         <a class="dropdown-item" href="{{ route('estimate.create') }}">Agregar</a>
+                                    @endcan
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Catálogos
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    @can('listConcepts')
+                                        <a class="dropdown-item" href="{{ route('concept.index') }}">Listar</a>
+                                    @endcan
+
+                                    @can('viewConcept')
+                                    <!--<a class="dropdown-item" href="{{ route('concept.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>-->
+                                    @endcan
+
+                                    @can('newConcept')
+                                        <a class="dropdown-item" href="{{ route('concept.create') }}">Agregar</a>
                                     @endcan
                                 </div>
                             </li>
