@@ -40,4 +40,14 @@ class Concept extends Model
     {
         return $this->belongsTo(Contract::class);
     }
+
+    /**
+     * Scope
+     */
+    public function scopeName($query, $name)
+    {
+        if ($name) {
+            return $query->where('name', 'LIKE', "%$name%");
+        }
+    }
 }
