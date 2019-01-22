@@ -85,7 +85,7 @@
                                     @endcan
 
                                     @can('newConcept')
-                                        <a class="dropdown-item" href="{{ route('concept.create') }}">Agregar</a>
+                                        <a class="dropdown-item" href="{{ route('concept.create') }}">Agregar concepto</a>
                                     @endcan
                                 </div>
                             </li>
