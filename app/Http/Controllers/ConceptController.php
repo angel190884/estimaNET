@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concept;
 use Illuminate\Http\Request;
 
 class ConceptController extends Controller
@@ -11,9 +12,9 @@ class ConceptController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return view('concept.index',compact('request'));
     }
 
     /**
@@ -23,7 +24,7 @@ class ConceptController extends Controller
      */
     public function create()
     {
-        //
+        return view('concept.create');
     }
 
     /**
@@ -34,7 +35,7 @@ class ConceptController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return "concept store";
     }
 
     /**
@@ -56,7 +57,7 @@ class ConceptController extends Controller
      */
     public function edit($id)
     {
-        //
+        var_dump($id);
     }
 
     /**
