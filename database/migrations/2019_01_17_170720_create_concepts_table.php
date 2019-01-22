@@ -19,7 +19,7 @@ class CreateConceptsTable extends Migration
             $table->unsignedInteger ('contract_id');
             $table->foreign         ('contract_id')->references('id')->on('contracts');
 
-            $table->string          ('code_concept');
+            $table->string          ('code');
             $table->text            ('location');
             $table->text            ('address');
             $table->text            ('name');
