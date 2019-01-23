@@ -173,7 +173,10 @@ return [
         'start'         => 'inico',
         'finish'        => 'fin',
         'release'       => 'emisión',
-        'retention'     => 'retención'
+        'retention'     => 'retención',
+
+        //concept
+        'quantity'      => 'cantidad'
 
     ],
 	

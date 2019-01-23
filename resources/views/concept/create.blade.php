@@ -34,9 +34,9 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-8 pb-3">
-                                        <label for="concept">Concepto*</label>
-                                        <textarea name="concept" class="form-control" id="concept" placeholder="concepto" rows="3" required>{{ old('concept') }}</textarea>
-                                        @include('layouts.components.alert.field', ['field' => 'concept'])
+                                        <label for="name">Concepto*</label>
+                                        <textarea name="name" class="form-control" id="name" placeholder="concepto" rows="3" required>{{ old('name') }}</textarea>
+                                        @include('layouts.components.alert.field', ['field' => 'name'])
                                     </div>
                                     <div class="col-sm-4 pb-3">
                                         <div class="pb-3">
@@ -58,14 +58,14 @@
 
                                     </div>
                                     <div class="col-sm-4 pb-3">
-                                        <label for="contractId">Contrato</label>
+                                        <label for="contractId">Contrato*</label>
                                         <div class="input-group mb-2 mr-sm-2">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text"><i class="fas fa-snowplow text-muted"></i></div>
                                             </div>
-                                            <select name="contract" class="form-control" id="contractId">
+                                            <select name="contract" class="form-control" id="contractId" required>
                                                 <option value=" " {{ old('contract') != null ? ' ' : 'selected' }}>selecciona...</option>
-                                                @foreach(auth()->user()->contracts()->get() as $key => $contract)
+                                                @foreach(auth()->user()->contracts()->orderBy('code','desc')->get() as $key => $contract)
                                                     <option value="{{ $contract->id }}" {{ old('contract') == $contract->id ? 'selected' : ' ' }}>{{ $contract->codeOk }}</option>
                                                 @endforeach
                                             </select>
@@ -77,31 +77,31 @@
                                             <label for="measurementUnit">Unidad de medida*</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-ruler text-muted"></i></span></div>
-                                                <select name="measurementUnit" class="custom-select">
-                                                    <option selected>Selecciona...</option>
+                                                <select name="measurementUnit" class="custom-select" required>
+                                                    <option value = "" {{ old('measurementUnit') != null ? '' : 'selected' }}>Selecciona...</option>
                                                     <optgroup label="Longitud">
-                                                        <option value="m">m</option>
-                                                        <option value="m">km</option>
-                                                        <option value="m">ton/km</option>
-                                                        <option value="m">m3/km</option>
-                                                        <option value="m">m3-est</option>
-                                                        <option value="m">km-sub</option>
+                                                        <option value="m" {{ old('measurementUnit') != 'm' ? ' ' : 'selected' }}>m</option>
+                                                        <option value="km" {{ old('measurementUnit') != 'km' ? ' ' : 'selected' }}>km</option>
+                                                        <option value="ton/km" {{ old('measurementUnit') != 'ton/km' ? ' ' : 'selected' }}>ton/km</option>
+                                                        <option value="m3/km" {{ old('measurementUnit') != 'm3/km' ? ' ' : 'selected' }}>m3/km</option>
+                                                        <option value="m3-est" {{ old('measurementUnit') != 'm3-est' ? ' ' : 'selected' }}>m3-est</option>
+                                                        <option value="km-sub" {{ old('measurementUnit') != 'km-sub' ? ' ' : 'selected' }}>km-sub</option>
                                                     </optgroup>
                                                     <optgroup label="Área">
-                                                        <option value="m">m2</option>
-                                                        <option value="m">ha (hectária)</option>
+                                                        <option value="m2" {{ old('measurementUnit') != 'm2' ? ' ' : 'selected' }}>m2</option>
+                                                        <option value="ha" {{ old('measurementUnit') != 'ha' ? ' ' : 'selected' }}>ha (hectária)</option>
                                                     </optgroup>
                                                     <optgroup label="Volumen">
-                                                        <option value="m3">m3</option>
+                                                        <option value="m3" {{ old('measurementUnit') != 'm3' ? ' ' : 'selected' }}>m3</option>
                                                     </optgroup>
                                                     <optgroup label="Unidad">
-                                                        <option value="pz">pz</option>
-                                                        <option value="muestra">muestra</option>
-                                                        <option value="prueba">prueba</option>
-                                                        <option value="jornada">jornada</option>
+                                                        <option value="pz" {{ old('measurementUnit') != 'pz' ? ' ' : 'selected' }}>pz</option>
+                                                        <option value="muestra" {{ old('measurementUnit') != 'muestra' ? ' ' : 'selected' }}>muestra</option>
+                                                        <option value="prueba" {{ old('measurementUnit') != 'prueba' ? ' ' : 'selected' }}>prueba</option>
+                                                        <option value="jornada" {{ old('measurementUnit') != 'jornada' ? ' ' : 'selected' }}>jornada</option>
                                                     </optgroup>
                                                     <optgroup label="Capacidad">
-                                                        <option value="pz">lt</option>
+                                                        <option value="lt" {{ old('measurementUnit') != 'lt' ? ' ' : 'selected' }}>lt</option>
                                                     </optgroup>
                                                 </select>
                                                 @include('layouts.components.alert.field', ['field' => 'measurementUnit'])
@@ -113,28 +113,28 @@
                                             <div class="input-group">
                                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-angle-right text-muted"></i></span></div>
                                                 <select name="type" class="custom-select">
-                                                    <option selected>Selecciona...</option>
-                                                    <option value="n">normal</option>
-                                                    <option value="exc">excedente</option>
-                                                    <option value="ext">extraordinario</option>
+                                                    <option {{ old('type') != null ? ' ' : 'selected' }}>Selecciona...</option>
+                                                    <option {{ old('type') != 'n' ? ' ' : 'selected' }} value="n">normal</option>
+                                                    <option {{ old('type') != 'exc' ? ' ' : 'selected' }} value="exc">excedente</option>
+                                                    <option {{ old('type') != 'ext' ? ' ' : 'selected' }} value="ext">extraordinario</option>
                                                 </select>
-                                                @include('layouts.components.alert.field', ['field' => 'measurementUnit'])
+                                                @include('layouts.components.alert.field', ['field' => 'type'])
                                             </div>
                                         </div>
                                         <div>
                                             <label for="unitPrice">Precio unitario*</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-dollar-sign text-muted"></i></span></div>
-                                                <input name="unitPrice" value="{{ old('unitPrice') }}" type="number" class="form-control" id="unitPrice" placeholder="0.00" step="0.01" required>
+                                                <input name="unitPrice" value="{{ old('unitPrice') }}" type="number" class="form-control" id="unitPrice" placeholder="0.00" step="0.000001" required>
                                                 @include('layouts.components.alert.field', ['field' => 'unitPrice'])
                                             </div>
                                         </div>
                                         <div>
-                                            <label for="unitPrice">Cantidad máxima en contrato*</label>
+                                            <label for="quantity">Cantidad máxima en contrato*</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-box-open text-muted"></i></span></div>
-                                                <input name="unitPrice" value="{{ old('unitPrice') }}" type="number" class="form-control" id="unitPrice" placeholder="0.00 (máx 6 dec)" step="0.01" required>
-                                                @include('layouts.components.alert.field', ['field' => 'unitPrice'])
+                                                <input name="quantity" value="{{ old('quantity') }}" type="number" class="form-control" id="quantity" placeholder="0.00 (máx 6 dec)" step="0.000001">
+                                                @include('layouts.components.alert.field', ['field' => 'quantity'])
                                             </div>
                                         </div>
                                     </div>

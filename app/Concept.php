@@ -14,7 +14,7 @@ class Concept extends Model
     protected $fillable = [
         'id',
         'contract_id',
-        'code_concept',
+        'code',
         'location',
         'address',
         'name',
