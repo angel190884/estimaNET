@@ -50,4 +50,22 @@ class Concept extends Model
             return $query->where('name', 'LIKE', "%$name%");
         }
     }
+
+    /**
+     * Getters
+     */
+    public function getCodeOkAttribute()
+    {
+        return strtoupper($this->code);
+    }
+
+    public function getUnitPriceOkAttribute()
+    {
+        return '$' . number_format($this->unit_price, 2, '.', ',');
+    }
+
+    public function getQuantityOkAttribute()
+    {
+        return number_format($this->quantity, 2, '.', ',');
+    }
 }

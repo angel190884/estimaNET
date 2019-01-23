@@ -31,7 +31,7 @@ class StoreConcept extends FormRequest
             //'address' => '',
             'contract' => 'numeric|required',
             'measurementUnit' => 'required',
-            'type' => 'required|in:n,exc,ext',
+            'type' => 'required|in:N,EXC,EXT',
             'unitPrice'          => 'numeric|required',
             'quantity'     => 'required_if:type,!=,n',
         ];

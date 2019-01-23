@@ -53,12 +53,14 @@
                             <table class="table table-hover table-striped">
                                 <thead class="thead-dark">
                                 <tr>
-                                    <th class="d-none d-md-table-cell text-left">Contrato</th>
-                                    <th>Nombre Corto</th>
-                                    <th># Estimación</th>
-                                    <th>Inicio</th>
-                                    <th>Fin</th>
-                                    <th>Impresión</th>
+                                    <th>Código</th>
+                                    <th class="d-none d-lg-table-cell">Contrato</th>
+                                    <th class="d-none d-lg-table-cell">Frente</th>
+                                    <th class="d-none d-lg-table-cell">Concepto</th>
+                                    <th class="d-none d-md-table-cell">U.M.</th>
+                                    <th>P.U.</th>
+                                    <th>Cantidad</th>
+                                    <th>tipo</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
@@ -66,12 +68,14 @@
                                     @foreach(auth()->user()->contracts()->code($request['code'])->get() as $contract)
                                         @foreach($contract->concepts()->name($request['name'])->orderBy('name','desc')->get() as $concept)
                                             <tr>
-                                                <td class="d-none d-md-table-cell text-left">{{ $concept->code }}</td>
-                                                <th>{{ $concept->contract->code }}</th>
-                                                <td>{{ $concept->code }}</td>
-                                                <td>{{ $concept->code }}</td>
-                                                <td>{{ $concept->code }}</td>
-                                                <td>{{ $concept->code }}</td>
+                                                <th>{{ $concept->codeOk }}</th>
+                                                <td class="d-none d-lg-table-cell">{{ $concept->contract->codeOk }}</td>
+                                                <td class="d-none d-lg-table-cell">{{ $concept->location }}</td>
+                                                <td class="d-none d-lg-table-cell">{{ $concept->name }}</td>
+                                                <td class="d-none d-md-table-cell">{{ $concept->measurement_unit }}</td>
+                                                <td>{{ $concept->unitPriceOk }}</td>
+                                                <td>{{ $concept->quantityOk }}</td>
+                                                <td>{{ $concept->type }}</td>
                                                 <td>
                                                     <a href="{{ route('concept.edit',$concept) }}"><i class="fas fa-edit fa-2x"></i></a>
                                                 </td>

@@ -18,24 +18,25 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('concept.store') }}" method="POST">
+                        <form action="{{ route('concept.update', $concept) }}" method="POST">
+                            @method('PUT')
                             @csrf
                             <div class="col-md-10 offset-md-1">
                                 <span class="anchor" id="formComplex"></span>
                                 <hr class="my-2">
-                                <h3 class="text-info">Agregar concepto </h3>
+                                <h3 class="text-info">Editar concepto </h3>
                                 <div class="form-row mt-4">
                                     <div class="col-sm-4 pb-3">
                                         <label for="codeConcept">Código*</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-code text-muted"></i></span></div>
-                                            <input name="code" value="{{ old('code') }}" type="text" class="form-control text-uppercase" id="codeConcept" placeholder="Código del concepto" required>
+                                            <input name="code" value="{{ $concept->codeOk }}" type="text" class="form-control text-uppercase " id="codeConcept" placeholder="Código del concepto" required>
                                             @include('layouts.components.alert.field', ['field' => 'code'])
                                         </div>
                                     </div>
                                     <div class="col-sm-8 pb-3">
                                         <label for="name">Concepto*</label>
-                                        <textarea name="name" class="form-control text-uppercase" id="name" placeholder="concepto" rows="3" required>{{ old('name') }}</textarea>
+                                        <textarea name="name" class="form-control text-uppercase" id="name" placeholder="concepto" rows="3" required>{{ $concept->name }}</textarea>
                                         @include('layouts.components.alert.field', ['field' => 'name'])
                                     </div>
                                     <div class="col-sm-4 pb-3">
@@ -43,7 +44,7 @@
                                             <label for="location">Frente*</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-location-arrow text-muted"></i></span></div>
-                                                <input name="location" value="{{ old('location') }}" type="text" class="form-control text-uppercase" id="location" placeholder="ubicación" required>
+                                                <input name="location" value="{{ $concept->location }}" type="text" class="form-control text-uppercase" id="location" placeholder="ubicación" required>
                                                 @include('layouts.components.alert.field', ['field' => 'location'])
                                             </div>
                                         </div>
@@ -51,7 +52,7 @@
                                             <label for="address">Ubicacion del frente y/o dirección*</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-map-marker-alt text-muted"></i></span></div>
-                                                <textarea name="address" class="form-control text-uppercase" id="address" placeholder="ubicación ó dirección" rows="5" required>{{ old('address') }}</textarea>
+                                                <textarea name="address" class="form-control text-uppercase" id="address" placeholder="ubicación ó dirección" rows="5" required>{{ $concept->address }}</textarea>
                                                 @include('layouts.components.alert.field', ['field' => 'address'])
                                             </div>
                                         </div>
@@ -64,9 +65,9 @@
                                                 <div class="input-group-text"><i class="fas fa-snowplow text-muted"></i></div>
                                             </div>
                                             <select name="contract" class="form-control text-uppercase" id="contractId" required>
-                                                <option value=" " {{ old('contract') != null ? ' ' : 'selected' }}>selecciona...</option>
-                                                @foreach(auth()->user()->contracts()->orderBy('code','desc')->get() as $key => $contract)
-                                                    <option value="{{ $contract->id }}" {{ old('contract') == $contract->id ? 'selected' : ' ' }}>{{ $contract->codeOk }}</option>
+                                                <option value=" " {{ $concept->contract_id != null ? ' ' : 'selected' }}>selecciona...</option>
+                                                @foreach(auth()->user()->contracts()->orderBy('code','asc')->get() as $key => $contract)
+                                                    <option value="{{ $contract->id }}" {{ $concept->contract_id == $contract->id ? 'selected' : ' ' }}>{{ $contract->codeOk }}</option>
                                                 @endforeach
                                             </select>
                                             @include('layouts.components.alert.field', ['field' => 'contract'])
@@ -78,30 +79,30 @@
                                             <div class="input-group">
                                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-ruler text-muted"></i></span></div>
                                                 <select name="measurementUnit" class="custom-select text-uppercase" required>
-                                                    <option value = "" {{ old('measurementUnit') != null ? '' : 'selected' }}>Selecciona...</option>
+                                                    <option value = "" {{ $concept->measurement_unit == null ? 'selected' : '' }}>Selecciona...</option>
                                                     <optgroup label="Longitud">
-                                                        <option value="m" {{ old('measurementUnit') != 'm' ? ' ' : 'selected' }}>m</option>
-                                                        <option value="km" {{ old('measurementUnit') != 'km' ? ' ' : 'selected' }}>km</option>
-                                                        <option value="ton/km" {{ old('measurementUnit') != 'ton/km' ? ' ' : 'selected' }}>ton/km</option>
-                                                        <option value="m3/km" {{ old('measurementUnit') != 'm3/km' ? ' ' : 'selected' }}>m3/km</option>
-                                                        <option value="m3-est" {{ old('measurementUnit') != 'm3-est' ? ' ' : 'selected' }}>m3-est</option>
-                                                        <option value="km-sub" {{ old('measurementUnit') != 'km-sub' ? ' ' : 'selected' }}>km-sub</option>
+                                                        <option value="m" {{ $concept->measurement_unit == 'M' ? 'selected' : '' }}>m</option>
+                                                        <option value="km" {{ $concept->measurement_unit == 'KM' ? 'selected' : '' }}>km</option>
+                                                        <option value="ton/km" {{ $concept->measurement_unit == 'TON/KM' ? 'selected' : '' }}>ton/km</option>
+                                                        <option value="m3/km" {{ $concept->measurement_unit == 'M3/KM' ? 'selected' : '' }}>m3/km</option>
+                                                        <option value="m3-est" {{ $concept->measurement_unit == 'M3-EST' ? 'selected' : '' }}>m3-est</option>
+                                                        <option value="km-sub" {{ $concept->measurement_unit == 'KM-SUB' ? 'selected' : '' }}>km-sub</option>
                                                     </optgroup>
                                                     <optgroup label="Área">
-                                                        <option value="m2" {{ old('measurementUnit') != 'm2' ? ' ' : 'selected' }}>m2</option>
-                                                        <option value="ha" {{ old('measurementUnit') != 'ha' ? ' ' : 'selected' }}>ha (hectária)</option>
+                                                        <option value="m2" {{ $concept->measurement_unit == 'M2' ? 'selected' : '' }}>m2</option>
+                                                        <option value="ha" {{ $concept->measurement_unit == 'HA' ? 'selected' : '' }}>ha (hectária)</option>
                                                     </optgroup>
                                                     <optgroup label="Volumen">
-                                                        <option value="m3" {{ old('measurementUnit') != 'm3' ? ' ' : 'selected' }}>m3</option>
+                                                        <option value="m3" {{ $concept->measurement_unit == 'M3' ? 'selected' : '' }}>m3</option>
                                                     </optgroup>
                                                     <optgroup label="Unidad">
-                                                        <option value="pz" {{ old('measurementUnit') != 'pz' ? ' ' : 'selected' }}>pz</option>
-                                                        <option value="muestra" {{ old('measurementUnit') != 'muestra' ? ' ' : 'selected' }}>muestra</option>
-                                                        <option value="prueba" {{ old('measurementUnit') != 'prueba' ? ' ' : 'selected' }}>prueba</option>
-                                                        <option value="jornada" {{ old('measurementUnit') != 'jornada' ? ' ' : 'selected' }}>jornada</option>
+                                                        <option value="pz" {{ $concept->measurement_unit == 'PZ' ? 'selected' : '' }}>pz</option>
+                                                        <option value="muestra" {{ $concept->measurement_unit == 'MUESTRA' ? 'selected' : '' }}>muestra</option>
+                                                        <option value="prueba" {{ $concept->measurement_unit == 'PRUEBA' ? 'selected' : '' }}>prueba</option>
+                                                        <option value="jornada" {{ $concept->measurement_unit == 'JORNADA' ? 'selected' : '' }}>jornada</option>
                                                     </optgroup>
                                                     <optgroup label="Capacidad">
-                                                        <option value="lt" {{ old('measurementUnit') != 'lt' ? ' ' : 'selected' }}>lt</option>
+                                                        <option value="lt" {{ $concept->measurement_unit == 'LT' ? 'selected' : '' }}>lt</option>
                                                     </optgroup>
                                                 </select>
                                                 @include('layouts.components.alert.field', ['field' => 'measurementUnit'])
@@ -113,10 +114,10 @@
                                             <div class="input-group">
                                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-angle-right text-muted"></i></span></div>
                                                 <select name="type" class="custom-select text-uppercase">
-                                                    <option {{ old('type') != null ? ' ' : 'selected' }}>Selecciona...</option>
-                                                    <option {{ old('type') != 'n' ? ' ' : 'selected' }} value="n">normal</option>
-                                                    <option {{ old('type') != 'exc' ? ' ' : 'selected' }} value="exc">excedente</option>
-                                                    <option {{ old('type') != 'ext' ? ' ' : 'selected' }} value="ext">extraordinario</option>
+                                                    <option {{ $concept->type == 'N' ? 'selected' : '' }}>Selecciona...</option>
+                                                    <option {{ $concept->type == 'N' ? 'selected' : '' }} value="N">normal</option>
+                                                    <option {{ $concept->type == 'EXC' ? 'selected' : '' }} value="EXC">excedente</option>
+                                                    <option {{ $concept->type == 'EXT' ? 'selected' : '' }} value="EXT">extraordinario</option>
                                                 </select>
                                                 @include('layouts.components.alert.field', ['field' => 'type'])
                                             </div>
@@ -125,7 +126,7 @@
                                             <label for="unitPrice">Precio unitario*</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-dollar-sign text-muted"></i></span></div>
-                                                <input name="unitPrice" value="{{ old('unitPrice') }}" type="number" class="form-control" id="unitPrice" placeholder="0.00" step="0.000001" required>
+                                                <input name="unitPrice" value="{{ $concept->unit_price }}" type="number" class="form-control" id="unitPrice" placeholder="0.00" step="0.000001" required>
                                                 @include('layouts.components.alert.field', ['field' => 'unitPrice'])
                                             </div>
                                         </div>
@@ -133,12 +134,12 @@
                                             <label for="quantity">Cantidad máxima en contrato*</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-box-open text-muted"></i></span></div>
-                                                <input name="quantity" value="{{ old('quantity') }}" type="number" class="form-control" id="quantity" placeholder="0.00 (máx 6 dec)" step="0.000001">
+                                                <input name="quantity" value="{{ $concept->quantity }}" type="number" class="form-control" id="quantity" placeholder="0.00 (máx 6 dec)" step="0.000001">
                                                 @include('layouts.components.alert.field', ['field' => 'quantity'])
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-success btn-lg btn-block mt-5">Agregar</button>
+                                    <button type="submit" class="btn btn-success btn-lg btn-block mt-5">Editar</button>
                                 </div>
                             </div>
                         </form>
