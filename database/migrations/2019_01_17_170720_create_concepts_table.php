@@ -24,7 +24,7 @@ class CreateConceptsTable extends Migration
             $table->text            ('address');
             $table->text            ('name');
             $table->string          ('measurement_unit');
-            $table->float           ('quantity',12,6)->default(0.00);
+            $table->float           ('quantity',12,6)->default(0.00)->nullable();
             $table->float           ('unit_price',12,6)->default(0.00);
             $table->enum            ('type',['N','EXC','EXT'])->default('N');
 

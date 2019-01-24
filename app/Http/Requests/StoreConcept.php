@@ -33,7 +33,7 @@ class StoreConcept extends FormRequest
             'measurementUnit' => 'required',
             'type' => 'required|in:N,EXC,EXT',
             'unitPrice'          => 'numeric|required',
-            'quantity'     => 'required_if:type,!=,n',
+            'quantity'     => 'required_if:type,==,N',
         ];
     }
 }
