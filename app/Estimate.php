@@ -39,6 +39,11 @@ class Estimate extends Model
         return $this->belongsTo(Contract::class);
     }
 
+    public function concepts()
+    {
+        return $this->belongsToMany(Concept::class);
+    }
+
     /**
      * Getters.
      */
