@@ -41,6 +41,11 @@ class Concept extends Model
         return $this->belongsTo(Contract::class);
     }
 
+    public function estimates()
+    {
+        return $this->belongsToMany(Estimate::class);
+    }
+
     /**
      * Scope
      */
