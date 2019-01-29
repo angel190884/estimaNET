@@ -41,7 +41,12 @@ class Estimate extends Model
 
     public function concepts()
     {
-        return $this->belongsToMany(Concept::class);
+        return $this->belongsToMany(Concept::class)->withTimestamps();
+    }
+
+    public function generators()
+    {
+        return $this->hasMany(Generator::class);
     }
 
     /**

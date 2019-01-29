@@ -1,10 +1,11 @@
 <?php
 
 use App\Contract;
+use App\Location;
 use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
 
-class ConceptEstimateTableSeeder extends Seeder
+class GeneratorLocationTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,10 +14,11 @@ class ConceptEstimateTableSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        foreach (Contract::all() as $contract){
+        foreach (Contract::all()->random(4) as $contract){
             foreach ($contract->estimates as $estimate){
-                foreach ($contract->concepts->random(15)->all() as $concept){
-                    $estimate->concepts()->attach($concept, [
+                foreach ($estimate->generators as $generator){
+                    $locations = Location::all()->random(5);
+                    $generator->locations()->attach($locations, [
                         'quantity' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 999999)
                     ]);
                 }

@@ -43,7 +43,12 @@ class Concept extends Model
 
     public function estimates()
     {
-        return $this->belongsToMany(Estimate::class);
+        return $this->belongsToMany(Estimate::class)->withTimestamps();
+    }
+
+    public function generators()
+    {
+        return $this->hasMany(Generator::class);
     }
 
     /**

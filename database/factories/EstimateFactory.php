@@ -1,8 +1,9 @@
 <?php
 
+use App\Estimate;
 use Faker\Generator as Faker;
 
-$factory->define(App\Estimate::class, function (Faker $faker) {
+$factory->define(Estimate::class, function (Faker $faker) {
     return [
         'number'        =>  $faker->numerify('#'),
 

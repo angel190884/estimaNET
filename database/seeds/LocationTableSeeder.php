@@ -1,9 +1,10 @@
 <?php
 
-use App\Concept;
+
+use App\Location;
 use Illuminate\Database\Seeder;
 
-class ConceptsTableSedder extends Seeder
+class LocationTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,9 +13,10 @@ class ConceptsTableSedder extends Seeder
      */
     public function run()
     {
-        $contracts=\App\Contract::all();
+        $contracts= \App\Contract::all()->random(3);
+
         foreach ($contracts as $contract){
-            factory(Concept::class,30)->create([
+            factory(Location::class,5)->create([
                 'contract_id' => $contract->id
             ]);
         }

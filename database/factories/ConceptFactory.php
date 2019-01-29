@@ -1,8 +1,9 @@
 <?php
 
+use App\Concept;
 use Faker\Generator as Faker;
 
-$factory->define(App\Concept::class, function (Faker $faker) {
+$factory->define(Concept::class, function (Faker $faker) {
     return [
         'contract_id'		=> 	$faker->numberBetween($min = 3, $max = 50),
         'code'  	        =>  strtoupper($faker->bothify('###??')),

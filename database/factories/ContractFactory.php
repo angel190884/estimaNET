@@ -1,8 +1,9 @@
 <?php
 
+use App\Contract;
 use Faker\Generator as Faker;
 
-$factory->define(App\Contract::class, function (Faker $faker) {
+$factory->define(Contract::class, function (Faker $faker) {
     return [
         'code'          =>  $faker->unique()->bothify('##??###000##118'),
         'name'          =>  $faker->text($maxNbChars = 200),

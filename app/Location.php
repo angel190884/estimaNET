@@ -4,20 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Generator extends Model
+class Location extends Model
 {
-    /**
-     * change the name of the table by convention.
-     */
-    protected $table= 'concept_estimate';
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'quantity'
+        'name',
+        'address',
+        'observations'
     ];
 
     /**
@@ -32,19 +29,15 @@ class Generator extends Model
     /**
      * Relations.
      */
-    public function estimate()
+
+    public function generators()
     {
-        return $this->belongsTo(Estimate::class);
+        return $this->belongsToMany(Generator::class);
     }
 
-    public function concept()
+    public function contract()
     {
-        return $this->belongsTo(Concept::class);
-    }
-
-    public function locations()
-    {
-        return $this->belongsToMany(Location::class);
+        return $this->belongsTo(Contract::class);
     }
 
     public function subGenerators()

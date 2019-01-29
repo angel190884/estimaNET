@@ -17,7 +17,9 @@ class DatabaseSeeder extends Seeder
         $this->call(ContractUserTableSeeder::class);
         $this->call(CompanyContractTableSeeder::class);
         $this->call(EstimateTableSeeder::class);
-        $this->call(ConceptsTableSedder::class);
+        $this->call(ConceptsTableSeeder::class);
         $this->call(ConceptEstimateTableSeeder::class);
+        $this->call(LocationTableSeeder::class);
+        $this->call(GeneratorLocationTableSeeder::class);
     }
 }

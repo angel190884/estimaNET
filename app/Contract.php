@@ -61,6 +61,11 @@ class Contract extends Model
         return $this->hasMany(Estimate::class);
     }
 
+    public function locations()
+    {
+        return $this->hasMany(Location::class);
+    }
+
     public function getCodeOkAttribute()
     {
         return strtoupper($this->code);
