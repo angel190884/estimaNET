@@ -112,7 +112,7 @@ class EstimateController extends Controller
         $user=auth()->user();
         Log::info("update estimate $estimate $user");
         session()->flash('success','La estimación a sido actualizada en la base de datos correctamente');
-        return redirect(route('estimate.index'));
+        return redirect(route('estimate.index',['code' => $estimate->contract->codeOk]));
     }
 
     /**

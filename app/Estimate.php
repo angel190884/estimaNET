@@ -64,6 +64,18 @@ class Estimate extends Model
     {
         return Carbon::parse($this->release)->format('d-m-Y');
     }
+    public function getTypeOkAttribute()
+    {
+        if ($this->type == 1) {
+            return strtoupper("NORMAL");
+        } elseif ($this->type == 2) {
+            return strtoupper("EXTRAORDINARIA");
+        } elseif ($this->type == 3) {
+            return strtoupper("FINAL");
+        } else {
+            return strtoupper("FINAL COMBINADA");
+        }
+    }
 
     /**
      * Query Scope.

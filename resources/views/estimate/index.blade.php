@@ -9,7 +9,7 @@
                         <div class="container-fluid m-auto p-0">
                             <div class="row">
                                 <div class="col-sm-12 col-md-6">
-                                    Estimaciones
+                                    Estimaciones @if($request->code) del contrato <span class="font-weight-bold">{{ $request->code }}</span> @endif
                                 </div>
                                 <div class="col-sm-12 col-md-6 text-md-right text-info hidden">
                                     <form action="{{ route('estimate.index') }}" method="get">
@@ -50,9 +50,10 @@
                             <table class="table table-hover table-striped">
                                 <thead class="thead-dark">
                                 <tr>
-                                    <th class="d-none d-md-table-cell text-left">Contrato</th>
-                                    <th>Nombre Corto</th>
+                                    <th>id sistema</th>
+                                    <th>Contrato</th>
                                     <th># Estimación</th>
+                                    <th>Tipo</th>
                                     <th>Inicio</th>
                                     <th>Fin</th>
                                     <th>Impresión</th>
@@ -61,11 +62,12 @@
                                 </thead>
                                 <tbody>
                                     @forelse(auth()->user()->contracts()->code($request->get('code'))->get() as $contract)
-                                        @forelse($contract->estimates()->orderBy('number','desc')->get() as $estimate)
+                                        @forelse($contract->estimates()->orderBy('number','asc')->get() as $estimate)
                                             <tr>
-                                                <td class="d-none d-md-table-cell text-left">{{ $contract->codeOk }}</td>
-                                                <th>{{ $contract->short_name }}</th>
-                                                <td>{{ $estimate->number }}</td>
+                                                <th class="d-none d-md-table-cell">sys_{{ $estimate->id }}</th>
+                                                <td class="d-none d-md-table-cell">{{ $contract->short_name }}</td>
+                                                <th>{{ $estimate->number }}</th>
+                                                <td>{{ $estimate->typeOk }}</td>
                                                 <td>{{ $estimate->startOk }}</td>
                                                 <td>{{ $estimate->finishOk }}</td>
                                                 <td>{{ $estimate->releaseOk }}</td>
