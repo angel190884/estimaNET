@@ -72,8 +72,8 @@
                                                 <td>{{ $estimate->finishOk }}</td>
                                                 <td>{{ $estimate->releaseOk }}</td>
                                                 <td>
-                                                    <a href="{{ route('estimate.edit',$estimate) }}"><i class="fas fa-edit fa-2x"></i></a>
-                                                    <a href="{{ route('generator.list',$estimate) }}"><i class="fas fa-clipboard-list fa-2x"></i></a>
+                                                    <a href="{{ route('estimate.edit',$estimate) }}"><i class="fas fa-edit"></i></a>
+                                                    <a href="{{ route('generator.list',$estimate) }}"><i class="fas fa-clipboard-list"></i></a>
                                                 </td>
                                             </tr>
                                         @empty
