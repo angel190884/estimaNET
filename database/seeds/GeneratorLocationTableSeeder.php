@@ -14,11 +14,12 @@ class GeneratorLocationTableSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        foreach (Contract::all()->random(4) as $contract){
-            foreach ($contract->estimates as $estimate){
-                foreach ($estimate->generators as $generator){
-                    $locations = Location::all()->random(5);
-                    $generator->locations()->attach($locations, [
+        $contract = Contract::find(1);
+        foreach ($contract->estimates as $estimate){
+            foreach ($estimate->generators as $generator){
+                $locations = Location::all()->random(5);
+                foreach ($locations as $location){
+                    $generator->locations()->attach($location, [
                         'quantity' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 999999)
                     ]);
                 }

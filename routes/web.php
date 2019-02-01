@@ -30,5 +30,6 @@ Route::resource('estimate', 'EstimateController')->middleware('auth');
 Route::resource('concept', 'ConceptController')->middleware('auth');
 
 Route::resource('/generator', 'GeneratorController');
+Route::get 		('/generatorList/{estimate}', ['as' 	=>	'generator.list', 'uses'	=>	'GeneratorController@list']);
+
 Route::get 		('/generator/create/{contract}/{estimate}', 	['as' 	=>	'generator.create.contract',		'uses'	=>	'GeneratorController@create']);
-Route::get 		('/generator/{contract}/{estimate}', 			['as' 	=>	'generator.list',					'uses'	=>	'GeneratorController@listing']);

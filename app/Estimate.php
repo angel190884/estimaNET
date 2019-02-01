@@ -69,4 +69,11 @@ class Estimate extends Model
      * Query Scope.
      */
 
+    public function scopePreviousEstimates($query, Estimate $estimate)
+    {
+        if ($estimate) {
+            return $query->where('number', '<', $estimate->number);
+        }
+    }
+
 }

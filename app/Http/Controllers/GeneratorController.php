@@ -2,27 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Contract;
 use App\Estimate;
+use App\Generator;
+use App\SubGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GeneratorController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $estimate = Estimate::firstOrFail($request->estimate_id);
+        //
+    }
 
-        dd($estimate->concepts);
-        //$contract = Contract::findOrFail($request->contract_id);
-        //$estimate = Estimate::findOrFail($request->estimate_id);
-        //$catalogs= Catalog::where('contract_id',$contract->id)->orderBy('location')->lists('code_concept','id');//cambie antes de liost ";" por "->
-        //$generators=Generator::where('contract_id',$contract->id)->where('estimate_id',$estimate->id)->orderBy('location')->paginate(50);
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  \App\Estimate  $estimate
+     * @return \Illuminate\Http\Response
+     */
+    public function list(Estimate $estimate)
+    {
+        $generators=$estimate->generators->sortBy('concept.code')->sortByDesc('concept.type');
 
+        return view('generator.index',compact('generators','estimate'));
     }
 
     /**

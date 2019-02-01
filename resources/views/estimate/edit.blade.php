@@ -24,7 +24,7 @@
                             <div class="col-md-10 offset-md-1">
                                 <span class="anchor" id="formComplex"></span>
                                 <hr class="my-2">
-                                <h3 class="text-info">Editar estimación </h3>
+                                <h3 class="text-info">Editar estimación con id: {{ $estimate->id }}</h3>
 
                                 <div class="form-row mt-4">
                                     <div class="col-sm-4 pb-3">
