@@ -29,7 +29,7 @@ class GeneratorController extends Controller
      */
     public function list(Estimate $estimate)
     {
-        $generators=$estimate->generators->sortBy('concept.code')->sortByDesc('concept.type');
+        $generators=$estimate->generators->sortBy('concept.code')->sortBy('concept.location')->sortByDesc('concept.type');
 
         return view('generator.index',compact('generators','estimate'));
     }
