@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contract;
 use App\Estimate;
 use App\Generator;
+use App\Http\Requests\StoreGenerator;
 use App\Http\Requests\UpdateGenerator;
 use App\SubGenerator;
 use Illuminate\Http\Request;
@@ -49,12 +50,21 @@ class GeneratorController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreGenerator  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreGenerator $request)
     {
-        //
+        $estimate=Estimate::find($request->estimate_id);
+        if ($estimate->concepts->contains($request->concept_id)){
+            session()->flash('danger','¡¡¡ No se pudo añadir el generador, existe otro registro con los mismos datos !!!');
+            return redirect(route('generator.list', $estimate->id));
+        }
+        $estimate->concepts()->attach($request->concept_id,[
+            'quantity' => 0
+        ]);
+        session()->flash('success','El generador, se añadio correctamente.');
+        return redirect(route('generator.list', $estimate->id));
     }
 
     /**

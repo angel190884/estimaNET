@@ -12,7 +12,43 @@
                                     <a href="{{ route('estimate.index',['code' => $estimate->contract->codeOk]) }}" class="btn btn-outline-primary">
                                         <i class="fas fa-arrow-left"></i>
                                     </a>
-                                    Generadores de la estimacion: <span class="font-weight-bold">{{ $estimate->number }}</span> del contrato <span class="font-weight-bold">{{ $estimate->contract->codeOk }}</span>
+                                    Generadores( <span class="font-weight-bold">{{ $estimate->generators->count() }}</span> ) de la estimacion ( <span class="font-weight-bold">{{ $estimate->number }}</span> ) del contrato <span class="font-weight-bold">{{ $estimate->contract->codeOk }}</span>
+                                </div>
+                                <div class="col-sm-12 col-md-6 text-right">
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#add">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <!-- Modal add-->
+                                    <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <form action="{{ route('generator.store') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="estimate_id" value="{{ $estimate->id }}">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Crear Generador</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <select name="concept_id" class="form-control" id="concept">
+                                                            <option value="">selecciona...</option>
+                                                            @foreach($estimate->contract->concepts->sortBy('code') as $key => $concept)
+                                                                <option value="{{ $concept->id }}">
+                                                                    {{ $concept->code }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                        <button type="submit" class="btn btn-primary">Crear</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -176,7 +176,9 @@ return [
         'retention'     => 'retención',
 
         //concept
-        'quantity'      => 'cantidad'
+        'quantity'      => 'cantidad',
+        'concept_id'    => 'concepto'
+        //
 
     ],
 	
