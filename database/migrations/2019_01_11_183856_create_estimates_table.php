@@ -18,7 +18,7 @@ class CreateEstimatesTable extends Migration
             $table->unsignedInteger('number');
 
             $table->unsignedInteger('contract_id');
-            $table->foreign('contract_id')->references('id')->on('contracts');
+            $table->foreign('contract_id')->references('id')->on('contracts')->onDelete('cascade');
 
             $table->date('start');
             $table->date('finish');

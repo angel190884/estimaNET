@@ -19,8 +19,8 @@ class CreateGeneratorLocationTable extends Migration
             $table->unsignedInteger('location_id');
             $table->unsignedInteger('generator_id');
 
-            $table->foreign('location_id')->references('id')->on('locations');
-            $table->foreign('generator_id')->references('id')->on('concept_estimate');
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
+            $table->foreign('generator_id')->references('id')->on('concept_estimate')->onDelete('cascade');
 
             $table->float('quantity',12,6);
 

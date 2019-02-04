@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Contract;
 use App\Estimate;
 use App\Generator;
+use App\Http\Requests\UpdateGenerator;
 use App\SubGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class GeneratorController extends Controller
 {
@@ -80,13 +82,20 @@ class GeneratorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\UpdateGenerator  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateGenerator $request, $id)
     {
-        //
+        $generator = Generator::find($id);
+        $generator->quantity = $request->quantity;
+        $generator->save();
+
+        $user=auth()->user();
+        Log::info("update generator $generator $user");
+        session()->flash('success','El generador a sido actualizado en la base de datos correctamente');
+        return redirect(route('generator.list', $generator->estimate->id));
     }
 
     /**
@@ -97,6 +106,14 @@ class GeneratorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $generator=Generator::find($id);
+        $estimateId=$generator->estimate->id;
+        Generator::destroy($id);
+
+        $user=auth()->user();
+        Log::info("destroy generator $generator $user");
+        session()->flash('success','El generador a sido eliminado de la base de datos correctamente');
+
+        return redirect(route('generator.list',$estimateId));
     }
 }

@@ -19,8 +19,8 @@ class CreateConceptEstimateTable extends Migration
             $table->unsignedInteger('concept_id');
             $table->unsignedInteger('estimate_id');
 
-            $table->foreign('concept_id')->references('id')->on('concepts');
-            $table->foreign('estimate_id')->references('id')->on('estimates');
+            $table->foreign('concept_id')->references('id')->on('concepts')->onDelete('cascade');
+            $table->foreign('estimate_id')->references('id')->on('estimates')->onDelete('cascade');
 
             $table->float('quantity',12,6);
 

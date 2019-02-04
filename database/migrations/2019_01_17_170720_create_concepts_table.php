@@ -17,7 +17,7 @@ class CreateConceptsTable extends Migration
             $table->increments('id');
 
             $table->unsignedInteger ('contract_id');
-            $table->foreign         ('contract_id')->references('id')->on('contracts');
+            $table->foreign         ('contract_id')->references('id')->on('contracts')->onDelete('cascade');
 
             $table->string          ('code');
             $table->text            ('location');

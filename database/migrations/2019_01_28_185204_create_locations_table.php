@@ -21,7 +21,7 @@ class CreateLocationsTable extends Migration
             $table->text('observations')->nullable();
 
             $table->unsignedInteger('contract_id');
-            $table->foreign('contract_id')->references('id')->on('contracts');
+            $table->foreign('contract_id')->references('id')->on('contracts')->onDelete('cascade');
 
             $table->timestamps();
         });
