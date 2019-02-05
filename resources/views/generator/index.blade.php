@@ -86,14 +86,14 @@
                                         <td>{{ $generator->concept->type }}</td>
                                         <td>{{ $generator->concept->quantityOk }}</td>
                                         <td>{{ $generator->concept->quantityMax }}</td>
-                                        <td>{{ $generator->lastTotal }}</td>
-                                        <td>{{ $generator->quantityOk }} - <a href="#"><i class="fas fa-align-left"></i></a></td>
+                                        <td>{{ $generator->lastTotalOk }}</td>
+                                        <td class="{{ $generator->quantityOk == 0 ? 'bg-danger text-white' : 'bg-primary text-white' }}">{{ $generator->quantityOk }}</td>
                                         <td class="text-center">
                                             <a href="#" data-toggle="modal" data-target="#update{{$generator->id}}"><i class="fas fa-edit"></i></a>
+                                            <a href="#" data-toggle="modal" data-target="#separate{{$generator->id}}"><i class="fas fa-align-left"></i></a>
                                             <a href="#" data-toggle="modal" data-target="#destroy{{$generator->id}}"><i class="fas fa-trash-alt text-danger"></i></a>
                                         </td>
                                     </tr>
-
 
                                     <!-- Modal update-->
                                     <div class="modal fade" id="update{{$generator->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -110,6 +110,33 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <input name=quantity type="number" class="form-control" value="{{ $generator->quantity }}" step='0.000001'>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                        <button type="submit" class="btn btn-primary">Salvar cambios</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal separate-->
+                                    <div class="modal fade" id="separate{{$generator->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <form action="{{ route('generator.update',$generator->id) }}" method="POST">
+                                                    @method('PUT')
+                                                    @csrf
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Dividir generador</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+
+                                                        <input name=quantity type="number" class="form-control" value="{{ $generator->quantity }}" step='0.000001'>
+
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
