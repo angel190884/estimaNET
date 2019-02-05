@@ -92,8 +92,15 @@ class Concept extends Model
     {
         $percentage = 25;
         $realPercentage= ($percentage / 100) + 1;
+        return round ( $this->quantity * $realPercentage, 2, PHP_ROUND_HALF_DOWN);
+    }
+    public function getQuantityMaxOkAttribute()
+    {
+        $percentage = 25;
+        $realPercentage= ($percentage / 100) + 1;
         return number_format(round ( $this->quantity * $realPercentage, 2, PHP_ROUND_HALF_DOWN),2, '.',',');
     }
+
     public function getMeasurementUnitOkAttribute()
     {
         return strtoupper($this->measurement_unit);

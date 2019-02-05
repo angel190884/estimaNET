@@ -58,10 +58,10 @@ class Generator extends Model
 
     public function getQuantityOkAttribute()
     {
-        return number_format($this->quantity, 6, '.', ',');
+        return $this->format($this->quantity);
     }
 
-    public function getLastTotalAttribute()
+    public function getLastTotalOkAttribute()
     {
         $estimate=$this->estimate;
         $previousEstimates = $estimate->contract->estimates()->previousEstimates($estimate)->get();
@@ -73,6 +73,34 @@ class Generator extends Model
                     ->where('concept_id','=',$this->concept_id)
                     ->sum('quantity');
         }
-        return number_format($total, 6, '.', ',');
+        return $this->format($total);
+    }
+
+    public function getLastTotalAttribute()
+    {
+        $estimate=$this->estimate;
+        $previousEstimates = $estimate->contract->estimates()->previousEstimates($estimate)->get();
+        $total = 0;
+        foreach ($previousEstimates as $previousEstimate){
+            $total+= $previousEstimate
+                ->generators()
+                ->select('quantity')
+                ->where('concept_id','=',$this->concept_id)
+                ->sum('quantity');
+        }
+        return $total;
+    }
+
+    private function format($number)
+    {
+        $numbers= explode(".", $number);
+        if ( ! isset($numbers[1])) {
+            $numbers[1] = null;
+        }
+        if (strlen($numbers[1]) < 2 ) {
+            return number_format($number,2,'.',',');
+        }else {
+            return number_format($numbers[0],0,'.',',').'.'.$numbers[1];
+        }
     }
 }

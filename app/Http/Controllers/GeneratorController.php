@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Contract;
 use App\Estimate;
 use App\Generator;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreGenerator;
 use App\Http\Requests\UpdateGenerator;
-use App\SubGenerator;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class GeneratorController extends Controller
 {
@@ -99,6 +95,13 @@ class GeneratorController extends Controller
     public function update(UpdateGenerator $request, $id)
     {
         $generator = Generator::find($id);
+
+        if (($generator->lastTotal + $request->quantity) > $generator->concept->quantityMax ){
+            $exceededQuantity = number_format(($generator->lastTotal + $request->quantity) - $generator->concept->quantityMax,6,'.',',');
+            session()->flash('danger',"El acumulado anterior + la nueva cantidad, excede del 125% por $exceededQuantity de la cantidad permitida del concepto favor de revisar!!!");
+            return redirect(route('generator.list', $generator->estimate->id));
+        }
+
         $generator->quantity = $request->quantity;
         $generator->save();
 
