@@ -87,10 +87,14 @@
                                         <td>{{ $generator->concept->quantityOk }}</td>
                                         <td>{{ $generator->concept->quantityMax }}</td>
                                         <td>{{ $generator->lastTotalOk }}</td>
-                                        <td class="{{ $generator->quantityOk == 0 ? 'bg-danger text-white' : 'bg-primary text-white' }}">{{ $generator->quantityOk }}</td>
+                                        <td class="{{ $generator->validate() ? 'bg-primary' : 'bg-danger' }} text-white">{{ $generator->quantityOk }}</td>
+
                                         <td class="text-center">
-                                            <a href="#" data-toggle="modal" data-target="#update{{$generator->id}}"><i class="fas fa-edit"></i></a>
-                                            <a href="#" data-toggle="modal" data-target="#separate{{$generator->id}}"><i class="fas fa-align-left"></i></a>
+                                            @if($generator->estimate->contract->split_catalog)
+                                                <a href="#" data-toggle="modal" data-target="#separate{{$generator->id}}"><i class="fas fa-align-left"></i></a>
+                                            @elseif(!$generator->estimate->contract->split_catalog)
+                                                <a href="#" data-toggle="modal" data-target="#update{{$generator->id}}"><i class="fas fa-edit"></i></a>
+                                            @endif
                                             <a href="#" data-toggle="modal" data-target="#destroy{{$generator->id}}"><i class="fas fa-trash-alt text-danger"></i></a>
                                         </td>
                                     </tr>
@@ -124,7 +128,7 @@
                                     <div class="modal fade" id="separate{{$generator->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
-                                                <form action="{{ route('generator.update',$generator->id) }}" method="POST">
+                                                <form action="{{ route('subGenerator.update',$generator) }}" method="POST">
                                                     @method('PUT')
                                                     @csrf
                                                     <div class="modal-header">
@@ -133,11 +137,28 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                    <div class="modal-body">
 
-                                                        <input name=quantity type="number" class="form-control" value="{{ $generator->quantity }}" step='0.000001'>
-
-                                                    </div>
+                                                    @forelse($generator->subGenerators()->get()->sortBy('location.name') as $subGenerator)
+                                                        <div class="modal-body">
+                                                            <div class="form-row mt-4">
+                                                                <div class="col-sm-12">
+                                                                    <label for="subGenerator{{ $subGenerator->id }}">{{ $subGenerator->location->name }}</label>
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend"><span class="input-group-text text-body"><i class="font-weight-bold text-muted">=</i></span></div>
+                                                                        <input name=quantitySubGenerator{{ $subGenerator->id }} id="subGenerator{{ $subGenerator->id }}" type="number" class="form-control" value="{{ $subGenerator->quantity }}" step='0.000001' required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @empty
+                                                        <div class="modal-body">
+                                                            <div class="form-row mt-4">
+                                                                <div class="col-sm-12">
+                                                                    EL CATÁLOGO NO CONTIENE UBICACIONES PARA PODER DIVIDIR LOS CONCEPTOS.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforelse
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                                                         <button type="submit" class="btn btn-primary">Salvar cambios</button>
