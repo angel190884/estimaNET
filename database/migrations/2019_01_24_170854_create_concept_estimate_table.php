@@ -22,7 +22,7 @@ class CreateConceptEstimateTable extends Migration
             $table->foreign('concept_id')->references('id')->on('concepts')->onDelete('cascade');
             $table->foreign('estimate_id')->references('id')->on('estimates')->onDelete('cascade');
 
-            $table->float('quantity',12,6);
+            $table->float('quantity',15,6)->default(0);
 
             $table->timestamps();
         });

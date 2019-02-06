@@ -22,7 +22,7 @@ class CreateGeneratorLocationTable extends Migration
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
             $table->foreign('generator_id')->references('id')->on('concept_estimate')->onDelete('cascade');
 
-            $table->float('quantity',12,6);
+            $table->float('quantity',15,6)->default(0);
 
             $table->timestamps();
         });

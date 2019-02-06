@@ -21,10 +21,10 @@ class CreateContractsTable extends Migration
             $table->text('description')->nullable();
 
             //MONTOS
-            $table->float('amount_total', 12, 2);
-            $table->float('amount_anticipated', 12, 2)->nullable();
-            $table->float('amount_extension', 12, 2)->nullable();
-            $table->float('amount_adjustment', 12, 2)->nullable();
+            $table->float('amount_total', 15, 2);
+            $table->float('amount_anticipated', 15, 2)->nullable();
+            $table->float('amount_extension', 15, 2)->nullable();
+            $table->float('amount_adjustment', 15, 2)->nullable();
 
             //FECHAS
             $table->date('date_start');
