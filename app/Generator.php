@@ -56,6 +56,26 @@ class Generator extends Model
      * Getters
      */
 
+    public function validate()
+    {
+        if($this->estimate->contract->split_catalog){
+            if ($this->quantity != $this->subGenerators()->sum('quantity')){
+                return false;
+            }
+        }
+
+        if ($this->quantity + $this->getLastTotalAttribute() > $this->concept->quantityMax){
+            return false;
+        }
+
+        if ($this->quantity == 0){
+            return false;
+        }
+
+
+        return true;
+    }
+
     public function getQuantityOkAttribute()
     {
         return $this->format($this->quantity);
@@ -63,17 +83,7 @@ class Generator extends Model
 
     public function getLastTotalOkAttribute()
     {
-        $estimate=$this->estimate;
-        $previousEstimates = $estimate->contract->estimates()->previousEstimates($estimate)->get();
-        $total = 0;
-        foreach ($previousEstimates as $previousEstimate){
-                $total+= $previousEstimate
-                    ->generators()
-                    ->select('quantity')
-                    ->where('concept_id','=',$this->concept_id)
-                    ->sum('quantity');
-        }
-        return $this->format($total);
+        return $this->format($this->getLastTotalAttribute());
     }
 
     public function getLastTotalAttribute()
