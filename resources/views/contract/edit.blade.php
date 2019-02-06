@@ -148,6 +148,22 @@
                                         </div>
                                         @include('layouts.components.alert.field', ['field' => 'active'])
                                     </div>
+                                    <div class="col-md-4 pb-3">
+                                        <label for="exampleAccount">Tipo de catálogo*</label>
+                                        <div class="form-group">
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input name="split_catalog" class="form-check-input" type="radio" id="contractSplitCatalog" value="0" {{($contract->split_catalog == '0') ? 'checked' : ''}}> General
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input name="split_catalog" class="form-check-input" type="radio" id="contractSplitCatalog" value="1" {{($contract->split_catalog == '1' | null ) ? 'checked' : ''}}> Por frentes
+                                                </label>
+                                            </div>
+                                        </div>
+                                        @include('layouts.components.alert.field', ['field' => 'split_catalog'])
+                                    </div>
                                     <div class="col-sm-8 pb-3">
                                         <label for="contractCompany">Empresa</label>
                                         <select name="company" class="form-control" id="contractCompany">

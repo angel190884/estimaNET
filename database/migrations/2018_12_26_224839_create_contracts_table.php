@@ -35,6 +35,8 @@ class CreateContractsTable extends Migration
             
             
             $table->boolean('active')->default(false);
+            $table->boolean('split_catalog')->default(false);
+
             $table->timestamps();
             $table->softDeletes();
         });

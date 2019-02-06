@@ -26,7 +26,8 @@ class Contract extends Model
         'date_signature',
         'date_signature_covenant',
         'date_finish_modified',
-        'active'
+        'active',
+        'split_catalog'
     ];
 
     /**

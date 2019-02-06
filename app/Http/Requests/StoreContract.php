@@ -42,6 +42,7 @@ class StoreContract extends FormRequest
             'description'   => 'max:500',
 
             'active'        => 'boolean|required',
+            'split_catalog' => 'boolean|required',
 
             'company'       => 'numeric|nullable',
         ];

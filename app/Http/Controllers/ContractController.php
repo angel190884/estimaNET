@@ -63,6 +63,7 @@ class ContractController extends Controller
             'date_finish_modified' => $request['date_finish_modified'],
 
             'active' => $request['active'],
+            'split_catalog' => $request['split_catalog'],
 
         ]);
 
@@ -132,6 +133,7 @@ class ContractController extends Controller
         $contract->date_finish_modified = $request['date_finish_modified'];
 
         $contract->active = $request['active'];
+        $contract->split_catalog = $request['split_catalog'];
 
         $contract->companies()->sync($request['company']);
 
