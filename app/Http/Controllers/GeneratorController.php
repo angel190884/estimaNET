@@ -56,9 +56,18 @@ class GeneratorController extends Controller
             session()->flash('danger','¡¡¡ No se pudo añadir el generador, existe otro registro con los mismos datos !!!');
             return redirect(route('generator.list', $estimate->id));
         }
+
         $estimate->concepts()->attach($request->concept_id,[
             'quantity' => 0
         ]);
+
+        $generator=Generator::where('concept_id',$request->concept_id)
+            ->where('estimate_id',$estimate->id)->first();
+
+        $locations=$estimate->contract->locations()->get();
+
+        $generator->locations()->attach($locations);
+
         session()->flash('success','El generador, se añadio correctamente.');
         return redirect(route('generator.list', $estimate->id));
     }
