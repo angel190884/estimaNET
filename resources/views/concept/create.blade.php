@@ -114,9 +114,9 @@
                                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-angle-right text-muted"></i></span></div>
                                                 <select name="type" class="custom-select text-uppercase">
                                                     <option {{ old('type') != null ? ' ' : 'selected' }}>Selecciona...</option>
-                                                    <option {{ old('type') != 'n' ? ' ' : 'selected' }} value="n">normal</option>
-                                                    <option {{ old('type') != 'exc' ? ' ' : 'selected' }} value="exc">excedente</option>
-                                                    <option {{ old('type') != 'ext' ? ' ' : 'selected' }} value="ext">extraordinario</option>
+                                                    <option {{ old('type') != 'N' ? ' ' : 'selected' }} value="N">normal</option>
+                                                    <option {{ old('type') != 'EXC' ? ' ' : 'selected' }} value="EXC">excedente</option>
+                                                    <option {{ old('type') != 'EXT' ? ' ' : 'selected' }} value="EXT">extraordinario</option>
                                                 </select>
                                                 @include('layouts.components.alert.field', ['field' => 'type'])
                                             </div>
