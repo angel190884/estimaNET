@@ -74,7 +74,7 @@ class Contract extends Model
 
     public function getTotalOkAttribute()
     {
-        return number_format($this->amount_total, 2, '.', ',');
+        return "$ " . number_format($this->amount_total, 2, '.', ',');
     }
 
     public function getStartOkAttribute()

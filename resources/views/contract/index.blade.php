@@ -60,7 +60,7 @@
                                     <td class="d-none d-xl-table-cell">{{ $contract->extension }}</td>
 
                                     <td>
-                                        <a href="{{ route('contract.edit',$contract) }}"><i class="fas fa-edit fa-2x"></i></a>
+                                        <a href="{{ route('contract.edit',$contract) }}"><i class="fas fa-edit"></i></a>
                                     </td>
                                 </tr>
                             @empty
