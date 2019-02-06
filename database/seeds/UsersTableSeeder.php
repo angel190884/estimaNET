@@ -76,6 +76,12 @@ class UsersTableSeeder extends Seeder
                 'viewConcept',
                 'listConcepts',
                 'newConcept',
+
+                //Locations
+                'viewLocation',
+                'listLocations',
+                'newLocation',
+
             ]
         );
 

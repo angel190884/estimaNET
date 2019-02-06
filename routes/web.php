@@ -33,3 +33,5 @@ Route::resource('generator', 'GeneratorController');
 Route::get 		('generatorList/{estimate}', ['as' 	=>	'generator.list', 'uses'	=>	'GeneratorController@list']);
 
 Route::resource('subGenerator', 'SubGeneratorController');
+
+Route::resource('location', 'LocationController');

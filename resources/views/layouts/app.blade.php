@@ -91,6 +91,24 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Frentes
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    @can('listLocations')
+                                        <a class="dropdown-item" href="{{ route('location.index') }}">Listar</a>
+                                    @endcan
+
+                                    @can('viewLocation')
+                                    <!--<a class="dropdown-item" href="{{ route('location.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>-->
+                                    @endcan
+
+                                    @can('newLocation')
+                                        <a class="dropdown-item" href="{{ route('location.create') }}">Agregar frente</a>
+                                    @endcan
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Empresas
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
