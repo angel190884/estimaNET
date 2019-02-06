@@ -73,7 +73,7 @@
                                         <label for="estimateAmountRetention">Monto retención*</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-dollar-sign text-muted"></i></span></div>
-                                            <input name="retention" value="{{ old('retention') }}" type="number" class="form-control" id="estimateAmountRetention" placeholder="0.00" step="0.01" required>
+                                            <input name="retention" value="{{ old('retention') }}" type="number" class="form-control" id="estimateAmountRetention" placeholder="0.00" step="0.01">
                                             @include('layouts.components.alert.field', ['field' => 'retention'])
                                         </div>
                                     </div>
@@ -82,17 +82,17 @@
                                         <div class="form-group">
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label">
-                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeOrdinary" value="1" {{(old('type') == '1') ? 'checked' : ''}}> Normal
+                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeOrdinary" value="N" {{(old('type') == 'N') ? 'checked' : ''}}> Normal
                                                 </label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label">
-                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeExtraordinary" value="2" {{(old('type') == '2' | null ) ? 'checked' : ''}}> Extraordinaria
+                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeExtraordinary" value="EXT" {{(old('type') == 'EXT' | null ) ? 'checked' : ''}}> Extraordinaria
                                                 </label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label">
-                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeEnd" value="3" {{(old('type') == '3' | null ) ? 'checked' : ''}}> Final
+                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeEnd" value="EXC" {{(old('type') == 'EXC' | null ) ? 'checked' : ''}}> Final
                                                 </label>
                                             </div>
                                             <div class="form-check form-check-inline">
