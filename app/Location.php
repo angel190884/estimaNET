@@ -14,7 +14,8 @@ class Location extends Model
     protected $fillable = [
         'name',
         'address',
-        'observations'
+        'observations',
+        'contract_id'
     ];
 
     /**
@@ -43,5 +44,15 @@ class Location extends Model
     public function subGenerators()
     {
         return $this->hasMany(SubGenerator::class);
+    }
+
+    /**
+     * Query scopes.
+     */
+    public function scopeSearchContract($query, $contract_id)
+    {
+        if ($contract_id) {
+            return $query->where('contract_id', '=', $contract_id);
+        }
     }
 }
