@@ -24,6 +24,10 @@
                 height: 100vh;
             }
 
+            .background {
+                background-image: url("https://www.highreshdwallpapers.com/wp-content/uploads/2014/01/3D-Architecture-HD-Wallpaper.jpg");
+                background-size: 100% auto;
+            }
             .flex-center {
                 align-items: center;
                 display: flex;
@@ -46,16 +50,30 @@
 
             .title {
                 font-size: 84px;
+                margin-bottom: 30px;
+                background-color: #ffffff;
+                border: 1px solid black;
+                opacity: 0.7;
+                filter: alpha(opacity=60); /* For IE8 and earlier */
+            }
+            .title p {
+                margin: 5%;
+                font-weight: bold;
+                color: black;
             }
 
             .links > a {
-                color: #636b6f;
+                color: black;
                 padding: 0 25px;
                 font-size: 13px;
                 font-weight: 600;
                 letter-spacing: .1rem;
                 text-decoration: none;
                 text-transform: uppercase;
+                background-color: #ffffff;
+                border: 1px solid black;
+                opacity: 0.8;
+                filter: alpha(opacity=60); /* For IE8 and earlier */
             }
 
             .m-b-md {
@@ -64,7 +82,7 @@
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
+        <div class="flex-center position-ref full-height background">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
@@ -81,7 +99,8 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    {{ env('APP_NAME') }}
+                    <img src="">
+                    <p>{{ env('APP_NAME') }}</p>
                 </div>
 
                 <div class="links">

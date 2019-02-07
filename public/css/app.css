@@ -4266,45 +4266,6 @@ code {
   font-size: 80%;
 }
 
-#table-block table {
-  width: 100%;
-}
-
-#table-block thead,
-#table-block tbody,
-#table-block tr,
-#table-block td,
-#table-block th {
-  display: block;
-}
-
-#table-block tr:after {
-  content: ' ';
-  display: block;
-  visibility: hidden;
-  clear: both;
-}
-
-#table-block thead th {
-  height: 30px;
-  /*text-align: left;*/
-}
-
-#table-block tbody {
-  height: 120px;
-  overflow-y: auto;
-}
-
-#table-block thead {
-  /* fallback */
-}
-
-#table-block tbody td,
-#table-block thead th {
-  width: 19.2%;
-  float: left;
-}
-
 /*!
  * Bootstrap v4.2.1 (https://getbootstrap.com/)
  * Copyright 2011-2018 The Bootstrap Authors
@@ -15750,5 +15711,9 @@ a.text-dark:focus {
   background-color: #fff;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+#body {
+  background: url("https://www.pixelstalk.net/wp-content/uploads/2016/10/Art-Images-Architectural.jpg") no-repeat center center fixed;
 }
 
