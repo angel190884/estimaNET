@@ -82,8 +82,8 @@
                                                         <div class="input-group-text"><i class="fas fa-snowplow"></i></div>
                                                     </div>
                                                     <select name="contract_id" class="form-control" id="codeContract">
-                                                        <option value="" selected>selecciona un contrato...</option>
-                                                        @foreach(auth()->user()->contracts()->orderBy('code')->get() as $key => $contract)
+                                                        <option value="" selected>selecciona un contrato dividido por frentes...</option>
+                                                        @foreach(auth()->user()->contracts()->split()->orderBy('code')->get() as $key => $contract)
                                                             <option value="{{ $contract->id }}">{{ $contract->codeOk }}</option>
                                                         @endforeach
                                                     </select>

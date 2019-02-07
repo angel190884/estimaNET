@@ -106,5 +106,10 @@ class Contract extends Model
         }
     }
 
+    public function scopeSplit($query)
+    {
+        return $query->where('split_catalog', true);
+    }
+
 
 }
