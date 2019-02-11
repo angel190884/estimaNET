@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Estimate;
 use App\Generator;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreGenerator;
 use App\Http\Requests\UpdateGenerator;
@@ -66,7 +67,9 @@ class GeneratorController extends Controller
 
         $locations=$estimate->contract->locations()->get();
 
-        $generator->locations()->attach($locations);
+        $generator->locations()->attach($locations, [
+            'created_at' => Carbon::now()
+        ]);
 
         session()->flash('success','El generador, se añadio correctamente.');
         return redirect(route('generator.list', $estimate->id));

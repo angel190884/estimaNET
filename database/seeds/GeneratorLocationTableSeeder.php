@@ -2,6 +2,7 @@
 
 use App\Contract;
 use App\Location;
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
 
@@ -21,7 +22,8 @@ class GeneratorLocationTableSeeder extends Seeder
                     $locations = Location::all()->random(5);
                     foreach ($locations as $location){
                         $generator->locations()->attach($location, [
-                            'quantity' => $faker->randomFloat($nbMaxDecimals = 2, $min = $generator->quantity / 5, $max = $generator->quantity / 5)
+                            'quantity' => $faker->randomFloat($nbMaxDecimals = 2, $min = $generator->quantity / 5, $max = $generator->quantity / 5),
+                            'created_at' => Carbon::now()
                         ]);
                     }
                 }
