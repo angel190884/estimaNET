@@ -50,8 +50,8 @@
                             <table class="table table-hover table-striped">
                                 <thead class="thead-dark">
                                 <tr>
-                                    <th>id sistema</th>
-                                    <th>Contrato</th>
+                                    <th class="d-none d-md-table-cell">id sistema</th>
+                                    <th class="d-none d-md-table-cell">Contrato</th>
                                     <th># Estimación</th>
                                     <th>Tipo</th>
                                     <th>Inicio</th>
@@ -74,6 +74,7 @@
                                                 <td>
                                                     <a href="{{ route('estimate.edit',$estimate) }}"><i class="fas fa-edit"></i></a>
                                                     <a href="{{ route('generator.list',$estimate) }}"><i class="fas fa-clipboard-list"></i></a>
+                                                    <a href="{{ route('report.cumulativeControl',$estimate) }}"><i class="fas fa-clipboard-check bg-danger text-white"></i></a>
                                                 </td>
                                             </tr>
                                         @empty

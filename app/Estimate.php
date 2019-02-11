@@ -84,7 +84,7 @@ class Estimate extends Model
     public function scopePreviousEstimates($query, Estimate $estimate)
     {
         if ($estimate) {
-            return $query->where('number', '<', $estimate->number);
+            return $query->with('contract','generators')->where('number', '<', $estimate->number);
         }
     }
 

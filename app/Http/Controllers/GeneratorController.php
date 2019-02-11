@@ -105,8 +105,19 @@ class GeneratorController extends Controller
     {
         $generator = Generator::find($id);
 
-        if (($generator->lastTotal + $request->quantity) > $generator->concept->quantityMax ){
-            $exceededQuantity = number_format(($generator->lastTotal + $request->quantity) - $generator->concept->quantityMax,6,'.',',');
+        if (round(
+            $generator->lastQuantity + $request->quantity,
+            6,
+            PHP_ROUND_HALF_DOWN)
+            >
+            round(
+                $generator->concept->quantityMax,
+                6,
+                PHP_ROUND_HALF_DOWN)
+            ){
+            $exceededQuantity = round(
+                round($generator->lastQuantity + $request->quantity, 6, PHP_ROUND_HALF_DOWN) -
+                round($generator->concept->quantityMax, 6, PHP_ROUND_HALF_DOWN),6,PHP_ROUND_HALF_DOWN);
             session()->flash('danger',"El acumulado anterior + la nueva cantidad, excede del 125% por $exceededQuantity de la cantidad permitida del concepto favor de revisar!!!");
             return redirect(route('generator.list', $generator->estimate->id));
         }

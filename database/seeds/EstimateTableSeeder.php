@@ -15,9 +15,13 @@ class EstimateTableSeeder extends Seeder
     {
         $contract = Contract::all();
         foreach ($contract as $contract){
-            factory(Estimate::class,5)->create([
-                'contract_id' => $contract->id
-            ]);
+            for ($i=1;$i < 6; $i++){
+                factory(Estimate::class)->create([
+                    'contract_id' => $contract->id,
+                    'number'    => $i
+                ]);
+            }
+
         }
     }
 }

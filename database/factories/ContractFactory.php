@@ -7,7 +7,7 @@ $factory->define(Contract::class, function (Faker $faker) {
     return [
         'code'          =>  $faker->unique()->bothify('##??###000##118'),
         'name'          =>  $faker->text($maxNbChars = 200),
-        'short_name'     =>  null,
+        'short_name'    =>  $faker->numerify('####'),
         'description'   =>  $faker->realText($maxNbChars = 200, $indexSize = 2),
         
         'amount_total'         =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 10000000, $max = 20000000),
@@ -21,6 +21,7 @@ $factory->define(Contract::class, function (Faker $faker) {
         'date_finish_modified'      =>  $faker->date($format = 'Y-m-d', $max = 'now'),
         'date_signature_covenant'      =>  $faker->date($format = 'Y-m-d', $max = 'now'),
 
-        'active'        =>  $faker->randomElement($array = array ('1','0'))    
+        'active'        =>  $faker->randomElement($array = array ('1','0')),
+        'split_catalog' =>  $faker->randomElement($array = array ('1','0')),
     ];
 });

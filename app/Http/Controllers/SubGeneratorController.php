@@ -79,8 +79,17 @@ class SubGeneratorController extends Controller
             $total+=$request[$textRequest];
         }
 
-        if (($generator->lastTotal + $total) > $generator->concept->quantityMax ){
-            $exceededQuantity = number_format(($generator->lastTotal + $total) - $generator->concept->quantityMax,6,'.',',');
+        if (round(
+            $generator->lastQuantity + $total,
+            6,PHP_ROUND_HALF_DOWN)
+            >
+            round(
+                $generator->concept->quantityMax,
+                6,
+                PHP_ROUND_HALF_DOWN
+            )){
+            $exceededQuantity = round(round($generator->lastQuantity + $total,6,PHP_ROUND_HALF_DOWN) -
+                round($generator->concept->quantityMax,6,PHP_ROUND_HALF_DOWN),6 ,PHP_ROUND_HALF_DOWN);
             session()->flash('danger',"El acumulado anterior + la suma de la subdivisión, excede del 125% por $exceededQuantity de la cantidad permitida del concepto favor de revisar!!!");
             return redirect(route('generator.list', $generator->estimate->id));
         }
