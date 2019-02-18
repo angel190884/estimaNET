@@ -18,7 +18,8 @@ class EstimateTableSeeder extends Seeder
             for ($i=1;$i < 6; $i++){
                 factory(Estimate::class)->create([
                     'contract_id' => $contract->id,
-                    'number'    => $i
+                    'number'    => $i,
+                    'retention' => 0
                 ]);
             }
 

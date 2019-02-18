@@ -80,11 +80,20 @@ class Concept extends Model
 
     public function getUnitPriceOkAttribute()
     {
+        if ($this->contract->type == 2){
+            $amount = $this->contract->amount_total+
+                        $this->contract->amount_extension +
+                        $this->contract->amount_adjustment;
+            return '$' . number_format(round($amount/100, 2, PHP_ROUND_HALF_DOWN), 2,'.',',');
+        }
         return '$' . number_format($this->unit_price, 2, '.', ',');
     }
 
     public function getQuantityOkAttribute()
     {
+        if ($this->type != 'N'){
+            return '---';
+        }
         return number_format($this->quantity, 2, '.', ',');
     }
 

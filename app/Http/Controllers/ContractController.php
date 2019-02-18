@@ -50,6 +50,7 @@ class ContractController extends Controller
             'name' => $request['name'],
             'short_name' => $request['short_name'],
             'description' => $request['description'],
+            'location' => $request['location'],
 
             'amount_total' => $request['amount_total'],
             'amount_anticipated' => $request['amount_anticipated'],
@@ -62,8 +63,17 @@ class ContractController extends Controller
             'date_signature_covenant' => $request['date_signature_covenant'],
             'date_finish_modified' => $request['date_finish_modified'],
 
+            'type' => $request['type'],
+
             'active' => $request['active'],
             'split_catalog' => $request['split_catalog'],
+
+            'signature_1' => $request['signature1'],
+            'signature_2' => $request['signature2'],
+            'signature_3' => $request['signature3'],
+            'signature_4' => $request['signature4'],
+            'signature_5' => $request['signature5'],
+            'signature_6' => $request['signature6'],
 
         ]);
 
@@ -118,8 +128,8 @@ class ContractController extends Controller
 
         $contract->name = $request['name'];
         $contract->short_name = $request['short_name'];
-
         $contract->description = $request['description'];
+        $contract->location = $request['location'];
 
         $contract->amount_total = $request['amount_total'];
         $contract->amount_anticipated = $request['amount_anticipated'];
@@ -132,10 +142,19 @@ class ContractController extends Controller
         $contract->date_signature_covenant = $request['date_signature_covenant'];
         $contract->date_finish_modified = $request['date_finish_modified'];
 
+        $contract->type= $request['type'];
+
         $contract->active = $request['active'];
         $contract->split_catalog = $request['split_catalog'];
 
         $contract->companies()->sync($request['company']);
+
+        $contract->signature_1 = $request['signature1'];
+        $contract->signature_2 = $request['signature2'];
+        $contract->signature_3 = $request['signature3'];
+        $contract->signature_4 = $request['signature4'];
+        $contract->signature_5 = $request['signature5'];
+        $contract->signature_6 = $request['signature6'];
 
         $contract->save();
 

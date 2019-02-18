@@ -1,5 +1,17 @@
 @extends('layouts.app')
 
+@section('scripts')
+    <script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=rkfeq2okjwszjx0fdko4rfo2ur0haquk3dpjo4cco0uqpwcf"></script>
+    <script>tinymce.init({
+            mode : "specific_textareas",
+            editor_selector : "mceEditor",
+            menubar:false,
+            height: 300,
+            formats:false,
+        });
+    </script>
+@endsection
+
 @section('content')
     <div class="container-fluid pb-5">
         <div class="row justify-content-center">
@@ -123,6 +135,14 @@
                                         </small>
                                     </div>
                                     <div class="col-sm-6 pb-3">
+                                        <label for="contractDescription">Ubicación general*</label>
+                                        <textarea name="location" class="form-control" id="contractLocation" rows="4" required>{{ old('location') }}</textarea>
+                                        @include('layouts.components.alert.field', ['field' => 'location'])
+                                        <small class="text-info">
+                                            Ubicación general del contrato.
+                                        </small>
+                                    </div>
+                                    <div class="col-sm-6 pb-3">
                                         <label for="contractDescription">Observaciones</label>
                                         <textarea name="description" class="form-control" id="contractDescription" rows="4">{{ old('description') }}</textarea>
                                         @include('layouts.components.alert.field', ['field' => 'description'])
@@ -147,7 +167,7 @@
                                         </div>
                                         @include('layouts.components.alert.field', ['field' => 'active'])
                                     </div>
-                                    <div class="col-md-4 pb-3">
+                                    <div class="col-md-6 pb-3">
                                         <label for="exampleAccount">Tipo de catálogo*</label>
                                         <div class="form-group">
                                             <div class="form-check form-check-inline">
@@ -163,7 +183,23 @@
                                         </div>
                                         @include('layouts.components.alert.field', ['field' => 'split_catalog'])
                                     </div>
-                                    <div class="col-sm-8 pb-3">
+                                    <div class="col-md-6 pb-3">
+                                        <label for="exampleAccount">Tipo de contrato*</label>
+                                        <div class="form-group">
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input name="type" class="form-check-input" type="radio" id="contractType" value="1" {{(old('type') == '1') ? 'checked' : ''}}> Construcción
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input name="type" class="form-check-input" type="radio" id="contractType" value="2" {{(old('type') == '2') ? 'checked' : ''}}> Supervisión
+                                                </label>
+                                            </div>
+                                        </div>
+                                        @include('layouts.components.alert.field', ['field' => 'type'])
+                                    </div>
+                                    <div class="col-sm-9 pb-3">
                                         <label for="contractCompany">Empresa</label>
                                         <select name="company" class="form-control" id="contractCompany">
                                             <option value="" {{ old('company') != null ? '' : 'selected' }}>selecciona...</option>
@@ -175,9 +211,73 @@
                                         @include('layouts.components.alert.field', ['field' => 'company'])
                                     </div>
 
+                                    <div class="col-sm-12 col-lg-6 col-xl-4 pb-3">
+                                        <label for="contractDescription">Firma 1</label>
+                                        <textarea name="signature1" class="form-control mceEditor" id="signature1" rows="4">
+                                            <p style="text-align:center"><strong>ELABORÓ</strong><br />EMPRESA O PERSONA FÍSICA.</p><p style="text-align:center"><br /><br />_____________________________________________<br /><strong>NOPMBRE DEL ADMINISTRADOR</strong><br />(ADMINISTRADOR &Uacute;NICO)</p>
+                                        </textarea>
+                                        @include('layouts.components.alert.field', ['field' => 'signature1'])
+                                        <small class="text-info">
+                                            Firma #1.
+                                        </small>
+                                    </div>
+
+                                    <div class="col-sm-12 col-lg-6 col-xl-4 pb-3">
+                                        <label for="contractDescription">Firma 2</label>
+                                        <textarea name="signature2" class="form-control mceEditor" id="signature2" rows="4">
+                                            <p style="text-align:center"><strong>APROBÓ</strong><br />RESIDENTE DE OBRA</p><p style="text-align:center"><br /><br />_____________________________________________<br /><strong>NOMBRE DEL FUNCIONARIO</strong><br />(PUESTO DEL FUNCIONARIO)</p>
+                                        </textarea>
+                                        @include('layouts.components.alert.field', ['field' => 'signature2'])
+                                        <small class="text-info">
+                                            Firma #2.
+                                        </small>
+                                    </div>
+
+                                    <div class="col-sm-12 col-lg-6 col-xl-4 pb-3">
+                                        <label for="contractDescription">Firma 3</label>
+                                        <textarea name="signature3" class="form-control mceEditor" id="signature3" rows="4">
+                                            <p style="text-align:center"><strong>AUTORIZÓ</strong><br />RESIDENTE DE OBRA</p><p style="text-align:center"><br /><br />_____________________________________________<br /><strong>NOMBRE DEL FUNCIONARIO</strong><br />(PUESTO DEL FUNCIONARIO)</p>
+                                        </textarea>
+                                        @include('layouts.components.alert.field', ['field' => 'signature3'])
+                                        <small class="text-info">
+                                            Firma #3.
+                                        </small>
+                                    </div>
+
+                                    <div class="col-sm-12 col-lg-6 col-xl-4 pb-3">
+                                        <label for="contractDescription">Firma 4</label>
+                                        <textarea name="signature4" class="form-control mceEditor" id="signature4" rows="4">
+                                            <p style="text-align:center"><strong>REVISÓ</strong><br />EMPRESA O PERSONA FÍSICA.</p><p style="text-align:center"><br /><br />_____________________________________________<br /><strong>NOPMBRE DEL ADMINISTRADOR</strong><br />(ADMINISTRADOR &Uacute;NICO)</p>
+                                        </textarea>
+                                        @include('layouts.components.alert.field', ['field' => 'signature4'])
+                                        <small class="text-info">
+                                            Firma #4.
+                                        </small>
+                                    </div>
+
+                                    <div class="col-sm-12 col-lg-6 col-xl-4 pb-3">
+                                        <label for="contractDescription">Firma 5</label>
+                                        <textarea name="signature5" class="form-control mceEditor" id="signature5" rows="4">
+                                            <p style="text-align:center"><strong>REVISÓ</strong><br />SUPERVISIÓN INTERNA</p><p style="text-align:center"><br /><br />_____________________________________________<br /><strong>NOMBRE DEL FUNCIONARIO</strong><br />(PUESTO DEL FUNCIONARIO)</p>
+                                        </textarea>
+                                        @include('layouts.components.alert.field', ['field' => 'signature5'])
+                                        <small class="text-info">
+                                            Firma #5.
+                                        </small>
+                                    </div>
+
+                                    <div class="col-sm-12 col-lg-6 col-xl-4 pb-3">
+                                        <label for="contractDescription">Firma 6</label>
+                                        <textarea name="signature6" class="form-control mceEditor" id="signature6" rows="4">
+                                            {{ old('signature6') }}
+                                        </textarea>
+                                        @include('layouts.components.alert.field', ['field' => 'signature2'])
+                                        <small class="text-info">
+                                            Firma #6.
+                                        </small>
+                                    </div>
+
                                     <button type="submit" class="btn btn-success btn-lg btn-block mt-5">Dar de alta</button>
-
-
 
                                 </div>
 

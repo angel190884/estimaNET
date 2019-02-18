@@ -17,7 +17,9 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
+    @yield('stylesheets')
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
 </head>
 <body>
     <div id="app">
@@ -183,5 +185,6 @@
             </div>
         </footer>
     </div>
+    @yield('scripts')
 </body>
 </html>

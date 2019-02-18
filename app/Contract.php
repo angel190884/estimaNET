@@ -97,6 +97,30 @@ class Contract extends Model
     {
         return Carbon::parse($this->date_finish_modified)->format('d-m-Y');
     }
+    public function getTotalAmountAttribute()
+    {
+        return $this->getOriginalAmountAttribute() + $this->getExtensionAmountAttribute();
+    }
+    public function getOriginalAmountAttribute()
+    {
+        return round($this->amount_total,2,PHP_ROUND_HALF_DOWN);
+    }
+    public function getExtensionAmountAttribute()
+    {
+        return round($this->amount_extension,2, PHP_ROUND_HALF_DOWN);
+    }
+    public function getNameContractFormattedAttribute()
+    {
+        return strtoupper(
+            substr($this->code,-15,2)." ".
+            substr($this->code,-13,2)." ".
+            substr($this->code,-11,2)." ".
+            substr($this->code,-9,2)." ".
+            substr($this->code,-7,4)." ".
+            substr($this->code,-3,1)." ".
+            substr($this->code,-2));
+    }
+
 
     //QUERY SCOPE
     public function scopeCode($query, $code)

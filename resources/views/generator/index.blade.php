@@ -91,11 +91,11 @@
 
                                         <td class="text-center">
                                             @if($generator->estimate->contract->split_catalog)
-                                                <a href="#" data-toggle="modal" data-target="#separate{{$generator->id}}"><i class="fas fa-align-left"></i></a>
+                                                <a href="#" data-toggle="modal" data-target="#separate{{ $generator->id }}"><i class="fas fa-align-left"></i></a>
                                             @elseif(!$generator->estimate->contract->split_catalog)
-                                                <a href="#" data-toggle="modal" data-target="#update{{$generator->id}}"><i class="fas fa-edit"></i></a>
+                                                <a href="#" data-toggle="modal" data-target="#update{{ $generator->id }}"><i class="fas fa-edit"></i></a>
                                             @endif
-                                            <a href="#" data-toggle="modal" data-target="#destroy{{$generator->id}}"><i class="fas fa-trash-alt text-danger"></i></a>
+                                            <a href="#" data-toggle="modal" data-target="#destroy{{ $generator->id }}"><i class="fas fa-trash-alt text-danger"></i></a>
                                         </td>
                                     </tr>
 
@@ -103,7 +103,7 @@
                                     <div class="modal fade" id="update{{$generator->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
-                                                <form action="{{ route('generator.update',$generator->id) }}" method="POST">
+                                                <form action="{{ route('generator.update',$generator) }}" method="POST">
                                                     @method('PUT')
                                                     @csrf
                                                     <div class="modal-header">
@@ -140,7 +140,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <p class="text-danger">Cantidad máxima <mark>{{ $generator->maximumQuantityPossibleOk }}</mark> posible.</p>
-                                                    @forelse($generator->subGenerators()->get()->sortBy('location.name') as $subGenerator)
+                                                        @forelse($generator->subGenerators()->get()->sortBy('location.name') as $subGenerator)
                                                             <div class="form-row mt-1">
                                                                 <div class="col-sm-12">
 
@@ -150,13 +150,13 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                    @empty
+                                                        @empty
                                                             <div class="form-row mt-4">
                                                                 <div class="col-sm-12">
                                                                     EL CATÁLOGO NO CONTIENE UBICACIONES PARA PODER DIVIDIR LOS CONCEPTOS.
                                                                 </div>
                                                             </div>
-                                                    @endforelse
+                                                        @endforelse
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

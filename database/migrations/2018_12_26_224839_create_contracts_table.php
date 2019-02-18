@@ -19,6 +19,7 @@ class CreateContractsTable extends Migration
             $table->text('name');
             $table->string('short_name')->nullable();
             $table->text('description')->nullable();
+            $table->text('location')->nullable();
 
             //MONTOS
             $table->float('amount_total', 15, 2);
@@ -32,10 +33,18 @@ class CreateContractsTable extends Migration
             $table->date('date_signature')->nullable();
             $table->date('date_signature_covenant')->nullable();
             $table->date('date_finish_modified')->nullable();
-            
-            
+
+            $table->integer('type');
+
             $table->boolean('active')->default(false);
             $table->boolean('split_catalog')->default(false);
+
+            $table->text('signature_1')->nullable();
+            $table->text('signature_2')->nullable();
+            $table->text('signature_3')->nullable();
+            $table->text('signature_4')->nullable();
+            $table->text('signature_5')->nullable();
+            $table->text('signature_6')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
