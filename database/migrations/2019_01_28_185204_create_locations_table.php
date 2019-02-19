@@ -24,6 +24,7 @@ class CreateLocationsTable extends Migration
             $table->foreign('contract_id')->references('id')->on('contracts')->onDelete('cascade');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

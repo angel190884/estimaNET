@@ -29,7 +29,9 @@ class CreateConceptsTable extends Migration
             $table->enum            ('type',['N','EXC','EXT'])->default('N');
 
             $table->boolean         ('immovable')->default(true);
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

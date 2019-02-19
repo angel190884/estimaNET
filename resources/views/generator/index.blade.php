@@ -67,10 +67,10 @@
                                     <th class="text-left">Código</th>
                                     <th class="d-none d-md-table-cell">Concepto</th>
                                     <th class="d-none d-md-table-cell">Ubicación</th>
-                                    <th>U.M.</th>
-                                    <th>Tipo</th>
-                                    <th>Cantidad</th>
-                                    <th>125%</th>
+                                    <th class="d-none d-md-table-cell">U.M.</th>
+                                    <th class="d-none d-sm-table-cell">Tipo</th>
+                                    <th class="d-none d-sm-table-cell">Cantidad</th>
+                                    <th class="d-none d-sm-table-cell">125%</th>
                                     <th>Acumulado</th>
                                     <th>Total</th>
                                     <th>Acciones</th>
@@ -82,20 +82,20 @@
                                         <th class="text-left">{{ $generator->concept->code }}</th>
                                         <td class="d-none d-md-table-cell"><small>{{ $generator->concept->nameOk }}</small></td>
                                         <td class="d-none d-md-table-cell"><small>{{ $generator->concept->locationOk }}</small></td>
-                                        <td>{{ $generator->concept->measurementUnitOk }}</td>
-                                        <td>{{ $generator->concept->type }}</td>
-                                        <td>{{ $generator->concept->quantityOk }}</td>
-                                        <td>{{ $generator->concept->quantityMax }}</td>
-                                        <td>{{ $generator->lastTotalOk }}</td>
+                                        <td class="d-none d-md-table-cell">{{ $generator->concept->measurementUnitOk }}</td>
+                                        <td class="d-none d-sm-table-cell">{{ $generator->concept->type }}</td>
+                                        <td class="d-none d-sm-table-cell">{{ $generator->concept->quantityOk }}</td>
+                                        <td class="d-none d-sm-table-cell">{{ $generator->concept->quantityMaxOk }}</td>
+                                        <td>{{ $generator->lastQuantityOk }}</td>
                                         <td class="{{ $generator->validate() ? 'bg-primary' : 'bg-danger' }} text-white">{{ $generator->quantityOk }}</td>
 
                                         <td class="text-center">
                                             @if($generator->estimate->contract->split_catalog)
-                                                <a href="#" data-toggle="modal" data-target="#separate{{$generator->id}}"><i class="fas fa-align-left"></i></a>
+                                                <a href="#" data-toggle="modal" data-target="#separate{{ $generator->id }}"><i class="fas fa-align-left"></i></a>
                                             @elseif(!$generator->estimate->contract->split_catalog)
-                                                <a href="#" data-toggle="modal" data-target="#update{{$generator->id}}"><i class="fas fa-edit"></i></a>
+                                                <a href="#" data-toggle="modal" data-target="#update{{ $generator->id }}"><i class="fas fa-edit"></i></a>
                                             @endif
-                                            <a href="#" data-toggle="modal" data-target="#destroy{{$generator->id}}"><i class="fas fa-trash-alt text-danger"></i></a>
+                                            <a href="#" data-toggle="modal" data-target="#destroy{{ $generator->id }}"><i class="fas fa-trash-alt text-danger"></i></a>
                                         </td>
                                     </tr>
 
@@ -103,7 +103,7 @@
                                     <div class="modal fade" id="update{{$generator->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
-                                                <form action="{{ route('generator.update',$generator->id) }}" method="POST">
+                                                <form action="{{ route('generator.update',$generator) }}" method="POST">
                                                     @method('PUT')
                                                     @csrf
                                                     <div class="modal-header">
@@ -113,6 +113,7 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
+                                                        <p class="text-danger">Cantidad máxima <mark>{{ $generator->maximumQuantityPossibleOk }}</mark> posible.</p>
                                                         <input name=quantity type="number" class="form-control" value="{{ $generator->quantity }}" step='0.000001'>
                                                     </div>
                                                     <div class="modal-footer">
@@ -126,7 +127,7 @@
 
                                     <!-- Modal separate-->
                                     <div class="modal fade" id="separate{{$generator->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
+                                        <div class="modal-dialog modal-lg" role="document">
                                             <div class="modal-content">
                                                 <form action="{{ route('subGenerator.update',$generator) }}" method="POST">
                                                     @method('PUT')
@@ -137,28 +138,26 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-
-                                                    @forelse($generator->subGenerators()->get()->sortBy('location.name') as $subGenerator)
-                                                        <div class="modal-body">
-                                                            <div class="form-row mt-4">
+                                                    <div class="modal-body">
+                                                        <p class="text-danger">Cantidad máxima <mark>{{ $generator->maximumQuantityPossibleOk }}</mark> posible.</p>
+                                                        @forelse($generator->subGenerators()->get()->sortBy('location.name') as $subGenerator)
+                                                            <div class="form-row mt-1">
                                                                 <div class="col-sm-12">
-                                                                    <label for="subGenerator{{ $subGenerator->id }}">{{ $subGenerator->location->name }}</label>
+
                                                                     <div class="input-group">
-                                                                        <div class="input-group-prepend"><span class="input-group-text text-body"><i class="font-weight-bold text-muted">=</i></span></div>
+                                                                        <div class="input-group-prepend"><span class="input-group-text text-body"><i class="font-weight-bold text-muted">{{ $subGenerator->location->name }}</i></span></div>
                                                                         <input name=quantitySubGenerator{{ $subGenerator->id }} id="subGenerator{{ $subGenerator->id }}" type="number" class="form-control" value="{{ $subGenerator->quantity }}" step='0.000001' required>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    @empty
-                                                        <div class="modal-body">
+                                                        @empty
                                                             <div class="form-row mt-4">
                                                                 <div class="col-sm-12">
                                                                     EL CATÁLOGO NO CONTIENE UBICACIONES PARA PODER DIVIDIR LOS CONCEPTOS.
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    @endforelse
+                                                        @endforelse
+                                                    </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                                                         <button type="submit" class="btn btn-primary">Salvar cambios</button>

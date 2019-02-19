@@ -9,11 +9,11 @@
                         <div class="container-fluid m-auto p-0">
                             <div class="row">
                                 <div class="col-sm-12 col-md-5">
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#add">
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#addLocation">
                                         <i class="fas fa-plus"></i>
                                     </button> Frentes
                                     <!-- Modal add-->
-                                    <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="addLocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <form action="{{ route('location.store') }}" method="POST">

@@ -27,6 +27,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('contract', 'ContractController')->middleware('auth');
 Route::resource('estimate', 'EstimateController')->middleware('auth');
+
 Route::resource('concept', 'ConceptController')->middleware('auth');
 
 Route::resource('generator', 'GeneratorController');
@@ -35,3 +36,5 @@ Route::get 		('generatorList/{estimate}', ['as' 	=>	'generator.list', 'uses'	=>	
 Route::resource('subGenerator', 'SubGeneratorController');
 
 Route::resource('location', 'LocationController');
+
+Route::prefix('report')->get('cumulativeControl/{estimate}',['as' => 'report.cumulativeControl', 'uses' => 'ReportController@cumulativeControl']);

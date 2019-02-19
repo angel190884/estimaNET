@@ -12,7 +12,7 @@ $factory->define(Concept::class, function (Faker $faker) {
         'name'  			=>  strtoupper($faker->sentence($nbWords = 6, $variableNbWords = true)),
         'measurement_unit' 	=>  strtoupper($faker->randomElement(['M','M2','M3'])),
         'quantity' 			=>	$faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 100),
-        'unit_price' 		=>  $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 100000),
-        'type'              =>  strtoupper($faker->randomElement(['N','EXC','EXT'])),
+        'unit_price' 		=>  $faker->randomFloat($nbMaxDecimals = 2, $min = 90, $max = 100),
+        'type'              =>  strtoupper($faker->randomElement(['N'])),//(['N','EXC','EXT'])
     ];
 });

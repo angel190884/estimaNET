@@ -2,6 +2,7 @@
 
 use App\Concept;
 use App\Contract;
+use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
 
 class ConceptsTableSeeder extends Seeder
@@ -11,13 +12,17 @@ class ConceptsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Faker $faker)
     {
         $contracts= Contract::all();
         foreach ($contracts as $contract){
-            factory(Concept::class,30)->create([
-                'contract_id' => $contract->id
-            ]);
+            for ($i=1;$i <= 5;$i++){
+                $location = strtoupper($faker->text($maxNbChars = 30));
+                factory(Concept::class,5)->create([
+                    'contract_id' => $contract->id,
+                    'location'  => $location
+                ]);
+            }
         }
     }
 }

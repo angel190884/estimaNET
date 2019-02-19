@@ -25,6 +25,7 @@ class CreateConceptEstimateTable extends Migration
             $table->float('quantity',15,6)->default(0);
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

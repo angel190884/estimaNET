@@ -23,6 +23,7 @@ class CreateCompanyContractTable extends Migration
             $table->foreign('contract_id')->references('id')->on('contracts');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

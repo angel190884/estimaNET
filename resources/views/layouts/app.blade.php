@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
+    @yield('stylesheets')
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -85,7 +86,7 @@
                                     @endcan
 
                                     @can('newConcept')
-                                        <a class="dropdown-item" href="{{ route('concept.create') }}">Agregar concepto</a>
+                                            <a class="dropdown-item" href="{{ route('concept.create') }}">Agregar concepto</a>
                                     @endcan
                                 </div>
                             </li>
@@ -103,7 +104,7 @@
                                     @endcan
 
                                     @can('newLocation')
-                                        <a class="dropdown-item" href="{{ route('location.create') }}">Agregar frente</a>
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addLocation">Agregar frente</a>
                                     @endcan
                                 </div>
                             </li>
@@ -183,5 +184,6 @@
             </div>
         </footer>
     </div>
+    @yield('scripts')
 </body>
 </html>

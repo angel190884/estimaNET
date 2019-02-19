@@ -82,22 +82,27 @@
                                         <div class="form-group">
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label">
-                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeOrdinary" value="N" {{(old('type') == 'N') ? 'checked' : ''}}> Normal
+                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeOrdinary" value="1" {{(old('type') == '1') ? 'checked' : ''}}> Normal
                                                 </label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label">
-                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeExtraordinary" value="EXT" {{(old('type') == 'EXT' | null ) ? 'checked' : ''}}> Extraordinaria
+                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeExtraordinary" value="2" {{(old('type') == '2' | null ) ? 'checked' : ''}}> Extraordinaria
                                                 </label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label">
-                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeEnd" value="EXC" {{(old('type') == 'EXC' | null ) ? 'checked' : ''}}> Final
+                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeEnd" value="3" {{(old('type') == '3' | null ) ? 'checked' : ''}}> Final
                                                 </label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label">
-                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeCombinedEnd" value="4" {{(old('type') == '4' | null ) ? 'checked' : ''}}> Final combinada
+                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeCombinedEnd" value="4" {{(old('type') == '4' | null ) ? 'checked' : ''}}> Combinada
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeCombinedEnd" value="5" {{(old('type') == '5' | null ) ? 'checked' : ''}}> Combinada final
                                                 </label>
                                             </div>
                                         </div>

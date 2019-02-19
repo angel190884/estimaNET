@@ -14,9 +14,7 @@ class ContractsTableSeeder extends Seeder
     public function run(Faker $faker)
     {
         for ($i=0;$i <= 10;$i++){
-            factory(Contract::class)->create([
-                'short_name' => $faker->numerify('####')
-            ]);
+            factory(Contract::class)->create();
         }
 
         //Bouncer::allow('admin')->everything();

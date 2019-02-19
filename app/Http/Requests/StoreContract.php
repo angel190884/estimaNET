@@ -26,6 +26,9 @@ class StoreContract extends FormRequest
         return [
             'code'          => 'alpha_num|min:15|max:15|required',
             'short_name'     => 'numeric|required',
+            'name'          => 'required|min:3',
+            'description'   => 'max:500',
+            'location'      => 'required|max:500',
 
             'amount_total'        => 'numeric|required',
             'amount_anticipated'   => 'numeric|nullable',
@@ -38,13 +41,19 @@ class StoreContract extends FormRequest
             'date_signature_covenant'   => 'date|nullable',
             'date_finish_modified'      => 'date|nullable',
 
-            'name'          => 'required|min:3',
-            'description'   => 'max:500',
+            'type'          => 'required|numeric',
 
             'active'        => 'boolean|required',
             'split_catalog' => 'boolean|required',
 
             'company'       => 'numeric|nullable',
+
+            'signature1'    => 'string|nullable',
+            'signature2'    => 'string|nullable',
+            'signature3'    => 'string|nullable',
+            'signature4'    => 'string|nullable',
+            'signature5'    => 'string|nullable',
+            'signature6'    => 'string|nullable',
         ];
     }
 }

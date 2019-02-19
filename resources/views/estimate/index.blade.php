@@ -28,7 +28,7 @@
                                                     </select>
                                                     @include('layouts.components.alert.field', ['field' => 'code'])
                                                 </div>
-                                                <!--<input name="code" type="text" value="{{ old('code') }}" class="form-control" placeholder="Filtrar Estimaciones por contrato">-->
+                                            <!--<input name="code" type="text" value="{{ old('code') }}" class="form-control" placeholder="Filtrar Estimaciones por contrato">-->
                                             </div>
                                             <div class="col-auto">
                                                 <button class="btn btn-outline-success"><i class="fas fa-search"></i></button>
@@ -50,8 +50,8 @@
                             <table class="table table-hover table-striped">
                                 <thead class="thead-dark">
                                 <tr>
-                                    <th>id sistema</th>
-                                    <th>Contrato</th>
+                                    <th class="d-none d-md-table-cell">id sistema</th>
+                                    <th class="d-none d-md-table-cell">Contrato</th>
                                     <th># Estimación</th>
                                     <th>Tipo</th>
                                     <th>Inicio</th>
@@ -61,27 +61,28 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse(auth()->user()->contracts()->code($request->get('code'))->get() as $contract)
-                                        @forelse($contract->estimates()->orderBy('number','asc')->get() as $estimate)
-                                            <tr>
-                                                <th class="d-none d-md-table-cell">sys_{{ $estimate->id }}</th>
-                                                <td class="d-none d-md-table-cell">{{ $contract->short_name }}</td>
-                                                <th>{{ $estimate->number }}</th>
-                                                <td>{{ $estimate->typeOk }}</td>
-                                                <td>{{ $estimate->startOk }}</td>
-                                                <td>{{ $estimate->finishOk }}</td>
-                                                <td>{{ $estimate->releaseOk }}</td>
-                                                <td>
-                                                    <a href="{{ route('estimate.edit',$estimate) }}"><i class="fas fa-edit"></i></a>
-                                                    <a href="{{ route('generator.list',$estimate) }}"><i class="fas fa-clipboard-list"></i></a>
-                                                </td>
-                                            </tr>
-                                        @empty
-                                            <p class="text-danger">NO SE ENCONTRARON ESTIMACIONES</p>
-                                        @endforelse
+                                @forelse(auth()->user()->contracts()->code($request->get('code'))->get() as $contract)
+                                    @forelse($contract->estimates()->orderBy('number','asc')->get() as $estimate)
+                                        <tr>
+                                            <th class="d-none d-md-table-cell">sys_{{ $estimate->id }}</th>
+                                            <td class="d-none d-md-table-cell">{{ $contract->short_name }}</td>
+                                            <th>{{ $estimate->number }}</th>
+                                            <td>{{ $estimate->typeOk }}</td>
+                                            <td>{{ $estimate->startOk }}</td>
+                                            <td>{{ $estimate->finishOk }}</td>
+                                            <td>{{ $estimate->releaseOk }}</td>
+                                            <td>
+                                                <a href="{{ route('estimate.edit',$estimate) }}"><i class="fas fa-edit"></i></a>
+                                                <a href="{{ route('generator.list',$estimate) }}"><i class="fas fa-clipboard-list"></i></a>
+                                                <a href="{{ route('report.cumulativeControl',$estimate) }}"><i class="fas fa-clipboard-check bg-danger text-white"></i></a>
+                                            </td>
+                                        </tr>
                                     @empty
-                                        <p class="text-danger">NO SE ENCONTRARON CONTRATOS ASIGNADOS</p>
+                                        <p class="text-danger">NO SE ENCONTRARON ESTIMACIONES</p>
                                     @endforelse
+                                @empty
+                                    <p class="text-danger">NO SE ENCONTRARON CONTRATOS ASIGNADOS</p>
+                                @endforelse
                                 </tbody>
                             </table>
                         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Estimate;
 use App\Generator;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreGenerator;
 use App\Http\Requests\UpdateGenerator;
@@ -66,7 +67,9 @@ class GeneratorController extends Controller
 
         $locations=$estimate->contract->locations()->get();
 
-        $generator->locations()->attach($locations);
+        $generator->locations()->attach($locations, [
+            'created_at' => Carbon::now()
+        ]);
 
         session()->flash('success','El generador, se añadio correctamente.');
         return redirect(route('generator.list', $estimate->id));
@@ -105,8 +108,19 @@ class GeneratorController extends Controller
     {
         $generator = Generator::find($id);
 
-        if (($generator->lastTotal + $request->quantity) > $generator->concept->quantityMax ){
-            $exceededQuantity = number_format(($generator->lastTotal + $request->quantity) - $generator->concept->quantityMax,6,'.',',');
+        if (round(
+                $generator->lastQuantity + $request->quantity,
+                6,
+                PHP_ROUND_HALF_DOWN)
+            >
+            round(
+                $generator->concept->quantityMax,
+                6,
+                PHP_ROUND_HALF_DOWN)
+        ){
+            $exceededQuantity = round(
+                round($generator->lastQuantity + $request->quantity, 6, PHP_ROUND_HALF_DOWN) -
+                round($generator->concept->quantityMax, 6, PHP_ROUND_HALF_DOWN),6,PHP_ROUND_HALF_DOWN);
             session()->flash('danger',"El acumulado anterior + la nueva cantidad, excede del 125% por $exceededQuantity de la cantidad permitida del concepto favor de revisar!!!");
             return redirect(route('generator.list', $generator->estimate->id));
         }
