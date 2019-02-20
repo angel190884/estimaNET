@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Contract;
 use App\Location;
 use Illuminate\Database\Seeder;
 
