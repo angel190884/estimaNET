@@ -294,7 +294,7 @@
             @endforeach
             <tr>
                 <th colspan="11" class="contentSubtotalAditivas">
-                    SubTotal:&nbsp;&nbsp;${{ $location['subTotalAdditions'] }}
+                    SubTotal:&nbsp;&nbsp;{{ $location['subTotalAdditions'] }}
                 </th>
             </tr>
             @if(count($location['deductions']) > 0)
@@ -329,20 +329,20 @@
                 @endforeach
                 <tr>
                     <th colspan="11" class="contentSubtotalAditivas">
-                        SubTotal Deductivas:&nbsp;&nbsp;${{ $location['subTotalDeductions'] }}
+                        SubTotal Deductivas:&nbsp;&nbsp;{{ $location['subTotalDeductions'] }}
                     </th>
                 </tr>
             @endif
             <tr>
                 <th colspan="11" class="contentSubtotalAditivas">
-                    TOTAL {{ $location['location'] }}:&nbsp;&nbsp;${{ $location['subTotal'] }}
+                    TOTAL {{ $location['location'] }}:&nbsp;&nbsp;{{ $location['subTotal'] }}
                 </th>
             </tr>
         @endforeach
         @if($estimate->retention != 0)
             <tr>
                 <td colspan="11" class="contentSubtotalAditivas">
-                    RETENCIÓN Y/O DEVOLUCIÓN: ${{ number_format($estimate->retention ,2,'.',',') }}
+                    RETENCIÓN Y/O DEVOLUCIÓN: {{ number_format($estimate->retention ,2,'.',',') }}
                 </td>
             </tr>
         @endif

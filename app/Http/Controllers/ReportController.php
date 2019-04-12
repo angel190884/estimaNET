@@ -225,9 +225,9 @@ class ReportController extends Controller
                 'address'           =>$location->address,
                 'additions'          =>$additions,
                 'deductions'        =>$deductions,
-                'subTotalAdditions' =>$subTotalAdditions,
-                'subTotalDeductions'=>$subTotalDeductions,
-                'subTotal'          =>$subTotalAdditions+$subTotalDeductions,
+                'subTotalAdditions' => Generator::formatCash($subTotalAdditions),
+                'subTotalDeductions'=> Generator::formatCash($subTotalDeductions),
+                'subTotal'          => Generator::formatCash($subTotalAdditions+$subTotalDeductions),
 
             ]),$location->name);
         }
