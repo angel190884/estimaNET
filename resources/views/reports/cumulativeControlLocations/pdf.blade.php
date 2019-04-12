@@ -348,7 +348,7 @@
         @endif
         <tr>
             <td colspan="11" class="contentTotalEstimate">
-                TOTAL: ${{ number_format($total ,2,'.',',') }}
+                TOTAL: ${{ number_format($estimate->totalEstimateAmount ,2,'.',',') }}
             </td>
         </tr>
     </table>

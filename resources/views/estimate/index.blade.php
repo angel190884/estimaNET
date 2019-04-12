@@ -72,10 +72,14 @@
                                             <td>{{ $estimate->finishOk }}</td>
                                             <td>{{ $estimate->releaseOk }}</td>
                                             <td>
-                                                <a href="{{ route('estimate.edit',$estimate) }}"><i class="fas fa-edit"></i></a>
-                                                <a href="{{ route('generator.list',$estimate) }}"><i class="fas fa-clipboard-list"></i></a>
-                                                <a href="{{ route('report.cumulativeControl',$estimate) }}" target="_blank"><i class="fas fa-clipboard-check bg-danger text-white"></i></a>
-                                                <a href="{{ route('report.cumulativeControlLocations',$estimate) }}" target="_blank"><i class="fas fa-clipboard-check bg-warning text-white"></i></a>
+                                                <a href="{{ route('estimate.edit',$estimate) }}" class="btn btn-light btn-sm" role="button"><i class="fas fa-edit fa-2x"></i></a>
+                                                <a href="{{ route('generator.list',$estimate) }}" class="btn btn-light btn-sm" role="button"><i class="fas fa-clipboard-list fa-2x"></i></a>
+
+                                                @if($contract->split_catalog)
+                                                    <a href="{{ route('report.cumulativeControlLocations',$estimate) }}" target="_blank" class="btn btn-light btn-sm" role="button"><i class="fas fa-file-pdf bg-danger text-white fa-2x"></i>CTRL ACUM</a>
+                                                @else
+                                                    <a href="{{ route('report.cumulativeControl',$estimate) }}" target="_blank" class="btn btn-light btn-sm" role="button"><i class="fas fa-file-pdf bg-danger text-white fa-2x"></i>CTRL ACUM</a>
+                                                @endif
                                             </td>
                                         </tr>
                                     @empty

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Estimate;
+use App\Generator;
 use App\SubGenerator;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
@@ -135,32 +136,32 @@ class ReportController extends Controller
                 if(array_key_exists($subGenerator->generator->concept->code,$array)){
 
 
-                    $subGenerator->setAttribute('acumuladoAnterior',$array[$subGenerator->generator->concept->code]);
-                    $subGenerator->setAttribute('acumuladoActual',$array[$subGenerator->generator->concept->code] + ($subGenerator->generator->lastQuantity + $subGenerator->quantity));
-                    $subGenerator->setAttribute('importeAnterior',round($unitPrice * $array[$subGenerator->generator->concept->code],2));
-                    $subGenerator->setAttribute('importeActual',round($unitPrice * $subGenerator->quantity,2));
-                    $subGenerator->setAttribute('importeAcumulado',
-                        (round($unitPrice * $array[$subGenerator->generator->concept->code],2))+
-                        (round($unitPrice * $subGenerator->quantity,2))
-                    );
+                    $subGenerator->setAttribute('acumuladoAnterior',Generator::format($array[$subGenerator->generator->concept->code]));
+                    $subGenerator->setAttribute('acumuladoActual',Generator::format($array[$subGenerator->generator->concept->code] + ($subGenerator->generator->lastQuantity + $subGenerator->quantity)));
+                    $subGenerator->setAttribute('importeAnterior',Generator::formatCash(round($unitPrice * $array[$subGenerator->generator->concept->code],2,PHP_ROUND_HALF_DOWN)));
+                    $subGenerator->setAttribute('importeActual',Generator::formatCash(round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN)));
+                    $subGenerator->setAttribute('importeAcumulado',Generator::formatCash(
+                        (round($unitPrice * $array[$subGenerator->generator->concept->code],2,PHP_ROUND_HALF_DOWN))+
+                        (round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN))
+                    ));
                     //sumarle el valor de total y grabarlo en el arreglo
                     $array[$subGenerator->generator->concept->code] += ($subGenerator->generator->lastQuantity + $subGenerator->quantity);
 
                 }else{
                     //agregar valor a array si no existe aun
                         $array[$subGenerator->generator->concept->code]=$subGenerator->generator->lastQuantity + $subGenerator->quantity;
-                    $subGenerator->setAttribute('acumuladoAnterior',$subGenerator->generator->lastQuantity);
-                    $subGenerator->setAttribute('acumuladoActual',$subGenerator->generator->lastQuantity + $subGenerator->quantity);
-                    $subGenerator->setAttribute('importeAnterior',round($unitPrice * $subGenerator->generator->lastQuantity,2));
-                    $subGenerator->setAttribute('importeActual',round($unitPrice * $subGenerator->quantity,2));
-                    $subGenerator->setAttribute('importeAcumulado',
-                        (round($unitPrice * $subGenerator->generator->lastQuantity,2))+
-                        (round($unitPrice * $subGenerator->quantity,2))
-                    );
+                    $subGenerator->setAttribute('acumuladoAnterior',Generator::format($subGenerator->generator->lastQuantity));
+                    $subGenerator->setAttribute('acumuladoActual',Generator::format($subGenerator->generator->lastQuantity + $subGenerator->quantity));
+                    $subGenerator->setAttribute('importeAnterior',Generator::formatCash(round($unitPrice * $subGenerator->generator->lastQuantity,2,PHP_ROUND_HALF_DOWN)));
+                    $subGenerator->setAttribute('importeActual',Generator::formatCash(round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN)));
+                    $subGenerator->setAttribute('importeAcumulado',Generator::formatCash(
+                        (round($unitPrice * $subGenerator->generator->lastQuantity,2,PHP_ROUND_HALF_DOWN))+
+                        (round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN))
+                    ));
                 }
 
-                $subTotalAdditions += round($unitPrice * $subGenerator->quantity,2);
-                $total += round($unitPrice * $subGenerator->quantity,2);
+                $subTotalAdditions += round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN);
+                $total += round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN);
                 //dump($subTotalAdditions);
             }
 
@@ -190,31 +191,31 @@ class ReportController extends Controller
 
 
 
-                        $subGenerator->setAttribute('acumuladoAnterior',$array[$subGenerator->generator->concept->code]);
-                        $subGenerator->setAttribute('acumuladoActual',$array[$subGenerator->generator->concept->code] + ($subGenerator->generator->lastQuantity + $subGenerator->quantity));
-                        $subGenerator->setAttribute('importeAnterior',round($unitPrice * $array[$subGenerator->generator->concept->code],2));
-                        $subGenerator->setAttribute('importeActual',round($unitPrice * $subGenerator->quantity,2));
-                        $subGenerator->setAttribute('importeAcumulado',
-                            (round($unitPrice * $array[$subGenerator->generator->concept->code],2))+
-                            (round($unitPrice * $subGenerator->quantity,2))
-                        );
+                        $subGenerator->setAttribute('acumuladoAnterior',Generator::format($array[$subGenerator->generator->concept->code]));
+                        $subGenerator->setAttribute('acumuladoActual',Generator::format($array[$subGenerator->generator->concept->code] + ($subGenerator->generator->lastQuantity + $subGenerator->quantity)));
+                        $subGenerator->setAttribute('importeAnterior',Generator::formatCash(round($unitPrice * $array[$subGenerator->generator->concept->code],2,PHP_ROUND_HALF_DOWN)));
+                        $subGenerator->setAttribute('importeActual',Generator::formatCash(round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN)));
+                        $subGenerator->setAttribute('importeAcumulado',Generator::formatCash(
+                            (round($unitPrice * $array[$subGenerator->generator->concept->code],2,PHP_ROUND_HALF_DOWN))+
+                            (round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN))
+                        ));
                         //sumarle el valor de total y grabarlo en el arreglo
                         $array[$subGenerator->generator->concept->code] += ($subGenerator->generator->lastQuantity + $subGenerator->quantity);
                     }else{
                         //agregar valor a array si no existe aun
                         $array[$subGenerator->generator->concept->code]=$subGenerator->generator->lastQuantity + $subGenerator->quantity;
-                        $subGenerator->setAttribute('acumuladoAnterior',$subGenerator->generator->lastQuantity);
-                        $subGenerator->setAttribute('acumuladoActual',$subGenerator->generator->lastQuantity + $subGenerator->quantity);
-                        $subGenerator->setAttribute('importeAnterior',round($unitPrice * $subGenerator->generator->lastQuantity,2));
-                        $subGenerator->setAttribute('importeActual',round($unitPrice * $subGenerator->quantity,2));
-                        $subGenerator->setAttribute('importeAcumulado',
-                            (round($unitPrice * $subGenerator->generator->lastQuantity,2))+
-                            (round($unitPrice * $subGenerator->quantity,2))
-                        );
+                        $subGenerator->setAttribute('acumuladoAnterior',Generator::format($subGenerator->generator->lastQuantity));
+                        $subGenerator->setAttribute('acumuladoActual',Generator::format($subGenerator->generator->lastQuantity + $subGenerator->quantity));
+                        $subGenerator->setAttribute('importeAnterior',Generator::formatCash(round($unitPrice * $subGenerator->generator->lastQuantity,2,PHP_ROUND_HALF_DOWN)));
+                        $subGenerator->setAttribute('importeActual',Generator::formatCash(round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN)));
+                        $subGenerator->setAttribute('importeAcumulado',Generator::formatCash(
+                            (round($unitPrice * $subGenerator->generator->lastQuantity,2,PHP_ROUND_HALF_DOWN))+
+                            (round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN))
+                        ));
                     }
 
-                    $subTotalDeductions += round($unitPrice * $subGenerator->quantity,2);
-                    $total += round($unitPrice * $subGenerator->quantity,2);
+                    $subTotalDeductions += round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN);
+                    $total += round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN);
                 }
             }
 

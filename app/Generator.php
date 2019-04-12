@@ -141,6 +141,7 @@ class Generator extends Model
         return '$' . $this->format($this->getLastAmountAttribute());
     }
 
+
     public function getAccumulatedAmountAttribute()
     {
         return '$' . $this->format($this->getLastAmountAttribute() + $this->getAmountAttribute());
@@ -153,7 +154,7 @@ class Generator extends Model
             round($this->getLastQuantityAttribute(),6,PHP_ROUND_HALF_DOWN),6, PHP_ROUND_HALF_DOWN);
     }
 
-    private function format($number)
+    static function format($number)
     {
         $numbers= explode(".", $number);
         if ( ! isset($numbers[1])) {
@@ -164,5 +165,9 @@ class Generator extends Model
         }else {
             return number_format($numbers[0],0,'.',',').'.'.$numbers[1];
         }
+    }
+    static function formatCash($number)
+    {
+        return '$' . Generator::format($number);
     }
 }

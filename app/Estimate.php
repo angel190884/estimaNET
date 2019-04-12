@@ -141,9 +141,19 @@ class Estimate extends Model
             $total=0;
             if ( $estimate->contract->type == 1 )
             {
-                foreach ($estimate->generators as $generator)
-                {
-                    $total+=round($generator->quantity * $generator->concept->unit_price,2,PHP_ROUND_HALF_DOWN);
+                if ($estimate->contract->split_catalog){
+                    $subGenerators = collect();
+                    foreach ($estimate->generators as $generator){
+                        $subGenerators->push($generator->subGenerators);
+                    }
+                    foreach ($subGenerators->collapse()->sortBy('location.name') as $subGenerator){
+                        $total+=round($subGenerator->quantity * $subGenerator->generator->concept->unit_price,2,PHP_ROUND_HALF_DOWN);
+                    }
+
+                }else{
+                    foreach ($estimate->generators as $generator){
+                        $total+=round($generator->quantity * $generator->concept->unit_price,2,PHP_ROUND_HALF_DOWN);
+                    }
                 }
             }elseif ($estimate->contract->type == 2) {
                 if($this->start >= $this->contract->date_finish_modified){
@@ -151,8 +161,7 @@ class Estimate extends Model
                 }else{
                     $unitPrice=$this->contract->originalAmount/100;
                 }
-                foreach ($estimate->generators as $generator)
-                {
+                foreach ($estimate->generators as $generator){
                     if ($generator->concept->immovable==false){
                         $total+=round($generator->quantity * ($unitPrice),2, PHP_ROUND_HALF_DOWN);
                     }else{
@@ -165,9 +174,19 @@ class Estimate extends Model
         $total=0;
         if ( $this->contract->type == 1)
         {
-            foreach ( $this->generators as $generator )
-            {
-                $total+=round($generator->quantity * $generator->concept->unit_price,2, PHP_ROUND_HALF_DOWN);
+            if ($this->contract->split_catalog){
+                $subGenerators = collect();
+                foreach ($this->generators as $generator){
+                    $subGenerators->push($generator->subGenerators);
+                }
+                foreach ($subGenerators->collapse()->sortBy('location.name') as $subGenerator){
+                    $total += round($subGenerator->quantity * $subGenerator->generator->concept->unit_price,2,PHP_ROUND_HALF_DOWN);
+                }
+
+            }else{
+                foreach ( $this->generators as $generator ){
+                    $total+=round($generator->quantity * $generator->concept->unit_price,2, PHP_ROUND_HALF_DOWN);
+                }
             }
         }elseif ( $this->contract->type == 2 ) {
             if($this->start >= $this->contract->date_finish_modified){
