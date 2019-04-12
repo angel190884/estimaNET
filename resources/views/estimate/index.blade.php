@@ -74,7 +74,8 @@
                                             <td>
                                                 <a href="{{ route('estimate.edit',$estimate) }}"><i class="fas fa-edit"></i></a>
                                                 <a href="{{ route('generator.list',$estimate) }}"><i class="fas fa-clipboard-list"></i></a>
-                                                <a href="{{ route('report.cumulativeControl',$estimate) }}"><i class="fas fa-clipboard-check bg-danger text-white"></i></a>
+                                                <a href="{{ route('report.cumulativeControl',$estimate) }}" target="_blank"><i class="fas fa-clipboard-check bg-danger text-white"></i></a>
+                                                <a href="{{ route('report.cumulativeControlLocations',$estimate) }}" target="_blank"><i class="fas fa-clipboard-check bg-warning text-white"></i></a>
                                             </td>
                                         </tr>
                                     @empty

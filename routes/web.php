@@ -38,3 +38,4 @@ Route::resource('subGenerator', 'SubGeneratorController');
 Route::resource('location', 'LocationController');
 
 Route::prefix('report')->get('cumulativeControl/{estimate}',['as' => 'report.cumulativeControl', 'uses' => 'ReportController@cumulativeControl']);
+Route::prefix('report')->get('cumulativeControlLocations/{estimate}',['as' => 'report.cumulativeControlLocations', 'uses' => 'ReportController@cumulativeControlLocations']);

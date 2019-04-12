@@ -15,7 +15,7 @@ class ConceptEstimateTableSeeder extends Seeder
     {
         foreach (Contract::all() as $contract){
             foreach ($contract->estimates as $estimate){
-                foreach ($contract->concepts->random(20)->all() as $concept){
+                foreach ($contract->concepts->random(3)->all() as $concept){
                     $estimate->concepts()->attach($concept, [
                         'quantity' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = $concept->quantity * 1.25)
                     ]);

@@ -17,7 +17,7 @@ class LocationTableSeeder extends Seeder
         $contracts= Contract::where('split_catalog', true)->get();
 
         foreach ($contracts as $contract){
-            factory(Location::class,5)->create([
+            factory(Location::class,2)->create([
                 'contract_id' => $contract->id
             ]);
         }

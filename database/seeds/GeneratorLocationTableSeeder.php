@@ -19,10 +19,11 @@ class GeneratorLocationTableSeeder extends Seeder
         foreach ($contracts as $contract){
             foreach ($contract->estimates as $estimate){
                 foreach ($estimate->generators as $generator){
-                    $locations = Location::all()->random(5);
+                    $locations = Location::where('contract_id',$contract->id)->get();
                     foreach ($locations as $location){
+                        $rand=rand(0,1);
                         $generator->locations()->attach($location, [
-                            'quantity' => $faker->randomFloat($nbMaxDecimals = 2, $min = $generator->quantity / 5, $max = $generator->quantity / 5),
+                            'quantity' => ($rand) ? $faker->randomFloat($nbMaxDecimals = 2, $min = $generator->quantity / 5, $max = $generator->quantity / 5) : 0,
                             'created_at' => Carbon::now()
                         ]);
                     }

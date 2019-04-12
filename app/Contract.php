@@ -26,6 +26,7 @@ class Contract extends Model
         'date_signature',
         'date_signature_covenant',
         'date_finish_modified',
+        'type',
         'active',
         'split_catalog'
     ];
@@ -121,7 +122,19 @@ class Contract extends Model
             substr($this->code,-3,1)." ".
             substr($this->code,-2));
     }
-
+    public function getTypeOkAttribute()
+    {
+        switch ($this->type) {
+            case 1:
+                return 'builder';
+                break;
+            case 2:
+                return 'supervision';
+                break;
+            default:
+                return 'builder';
+        }
+    }
     //QUERY SCOPE
     public function scopeCode($query, $code)
     {
