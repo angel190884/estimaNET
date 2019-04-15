@@ -9,7 +9,7 @@
                         <div class="container-fluid m-auto p-0">
                             <div class="row">
                                 <div class="col-sm-12 col-md-6">
-                                    Conceptos
+                                    Conceptos @if($request->code) del contrato <span class="font-weight-bold">{{ $request->code }}</span> @endif
                                 </div>
                                 <div class="col-sm-12 col-md-6 text-md-right text-info hidden">
                                     <form action="{{ route('concept.index') }}" method="get">
@@ -65,23 +65,27 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach(auth()->user()->contracts()->code($request['code'])->get() as $contract)
-                                        @foreach($contract->concepts()->name($request['name'])->orderBy('name','desc')->get() as $concept)
-                                            <tr>
-                                                <th>{{ $concept->codeOk }}</th>
-                                                <td class="d-none d-lg-table-cell">{{ $concept->contract->codeOk }}</td>
-                                                <td class="d-none d-lg-table-cell">{{ $concept->location }}</td>
-                                                <td class="d-none d-lg-table-cell">{{ $concept->name }}</td>
-                                                <td class="d-none d-md-table-cell">{{ $concept->measurement_unit }}</td>
-                                                <td>{{ $concept->unitPriceOk }}</td>
-                                                <td>{{ $concept->quantityOk }}</td>
-                                                <td>{{ $concept->type }}</td>
-                                                <td>
-                                                    <a href="{{ route('concept.edit',$concept) }}"><i class="fas fa-edit fa-2x"></i></a>
-                                                </td>
-                                            </tr>
+                                    @if($request->get('code'))
+                                        @foreach(auth()->user()->contracts()->code($request['code'])->get() as $contract)
+                                            @foreach($contract->concepts()->name($request['name'])->orderBy('name','desc')->get() as $concept)
+                                                <tr>
+                                                    <th>{{ $concept->codeOk }}</th>
+                                                    <td class="d-none d-lg-table-cell">{{ $concept->contract->codeOk }}</td>
+                                                    <td class="d-none d-lg-table-cell">{{ $concept->location }}</td>
+                                                    <td class="d-none d-lg-table-cell">{{ $concept->name }}</td>
+                                                    <td class="d-none d-md-table-cell">{{ $concept->measurement_unit }}</td>
+                                                    <td>{{ $concept->unitPriceOk }}</td>
+                                                    <td>{{ $concept->quantityOk }}</td>
+                                                    <td>{{ $concept->type }}</td>
+                                                    <td>
+                                                        <a href="{{ route('concept.edit',$concept) }}"><i class="fas fa-edit fa-2x"></i></a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         @endforeach
-                                    @endforeach
+                                    @else
+                                        <p class="text-danger">SELECCIONA UN CONTRATO</p>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
