@@ -61,33 +61,37 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @forelse(auth()->user()->contracts()->code($request->get('code'))->get() as $contract)
-                                    @forelse($contract->estimates()->orderBy('number','asc')->get() as $estimate)
-                                        <tr>
-                                            <th class="d-none d-md-table-cell">sys_{{ $estimate->id }}</th>
-                                            <td class="d-none d-md-table-cell">{{ $contract->short_name }}</td>
-                                            <th>{{ $estimate->number }}</th>
-                                            <td>{{ $estimate->typeOk }}</td>
-                                            <td>{{ $estimate->startOk }}</td>
-                                            <td>{{ $estimate->finishOk }}</td>
-                                            <td>{{ $estimate->releaseOk }}</td>
-                                            <td>
-                                                <a href="{{ route('estimate.edit',$estimate) }}" class="btn btn-light btn-sm" role="button"><i class="fas fa-edit fa-2x"></i></a>
-                                                <a href="{{ route('generator.list',$estimate) }}" class="btn btn-light btn-sm" role="button"><i class="fas fa-clipboard-list fa-2x"></i></a>
+                                @if($request->get('code'))
+                                    @forelse(auth()->user()->contracts()->code($request->get('code'))->get() as $contract)
+                                        @forelse($contract->estimates()->orderBy('number','asc')->get() as $estimate)
+                                            <tr>
+                                                <th class="d-none d-md-table-cell">sys_{{ $estimate->id }}</th>
+                                                <td class="d-none d-md-table-cell">{{ $contract->short_name }}</td>
+                                                <th>{{ $estimate->number }}</th>
+                                                <td>{{ $estimate->typeOk }}</td>
+                                                <td>{{ $estimate->startOk }}</td>
+                                                <td>{{ $estimate->finishOk }}</td>
+                                                <td>{{ $estimate->releaseOk }}</td>
+                                                <td>
+                                                    <a href="{{ route('estimate.edit',$estimate) }}" class="btn btn-light btn-sm" role="button"><i class="fas fa-edit fa-2x"></i></a>
+                                                    <a href="{{ route('generator.list',$estimate) }}" class="btn btn-light btn-sm" role="button"><i class="fas fa-clipboard-list fa-2x"></i></a>
 
-                                                @if($contract->split_catalog)
-                                                    <a href="{{ route('report.cumulativeControlLocations',$estimate) }}" target="_blank" class="btn btn-light btn-sm" role="button"><i class="fas fa-file-pdf bg-danger text-white fa-2x"></i>CTRL ACUM</a>
-                                                @else
-                                                    <a href="{{ route('report.cumulativeControl',$estimate) }}" target="_blank" class="btn btn-light btn-sm" role="button"><i class="fas fa-file-pdf bg-danger text-white fa-2x"></i>CTRL ACUM</a>
-                                                @endif
-                                            </td>
-                                        </tr>
+                                                    @if($contract->split_catalog)
+                                                        <a href="{{ route('report.cumulativeControlLocations',$estimate) }}" target="_blank" class="btn btn-light btn-sm" role="button"><i class="fas fa-file-pdf bg-danger text-white fa-2x"></i>CTRL ACUM</a>
+                                                    @else
+                                                        <a href="{{ route('report.cumulativeControl',$estimate) }}" target="_blank" class="btn btn-light btn-sm" role="button"><i class="fas fa-file-pdf bg-danger text-white fa-2x"></i>CTRL ACUM</a>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <p class="text-danger">NO SE ENCONTRARON ESTIMACIONES</p>
+                                        @endforelse
                                     @empty
-                                        <p class="text-danger">NO SE ENCONTRARON ESTIMACIONES</p>
+                                        <p class="text-danger">NO SE ENCONTRARON CONTRATOS ASIGNADOS</p>
                                     @endforelse
-                                @empty
-                                    <p class="text-danger">NO SE ENCONTRARON CONTRATOS ASIGNADOS</p>
-                                @endforelse
+                                @else
+                                    <p class="text-danger">SELECCIONA UN CONTRATO</p>
+                                @endif
                                 </tbody>
                             </table>
                         </div>
