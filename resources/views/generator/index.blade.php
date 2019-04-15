@@ -66,13 +66,14 @@
                                 <tr>
                                     <th class="text-left">Código</th>
                                     <th class="d-none d-md-table-cell">Concepto</th>
-                                    <th class="d-none d-md-table-cell">Ubicación</th>
+                                    <th class="d-none d-md-table-cell">Frente de Catálogo</th>
                                     <th class="d-none d-md-table-cell">U.M.</th>
                                     <th class="d-none d-sm-table-cell">Tipo</th>
-                                    <th class="d-none d-sm-table-cell">Cantidad</th>
+                                    <th class="d-none d-sm-table-cell">Según Contrato </th>
                                     <th class="d-none d-sm-table-cell">125%</th>
-                                    <th>Acumulado</th>
-                                    <th>Total</th>
+                                    <th>Acum. Anterior</th>
+                                    <th>Esta Estimación</th>
+                                    <th>Acum. Actual</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
@@ -88,7 +89,7 @@
                                         <td class="d-none d-sm-table-cell">{{ $generator->concept->quantityMaxOk }}</td>
                                         <td>{{ $generator->lastQuantityOk }}</td>
                                         <td class="{{ $generator->validate() ? 'bg-primary' : 'bg-danger' }} text-white">{{ $generator->quantityOk }}</td>
-
+                                        <td>{{ $generator->accumulatedQuantityOk }}</td>
                                         <td class="text-center">
                                             @if($generator->estimate->contract->split_catalog)
                                                 <a href="#" data-toggle="modal" data-target="#separate{{ $generator->id }}"><i class="fas fa-align-left"></i></a>
