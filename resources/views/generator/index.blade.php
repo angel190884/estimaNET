@@ -15,7 +15,7 @@
                                     Generadores( <span class="font-weight-bold">{{ $estimate->generators->count() }}</span> ) de la estimacion ( <span class="font-weight-bold">{{ $estimate->number }}</span> ) del contrato <span class="font-weight-bold">{{ $estimate->contract->codeOk }}</span>
                                 </div>
                                 <div class="col-sm-12 col-md-6 text-right">
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#add">
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#add" title="Agregar Concepto">
                                         <i class="fas fa-plus"></i>
                                     </button>
                                     <!-- Modal add-->
@@ -92,11 +92,11 @@
                                         <td>{{ $generator->accumulatedQuantityOk }}</td>
                                         <td class="text-center">
                                             @if($generator->estimate->contract->split_catalog)
-                                                <a href="#" data-toggle="modal" data-target="#separate{{ $generator->id }}"><i class="fas fa-align-left"></i></a>
+                                                <a href="#" data-toggle="modal" data-target="#separate{{ $generator->id }}" title="Editar Cantidades"><i class="fas fa-align-left"></i></a>
                                             @elseif(!$generator->estimate->contract->split_catalog)
-                                                <a href="#" data-toggle="modal" data-target="#update{{ $generator->id }}"><i class="fas fa-edit"></i></a>
+                                                <a href="#" data-toggle="modal" data-target="#update{{ $generator->id }}" title="Editar Cantidad"><i class="fas fa-edit"></i></a>
                                             @endif
-                                            <a href="#" data-toggle="modal" data-target="#destroy{{ $generator->id }}"><i class="fas fa-trash-alt text-danger"></i></a>
+                                            <a href="#" data-toggle="modal" data-target="#destroy{{ $generator->id }}" title="Eliminar Concepto"><i class="fas fa-trash-alt text-danger"></i></a>
                                         </td>
                                     </tr>
 

@@ -9,7 +9,7 @@
                         <div class="container-fluid m-auto p-0">
                             <div class="row">
                                 <div class="col-sm-12 col-md-5">
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#addLocation">
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#addLocation" title="Agregar Frente">
                                         <i class="fas fa-plus"></i>
                                     </button> Frentes
                                     <!-- Modal add-->
@@ -91,7 +91,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-auto">
-                                                <button class="btn btn-outline-success"><i class="fas fa-search"></i></button>
+                                                <button class="btn btn-outline-success" title="Buscar Frentes"><i class="fas fa-search"></i></button>
                                             </div>
                                         </div>
                                     </form>
@@ -133,7 +133,7 @@
                                             <td class="d-none d-md-table-cell"><small>{{ $location->address }}</small></td>
 
                                             <td class="text-center">
-                                                <a href="#" data-toggle="modal" data-target="#destroy{{$location->id}}"><i class="fas fa-trash-alt text-danger"></i></a>
+                                                <a href="#" data-toggle="modal" data-target="#destroy{{$location->id}}" title="Eliminar Frente"><i class="fas fa-trash-alt text-danger"></i></a>
                                             </td>
                                         </tr>
 

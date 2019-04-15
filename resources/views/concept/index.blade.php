@@ -15,7 +15,7 @@
                                     <form action="{{ route('concept.index') }}" method="get">
                                         <div class="row">
                                             <div class="col-auto">
-                                                <a class="btn btn-primary" href="{{ route('concept.create') }}" role="button"><i class="fas fa-plus"></i></a>
+                                                <a class="btn btn-primary" href="{{ route('concept.create') }}" role="button" title="Agregar Concepto"><i class="fas fa-plus"></i></a>
                                             </div>
                                             <div class="col">
                                                 <label class="sr-only" for="conceptCode">Usuario</label>
@@ -34,7 +34,7 @@
                                                 <!--<input name="code" type="text" value="{{ old('code') }}" class="form-control" placeholder="Filtrar Estimaciones por contrato">-->
                                             </div>
                                             <div class="col-auto">
-                                                <button class="btn btn-outline-success"><i class="fas fa-search"></i></button>
+                                                <button class="btn btn-outline-success" title="Buscar Conceptos"><i class="fas fa-search"></i></button>
                                             </div>
                                         </div>
                                     </form>
@@ -78,7 +78,7 @@
                                                     <td>{{ $concept->quantityOk }}</td>
                                                     <td>{{ $concept->type }}</td>
                                                     <td>
-                                                        <a href="{{ route('concept.edit',$concept) }}"><i class="fas fa-edit fa-2x"></i></a>
+                                                        <a href="{{ route('concept.edit',$concept) }}" title="Editar Concepto"><i class="fas fa-edit fa-2x"></i></a>
                                                     </td>
                                                 </tr>
                                             @endforeach
