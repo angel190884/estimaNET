@@ -124,49 +124,53 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @forelse($locations as $location)
-                                    <tr>
-                                        <th class="text-left">sys-{{ $location->id }}</th>
-                                        <td class="d-none d-md-table-cell">{{ $location->contract->codeOk }}</td>
-                                        <td><small>{{ $location->name }}</small></td>
-                                        <td class="d-none d-md-table-cell"><small>{{ $location->address }}</small></td>
+                                @if(isset($locations))
+                                    @forelse($locations as $location)
+                                        <tr>
+                                            <th class="text-left">sys-{{ $location->id }}</th>
+                                            <td class="d-none d-md-table-cell">{{ $location->contract->codeOk }}</td>
+                                            <td><small>{{ $location->name }}</small></td>
+                                            <td class="d-none d-md-table-cell"><small>{{ $location->address }}</small></td>
 
-                                        <td class="text-center">
-                                            <a href="#" data-toggle="modal" data-target="#destroy{{$location->id}}"><i class="fas fa-trash-alt text-danger"></i></a>
-                                        </td>
-                                    </tr>
+                                            <td class="text-center">
+                                                <a href="#" data-toggle="modal" data-target="#destroy{{$location->id}}"><i class="fas fa-trash-alt text-danger"></i></a>
+                                            </td>
+                                        </tr>
 
-                                    <!-- Modal destroy-->
-                                    <div class="modal fade" id="destroy{{$location->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <form action="{{ route('location.destroy',$location->id) }}" method="POST">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Eliminar Frente</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p class="text-info">¿Estas completamente seguro de ELIMINAR este registro?</p>
-                                                        <p class="bg-warning">Si el registro a su vez está enlazado a algun generador se borraran, esta acción no es reversible y se eliminaran de forma permanente por lo cual debes de estar completamente seguro de lo que estas haciendo antes de continuar.</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                                        <button type="submit" class="btn btn-danger">Eliminar generador</button>
-                                                    </div>
-                                                </form>
+                                        <!-- Modal destroy-->
+                                        <div class="modal fade" id="destroy{{$location->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <form action="{{ route('location.destroy',$location->id) }}" method="POST">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Eliminar Frente</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="text-info">¿Estas completamente seguro de ELIMINAR este registro?</p>
+                                                            <p class="bg-warning">Si el registro a su vez está enlazado a algun generador se borraran, esta acción no es reversible y se eliminaran de forma permanente por lo cual debes de estar completamente seguro de lo que estas haciendo antes de continuar.</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                            <button type="submit" class="btn btn-danger">Eliminar generador</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @empty
-                                    <p class="text-danger">NO SE ENCONTRARON FRENTES EN ESTE CONTRATO. RECUERDA QUE ESTE
-                                        CONTRATO ES GENERAL Y DENTRO DEL CATÁLOGO SE DIVIDEN LOS FRENTES, ESTA SECCIÓN SOLO
-                                        ES PARA LOS CONTRATOS CATALOGADOS "POR FRENTES" Y QUE SU CATÁLOGO NO CORRESPONDE A
-                                        LOS FRENTES REALES</p>
-                                @endforelse
+                                    @empty
+                                        <p class="text-danger">NO SE ENCONTRARON FRENTES EN ESTE CONTRATO. RECUERDA QUE ESTE
+                                            CONTRATO ES GENERAL Y DENTRO DEL CATÁLOGO SE DIVIDEN LOS FRENTES, ESTA SECCIÓN SOLO
+                                            ES PARA LOS CONTRATOS CATALOGADOS "POR FRENTES" Y QUE SU CATÁLOGO NO CORRESPONDE A
+                                            LOS FRENTES REALES</p>
+                                    @endforelse
+                                @else
+                                    <p CLASS="text-danger">DEBES SELECCIONAR UN CONTRATO </p>
+                                @endif
                                 </tbody>
                             </table>
                         </div>

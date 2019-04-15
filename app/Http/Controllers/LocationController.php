@@ -16,8 +16,11 @@ class LocationController extends Controller
      */
     public function index(Request $request)
     {
-        $locations = Location::searchContract($request->contract_id)->orderBy('name','asc')->get();
-        return view('location.index', compact('locations'));
+        if ($request->contract_id){
+            $locations = Location::searchContract($request->contract_id)->orderBy('name','asc')->get();
+            return view('location.index', compact('locations'));
+        }
+        return view('location.index');
     }
 
     /**
