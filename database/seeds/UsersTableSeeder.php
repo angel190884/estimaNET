@@ -71,6 +71,7 @@ class UsersTableSeeder extends Seeder
                 'viewEstimate',
                 'listEstimates',
                 'newEstimate',
+                'monitoringEstimates',
 
                 //Concept
                 'viewConcept',

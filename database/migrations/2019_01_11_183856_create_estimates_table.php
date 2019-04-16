@@ -25,7 +25,8 @@ class CreateEstimatesTable extends Migration
             $table->date('release');
 
             $table->float('retention',15,2)->nullable();
-            $table->unsignedInteger('type');
+            $table->unsignedInteger('type')->default(1);
+            $table->unsignedInteger('status')->default(1);
 
             $table->timestamps();
             $table->softDeletes();

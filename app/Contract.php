@@ -103,6 +103,10 @@ class Contract extends Model
     {
         return $this->getOriginalAmountAttribute() + $this->getExtensionAmountAttribute();
     }
+    public function getTotalAmountOkAttribute()
+    {
+        return $this->format($this->getOriginalAmountAttribute() + $this->getExtensionAmountAttribute());
+    }
     public function getOriginalAmountAttribute()
     {
         return round($this->amount_total,2,PHP_ROUND_HALF_DOWN);
@@ -143,10 +147,27 @@ class Contract extends Model
         }
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
+    }
+
     public function scopeSplit($query)
     {
         return $query->where('split_catalog', true);
     }
 
+    private function format($number)
+    {
+        $numbers= explode(".", $number);
+        if ( ! isset($numbers[1])) {
+            $numbers[1] = null;
+        }
+        if (strlen($numbers[1]) < 2 ) {
+            return number_format($number,2,'.',',');
+        }else {
+            return number_format($numbers[0],0,'.',',').'.'.$numbers[1];
+        }
+    }
 
 }

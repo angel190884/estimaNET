@@ -34,9 +34,9 @@ class CreateContractsTable extends Migration
             $table->date('date_signature_covenant')->nullable();
             $table->date('date_finish_modified')->nullable();
 
-            $table->integer('type');
+            $table->integer('type')->default(1);
             
-            $table->boolean('active')->default(false);
+            $table->boolean('active')->default(true);
             $table->boolean('split_catalog')->default(false);
 
             $table->text('signature_1')->nullable();

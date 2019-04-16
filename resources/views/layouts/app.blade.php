@@ -70,6 +70,11 @@
                                     @can('newEstimate')
                                         <a class="dropdown-item" href="{{ route('estimate.create') }}">Agregar</a>
                                     @endcan
+
+                                    @can('monitoringEstimates')
+                                        <a class="dropdown-item" href="{{ route('monitoring.index') }}">Monitorear Estimaciones</a>
+                                    @endcan
+
                                 </div>
                             </li>
                             <li class="nav-item dropdown">

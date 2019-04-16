@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contract;
 use App\Estimate;
 use App\Http\Requests\StoreEstimate;
 use Illuminate\Http\Request;
@@ -124,5 +125,11 @@ class EstimateController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function monitoringIndex()
+    {
+        $contracts = auth()->user()->contracts()->active()->with('estimates')->get();
+        return view('estimate.monitoringEstimates', compact('contracts'));
     }
 }

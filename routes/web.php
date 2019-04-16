@@ -26,16 +26,18 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::resource('contract', 'ContractController')->middleware('auth');
+
 Route::resource('estimate', 'EstimateController')->middleware('auth');
+Route::get('monitoringEstimate', ['as' 	=>	'monitoring.index',	'uses' => 'EstimateController@monitoringIndex'])->middleware('auth');
 
 Route::resource('concept', 'ConceptController')->middleware('auth');
 
-Route::resource('generator', 'GeneratorController');
-Route::get 		('generatorList/{estimate}', ['as' 	=>	'generator.list', 'uses'	=>	'GeneratorController@list']);
+Route::resource('generator', 'GeneratorController')->middleware('auth');
+Route::get 		('generatorList/{estimate}', ['as' 	=>	'generator.list', 'uses'	=>	'GeneratorController@list'])->middleware('auth');
 
-Route::resource('subGenerator', 'SubGeneratorController');
+Route::resource('subGenerator', 'SubGeneratorController')->middleware('auth');
 
-Route::resource('location', 'LocationController');
+Route::resource('location', 'LocationController')->middleware('auth');
 
-Route::prefix('report')->get('cumulativeControl/{estimate}',['as' => 'report.cumulativeControl', 'uses' => 'ReportController@cumulativeControl']);
-Route::prefix('report')->get('cumulativeControlLocations/{estimate}',['as' => 'report.cumulativeControlLocations', 'uses' => 'ReportController@cumulativeControlLocations']);
+Route::prefix('report')->get('cumulativeControl/{estimate}',['as' => 'report.cumulativeControl', 'uses' => 'ReportController@cumulativeControl'])->middleware('auth');
+Route::prefix('report')->get('cumulativeControlLocations/{estimate}',['as' => 'report.cumulativeControlLocations', 'uses' => 'ReportController@cumulativeControlLocations'])->middleware('auth');
