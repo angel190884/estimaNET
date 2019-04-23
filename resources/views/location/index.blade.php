@@ -156,7 +156,7 @@
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                                            <button type="submit" class="btn btn-danger">Eliminar generador</button>
+                                                            <button type="submit" class="btn btn-custom-1">Eliminar generador</button>
                                                         </div>
                                                     </form>
                                                 </div>

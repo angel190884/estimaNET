@@ -109,6 +109,7 @@ class ContractController extends Controller
      */
     public function edit(Contract $contract)
     {
+        //dd($contract->companies()->count());
         $companies= Company::orderBy('reason_social')->pluck('reason_social', 'id');
         return view('contract.edit', compact('contract','companies'));
     }

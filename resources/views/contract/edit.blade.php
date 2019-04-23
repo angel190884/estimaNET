@@ -204,8 +204,12 @@
                                         <label for="contractCompany">Empresa</label>
                                         <select name="company" class="form-control" id="contractCompany">
                                             @foreach($companies as $key => $company)
-                                                @if($key == $contract->companies()->first()->id)
-                                                    <option value="{{ $key }}" selected>{{ $company }}</option>
+                                                @if($contract->companies()->count() > 0)
+                                                    @if($key == $contract->companies()->first()->id)
+                                                        <option value="{{ $key }}" selected>{{ $company }}</option>
+                                                    @else
+                                                        <option value="{{ $key }}">{{ $company }}</option>
+                                                    @endif
                                                 @else
                                                     <option value="{{ $key }}">{{ $company }}</option>
                                                 @endif

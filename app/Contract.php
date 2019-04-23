@@ -96,7 +96,10 @@ class Contract extends Model
     }
     public function getDateModifiedOkAttribute()
     {
-        return Carbon::parse($this->date_finish_modified)->format('d-m-Y');
+        if ($this->date_finish_modified) {
+            return Carbon::parse($this->date_finish_modified)->format('d-m-Y');
+        }
+        return "---";
     }
 
     public function getTotalAmountAttribute()
