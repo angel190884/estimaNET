@@ -7,6 +7,7 @@ use App\Estimate;
 use App\Http\Requests\StoreEstimate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Charts\EstimationAmounts;
 
 class EstimateController extends Controller
 {
@@ -17,7 +18,7 @@ class EstimateController extends Controller
      */
     public function index(Request $request)
     {
-        return view('estimate.index',compact('request'));
+        return view('estimate.index', compact('request'));
     }
 
     /**
@@ -38,9 +39,9 @@ class EstimateController extends Controller
      */
     public function store(StoreEstimate $request)
     {
-        if($estimate = Estimate::where('contract_id',$request['contract'])
-            ->where('number',$request['number'])
-            ->first()){
+        if ($estimate = Estimate::where('contract_id', $request['contract'])
+            ->where('number', $request['number'])
+            ->first()) {
             Log::error("Duplicate estimate : $estimate");
             return redirect(route('estimate.create'))->withErrors('La estimación que intentas grabar ya existe favor de verificar número');
         }
@@ -61,7 +62,7 @@ class EstimateController extends Controller
 
         $user=auth()->user();
         Log::info("add estimate $estimate $user");
-        session()->flash('success','La estimación a sido añadida en la base de datos correctamente');
+        session()->flash('success', 'La estimación a sido añadida en la base de datos correctamente');
         return redirect(route('estimate.create'));
     }
 
@@ -73,7 +74,16 @@ class EstimateController extends Controller
      */
     public function show(Estimate $estimate)
     {
-        return view('estimate.show', compact('estimate'));
+        
+        $chart = new EstimationAmounts;
+        $chart->labels(['Total x Estimar', 'Estimado Anterior', 'Esta Estimación']);
+        $chart->loaderColor('red');
+        $chart->height(150);
+        $chart->minimalist(true);
+        $chart->displayLegend(false);
+        $chart->dataset('montos', 'pie', [$estimate->totalForExecuteAmount, $estimate->totalPreviousAmount, $estimate->totalEstimateAmount])->options(['backgroundColor' => ['#FF637D', '#F4F1BB', '#66D7B1']]);
+    
+        return view('estimate.show', compact('estimate', 'chart'));
     }
 
     /**
@@ -112,8 +122,8 @@ class EstimateController extends Controller
 
         $user=auth()->user();
         Log::info("update estimate $estimate $user");
-        session()->flash('success','La estimación a sido actualizada en la base de datos correctamente');
-        return redirect(route('estimate.index',['code' => $estimate->contract->codeOk]));
+        session()->flash('success', 'La estimación a sido actualizada en la base de datos correctamente');
+        return redirect(route('estimate.index', ['code' => $estimate->contract->codeOk]));
     }
 
     /**

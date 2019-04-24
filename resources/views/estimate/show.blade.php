@@ -1,5 +1,8 @@
 @extends('layouts.app')
-
+@section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+    {!! $chart->script() !!}
+@endsection
 @section('content')
     <div class="container-fluid pb-5">
         <div class="row justify-content-center">
@@ -57,22 +60,31 @@
                                             <div class="card  height">
                                                 <div class="card-header">Gráfica</div>
                                                 <div class="card-block">
-                                                    <strong>Gift:</strong> No<br>
-                                                    <strong>Express Delivery:</strong> Yes<br>
-                                                    <strong>Insurance:</strong> No<br>
-                                                    <strong>Coupon:</strong> No<br>
+                                                    {!! $chart->container() !!}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-md-3 col-lg-3 float-xs-right">
                                             <div class="card  height">
-                                                <div class="card-header">Detalles de la Factura</div>
+                                                <div class="card-header">Acciones</div>
                                                 <div class="card-block">
-                                                    <strong>David Peere:</strong><br>
-                                                    1111 Army Navy Drive<br>
-                                                    Arlington<br>
-                                                    VA<br>
-                                                    <strong>22 203</strong><br>
+                                                    <strong>Sistema:</strong><br>
+                                                    <a class="btn btn-sm btn-primary text-white" title="Actualizar" href="{{ url()->current() }}"><i class="fas fa-sync fa-2x"></i></a>
+                                                    <a class="btn btn-sm btn-primary text-white" title="Control de Ruta" href="#"><i class="fas fa-route fa-2x"></i></a>
+                                                    <a class="btn btn-sm btn-primary text-white" title="Agregar Observación" href="#"><i class="fas fa-clipboard-list fa-2x"></i></a><br>
+                                                    
+                                                    <strong>PDF's</strong><br>
+                                                    @if($estimate->contract->split_catalog)
+                                                        <a class="btn btn-sm btn-primary text-white" title="Control Acumulativo" href="{{ route('report.cumulativeControlLocations',$estimate) }}" target="_blank"><i class="fas fa-file-alt fa-2x"></i></i></a>
+                                                    @else
+                                                        <a class="btn btn-sm btn-primary text-white" title="Control Acumulativo" href="{{ route('report.cumulativeControl',$estimate) }}" target="_blank"><i class="fas fa-file-alt fa-2x"></i></i></a>
+                                                    @endif
+                                                    <a class="btn btn-sm btn-primary text-danger" title="Estado Contable"><i class="fas fa-file-invoice fa-2x"></i></a>
+                                                
+                                                    <a class="btn btn-sm btn-primary text-danger" title="Oficio de Entrega"><i class="fas fa-file-signature fa-2x"></i></a>
+                                                    <a class="btn btn-sm btn-primary text-danger" title="Hoja de Ruta"><i class="fas fa-file-export fa-2x"></i></a>
+                                                    <a class="btn btn-sm btn-primary text-danger" title="Borrador Factura"><i class="fas fa-file-invoice-dollar fa-2x"></i></a>
+                                                    <br>
                                                 </div>
                                             </div>
                                         </div>
@@ -88,51 +100,99 @@
                                         </div>
                                         <div class="card-block">
                                             <div class="table-responsive">
-                                                <table class="table table-sm">
+                                                <table class="table table-sm table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <td><strong>Item Name</strong></td>
-                                                            <td class="text-xs-center"><strong>Item Price</strong></td>
-                                                            <td class="text-xs-center"><strong>Item Quantity</strong></td>
-                                                            <td class="text-xs-right"><strong>Total</strong></td>
+                                                            <td><strong>Concepto</strong></td>
+                                                            <td class="text-xs-center"><strong></strong></td>
+                                                            <td class="text-xs-center"><strong></strong></td>
+                                                            <td class="text-right"><strong>Monto</strong></td>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td>Samsung Galaxy S5</td>
-                                                            <td class="text-xs-center">$900</td>
-                                                            <td class="text-xs-center">1</td>
-                                                            <td class="text-xs-right">$900</td>
+                                                            <td>Estimado Anterior</td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-right">{{ $estimate->totalPreviousAmountOk }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Samsung Galaxy S5 Extra Battery</td>
-                                                            <td class="text-xs-center">$30.00</td>
-                                                            <td class="text-xs-center">1</td>
-                                                            <td class="text-xs-right">$30.00</td>
+                                                            <td>Importe de esta Estimación</td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-right">{{ $estimate->totalEstimateAmountOk }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Screen protector</td>
-                                                            <td class="text-xs-center">$7</td>
-                                                            <td class="text-xs-center">4</td>
-                                                            <td class="text-xs-right">$28</td>
+                                                            <td>I.V.A.</td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-right">{{ $estimate->ivaOk}}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="highrow"></td>
+                                                            <td>Monto total de esta Estimación</td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-right">{{ $estimate->totalEstimateAmountWithIvaOk }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Total Estimado</td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-right">{{ $estimate->totalEstimatedOk }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Total x Estimar</td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-right">{{ $estimate->totalForExecuteAmountOk }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Monto del Anticipo</td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-right">$ 0.00</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Amortizado Anterior</td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-right">$ 0.00</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Amortizado en esta Estimación</td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-right">$ 0.00</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Total amortizado</td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-right">$ 0.00</td>
+                                                        </tr>
+                                                            <td>Total por Amortizar</td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-xs-center"></td>
+                                                            <td class="text-right">$ 0.00</td>
+                                                        </tr>
+                                                        
+                                                        <!--<tr>
+                                                            <td class="highrow">Total Estimado</td>
                                                             <td class="highrow"></td>
                                                             <td class="highrow text-xs-center"><strong>Subtotal</strong></td>
-                                                            <td class="highrow text-xs-right">$958.00</td>
+                                                            <td class="highrow text-right">$958.00</td>
+                                                        </tr>-->
+                                                        <tr>
+                                                            <td class="highrow"></td>
+                                                            <td class="highrow"></td>
+                                                            <td class="highrow text-xs-center"><strong>Importe Neto a Pagar</strong></td>
+                                                            <td class="highrow text-right">$958.00</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="emptyrow"></td>
                                                             <td class="emptyrow"></td>
-                                                            <td class="emptyrow text-xs-center"><strong>Shipping</strong></td>
-                                                            <td class="emptyrow text-xs-right">$20</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="emptyrow"><i class="fa fa-barcode iconbig"></i></td>
-                                                            <td class="emptyrow"></td>
-                                                            <td class="emptyrow text-xs-center"><strong>Total</strong></td>
-                                                            <td class="emptyrow text-xs-right">$978.00</td>
+                                                            <td class="emptyrow text-xs-center"><strong>Importe Neto a Pagar con Letra</strong></td>
+                                                            <td class="emptyrow text-right">ONCE MIL DOSCIENTOS NOVENTA Y OCHO PESOS 36 / 100 M.N.</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
