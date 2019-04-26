@@ -26,7 +26,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::resource('contract', 'ContractController')->middleware('auth');
-
+Route::resource('deduction', 'DeductionController')->middleware('auth');
 Route::resource('estimate', 'EstimateController')->middleware('auth');
 Route::get('monitoringEstimate', ['as' 	=>	'monitoring.index',	'uses' => 'EstimateController@monitoringIndex'])->middleware('auth');
 

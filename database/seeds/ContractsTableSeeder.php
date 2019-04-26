@@ -14,7 +14,11 @@ class ContractsTableSeeder extends Seeder
     public function run(Faker $faker)
     {
         for ($i=0;$i <= 10;$i++){
-            factory(Contract::class)->create();
+            factory(Contract::class)->create(
+                [
+                    'type' => 1,
+                ]
+            );
         }
 
         //Bouncer::allow('admin')->everything();

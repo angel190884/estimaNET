@@ -12,10 +12,10 @@ $factory->define(Contract::class, function (Faker $faker) {
 
         'location'          =>  $faker->address,
         
-        'amount_total'         =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 10000000, $max = 20000000),
-        'amount_anticipated'   =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 500000,   $max = 1000000),
-        'amount_extension'     =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 1000000,  $max = 3000000),
-        'amount_adjustment'    =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 1000000,  $max = 3000000),
+        'amount_total'         =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 100000, $max = 1000000),
+        'amount_anticipated'   =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 500,   $max = 100000),
+        'amount_extension'     =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 100,  $max = 100000),
+        'amount_adjustment'    =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 0.1,  $max = 1000),
 
         'date_start'         =>  $faker->date($format = 'Y-m-d', $max = 'now'),
         'date_finish'        =>  $faker->date($format = 'Y-m-d', $max = 'now'),
@@ -23,7 +23,7 @@ $factory->define(Contract::class, function (Faker $faker) {
         'date_finish_modified'      =>  $faker->date($format = 'Y-m-d', $max = 'now'),
         'date_signature_covenant'      =>  $faker->date($format = 'Y-m-d', $max = 'now'),
 
-        'type'              =>  rand(1,2),
+        'type'              =>  $faker->numberBetween($min = '1', $max = '2'),
 
         'active'        =>  $faker->randomElement($array = array ('1','0')),
         'split_catalog' =>  $faker->randomElement($array = array ('1','0')),

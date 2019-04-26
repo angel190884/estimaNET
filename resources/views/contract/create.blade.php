@@ -43,8 +43,8 @@
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text text-body"><i class="font-weight-bold text-muted">#</i></span></div>
                                             <input name="code" value="{{ old('code') }}" type="text" class="form-control" id="contractCode" placeholder="----------------" required>
-                                            @include('layouts.components.alert.field', ['field' => 'code'])
                                         </div>
+                                        @include('layouts.components.alert.field', ['field' => 'code'])
                                     </div>
                                     <div class="col-sm-3 pb-3">
                                         <label for="contractShortName">Código corto*</label>
@@ -56,8 +56,8 @@
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-dollar-sign text-muted"></i></span></div>
                                             <input name="amount_total" value="{{ old('amount_total') }}" type="number" class="form-control" id="contractAmount" placeholder="0.00" step="0.01" min="0" required>
-                                            @include('layouts.components.alert.field', ['field' => 'amount_total'])
                                         </div>
+                                        @include('layouts.components.alert.field', ['field' => 'amount_total'])
                                     </div>
 
                                     <div class="col-sm-4 pb-3">
@@ -65,24 +65,24 @@
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-dollar-sign text-muted"></i></span></div>
                                             <input name="amount_anticipated" value="{{ old('amount_anticipated') }}" type="number" class="form-control" id="contractAnticipated" placeholder="0.00" step="0.01" min="0">
-                                            @include('layouts.components.alert.field', ['field' => 'amount_anticipated'])
                                         </div>
+                                        @include('layouts.components.alert.field', ['field' => 'amount_anticipated'])
                                     </div>
                                     <div class="col-sm-4 pb-3">
                                         <label for="contractExtension">Extension ó Convenio</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-dollar-sign text-muted"></i></span></div>
                                             <input name="amount_extension" value="{{ old('amount_extension') }}" type="number" class="form-control" id="contractExtension" placeholder="0.00" step="0.01" min="0">
-                                            @include('layouts.components.alert.field', ['field' => 'amount_extension'])
                                         </div>
+                                        @include('layouts.components.alert.field', ['field' => 'amount_extension'])
                                     </div>
                                     <div class="col-sm-4 pb-3">
                                         <label for="contractAdjustment">Ajuste<sup>opcional</sup></label>
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-dollar-sign text-muted"></i></span></div>
                                             <input name="amount_adjustment" value="{{ old('amount_adjustment') }}" type="number" class="form-control" id="contractAdjustment" placeholder="0.00" step="0.01" min="0">
-                                            @include('layouts.components.alert.field', ['field' => 'amount_adjustment'])
                                         </div>
+                                        @include('layouts.components.alert.field', ['field' => 'amount_adjustment'])
                                     </div>
 
                                     <div class="col-sm-4 pb-3">
@@ -90,40 +90,40 @@
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-calendar-alt text-muted"></i></span><span class="oi oi-calendar"></span></div>
                                             <input name="date_start" value="{{ old('date_start') }}" class="form-control" type="date" id="contractDateStart" required>
-                                            @include('layouts.components.alert.field', ['field' => 'date_start'])
                                         </div>
+                                        @include('layouts.components.alert.field', ['field' => 'date_start'])
                                     </div>
                                     <div class="col-sm-4 pb-3">
                                         <label for="contractDateFinish">Fecha de término*</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-calendar-alt text-muted"></i></span><span class="oi oi-calendar"></span></div>
                                             <input name="date_finish" value="{{ old('date_finish') }}" class="form-control" type="date" id="contractDateFinish" required>
-                                            @include('layouts.components.alert.field', ['field' => 'date_finish'])
                                         </div>
+                                        @include('layouts.components.alert.field', ['field' => 'date_finish'])
                                     </div>
                                     <div class="col-sm-4 pb-3">
                                         <label for="contractDateSignature">Fecha firma</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-calendar-alt text-muted"></i></span><span class="oi oi-calendar"></span></div>
                                             <input name="date_signature" value="{{ old('date_signature') }}" class="form-control" type="date" id="contractDateSignature">
-                                            @include('layouts.components.alert.field', ['field' => 'date_signature'])
                                         </div>
+                                        @include('layouts.components.alert.field', ['field' => 'date_signature'])
                                     </div>
                                     <div class="col-sm-4 pb-3">
                                         <label for="contractCovenant">Firma convenio<sup class="text-muted">opcional</sup></label>
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-calendar-alt text-muted"></i></span><span class="oi oi-calendar"></span></div>
                                             <input name="date_signature_covenant" value="{{ old('date_signature_covenant') }}" class="form-control" type="date" id="contractCovenant">
-                                            @include('layouts.components.alert.field', ['field' => 'date_signature_covenant'])
                                         </div>
+                                        @include('layouts.components.alert.field', ['field' => 'date_signature_covenant'])
                                     </div>
                                     <div class="col-sm-4 pb-3">
                                         <label for="contractModified">Nueva fecha término<sup class="text-muted">opcional</sup></label>
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-calendar-alt text-muted"></i></span><span class="oi oi-calendar"></span></div>
                                             <input name="date_finish_modified" value="{{ old('date_finish_modified') }}" class="form-control" type="date" id="contractModified">
-                                            @include('layouts.components.alert.field', ['field' => 'date_finish_modified'])
                                         </div>
+                                        @include('layouts.components.alert.field', ['field' => 'date_finish_modified'])
                                     </div>
 
                                     <div class="col-sm-6 pb-3">
@@ -151,7 +151,7 @@
                                         </small>
                                     </div>
 
-                                    <div class="col-md-4 pb-3">
+                                    <div class="col-md-3 pb-3">
                                         <label for="exampleAccount">Estatus*</label>
                                         <div class="form-group">
                                             <div class="form-check form-check-inline">
@@ -166,6 +166,18 @@
                                             </div>
                                         </div>
                                         @include('layouts.components.alert.field', ['field' => 'active'])
+                                    </div>
+                                    <div class="col-md-3 pb-3">
+                                        <label for="exampleAccount">Deducciones</label>
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                                @foreach (auth()->user()->deductions()->typeContract()->get() as $deduction)
+                                                    <label class="form-check-label">
+                                                        <input name="{{ 'deduction-' . $deduction->id }}" class="form-check-input" type="checkbox" value="1"> {{ $deduction->name}}
+                                                    </label><br>
+                                                @endforeach
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-md-6 pb-3">
                                         <label for="exampleAccount">Tipo de catálogo*</label>

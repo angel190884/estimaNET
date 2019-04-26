@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCompanyContractTable extends Migration
+class CreateContractDeductionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,16 @@ class CreateCompanyContractTable extends Migration
      */
     public function up()
     {
-        Schema::create('company_contract', function (Blueprint $table) {
+        Schema::create('contract_deduction', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->unsignedInteger('company_id');
             $table->unsignedInteger('contract_id');
-
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('contract_id')->references('id')->on('contracts')->onDelete('cascade');
+
+            $table->unsignedInteger('deduction_id');            
+            $table->foreign('deduction_id')->references('id')->on('deductions')->onDelete('cascade');
+
+            $table->float('factor')->default(1);
 
             $table->timestamps();
             $table->softDeletes();
@@ -34,6 +36,6 @@ class CreateCompanyContractTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_contract');
+        Schema::dropIfExists('contract_deduction');
     }
 }

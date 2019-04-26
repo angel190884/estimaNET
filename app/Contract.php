@@ -41,33 +41,70 @@ class Contract extends Model
     ];
 
     /**
-     * Relations
+     * Relation users.
+     *
+     * @return belongsToMany
      */
     public function users()
     {
         return $this->belongsToMany(User::class)->withTimestamps();
     }
 
+    /**
+     * Relation concepts.
+     *
+     * @return hasMany
+     */
     public function concepts()
     {
         return $this->hasMany(Concept::class);
     }
 
+    /**
+     * Relation companies.
+     *
+     * @return belongsToMany
+     */
     public function companies()
     {
         return $this->belongsToMany(Company::class)->withTimestamps();
     }
 
+    /**
+     * Relation estimates.
+     *
+     * @return hasMany
+     */
     public function estimates()
     {
         return $this->hasMany(Estimate::class);
     }
 
+    /**
+     * Relation locations.
+     *
+     * @return hasMany
+     */
     public function locations()
     {
         return $this->hasMany(Location::class);
     }
 
+    /**
+     * Relation deductions.
+     *
+     * @return belongsToMany
+     */
+    public function deductions()
+    {
+        return $this->belongsToMany(Deduction::class)->withTimestamps();
+    }
+
+    /**
+     * Return Code contract upper.
+     *
+     * @return String
+     */
     public function getCodeOkAttribute()
     {
         return strtoupper($this->code);

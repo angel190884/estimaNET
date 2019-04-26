@@ -74,7 +74,6 @@
                                     @can('monitoringEstimates')
                                         <a class="dropdown-item" href="{{ route('monitoring.index') }}">Monitorear Estimaciones</a>
                                     @endcan
-
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -83,7 +82,7 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     @can('listConcepts')
-                                        <a class="dropdown-item" href="{{ route('concept.index') }}">Listar</a>
+                                        <a class="dropdown-item" href="{{ route('concept.index') }}">Conceptos</a>
                                     @endcan
 
                                     @can('viewConcept')
@@ -92,6 +91,10 @@
 
                                     @can('newConcept')
                                             <a class="dropdown-item" href="{{ route('concept.create') }}">Agregar concepto</a>
+                                    @endcan
+
+                                    @can('listDeductions')
+                                            <a class="dropdown-item" href="{{ route('deduction.index') }}">Deducciones y/o Sanciones</a>
                                     @endcan
                                 </div>
                             </li>

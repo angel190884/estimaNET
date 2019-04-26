@@ -83,6 +83,9 @@ class UsersTableSeeder extends Seeder
                 'listLocations',
                 'newLocation',
 
+                //Deductions
+                'listDeductions',
+
             ]
         );
 

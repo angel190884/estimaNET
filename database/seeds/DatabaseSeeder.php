@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ConceptEstimateTableSeeder::class);
         $this->call(LocationTableSeeder::class);
         $this->call(GeneratorLocationTableSeeder::class);
+        $this->call(DeductionTableSeeder::class);
     }
 }

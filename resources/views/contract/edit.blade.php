@@ -152,7 +152,7 @@
                                         </small>
                                     </div>
 
-                                    <div class="col-md-4 pb-3">
+                                    <div class="col-md-3 pb-3">
                                         <label for="exampleAccount">Estatus*</label>
                                         <div class="form-group">
                                             <div class="form-check form-check-inline">
@@ -167,6 +167,18 @@
                                             </div>
                                         </div>
                                         @include('layouts.components.alert.field', ['field' => 'active'])
+                                    </div>
+                                    <div class="col-md-3 pb-3">
+                                        <label for="exampleAccount">Deducciones</label>
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                                 @foreach (auth()->user()->deductions()->typeContract()->get() as $deduction)
+                                                    <label class="form-check-label">
+                                                        <input name="{{ 'deduction-' . $deduction->id }}" class="form-check-input" type="checkbox" value="1" {{($contract->deductions()->where('deduction_id',$deduction->id)->first()) ? 'checked' : ''}}> {{ $deduction->name}}
+                                                    </label><br>
+                                                @endforeach
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-md-6 pb-3">
                                         <label for="exampleAccount">Tipo de catálogo*</label>

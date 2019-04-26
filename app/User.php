@@ -29,8 +29,33 @@ class User extends Authenticatable implements MustVerifyEmail
         'password', 'remember_token',
     ];
 
+    /**
+     * Relation contracts.
+     *
+     * @return belongsToMany
+     */
     public function contracts()
     {
         return $this->belongsToMany(Contract::class)->withTimestamps();
+    }
+
+    /**
+     * Relation deductions.
+     *
+     * @return hasMany
+     */
+    public function deductions()
+    {
+        return $this->hasMany(Deduction::class);
+    }
+
+    /**
+     * Return FullName user upper.
+     *
+     * @return String
+     */
+    public function getFullNameAttribute()
+    {
+        return strtoupper($this->name);
     }
 }

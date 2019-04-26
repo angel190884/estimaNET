@@ -85,9 +85,20 @@ class ContractController extends Controller
         }
 
         $user=auth()->user();
+
+        $arrayDeduction = array();
+        foreach ($user->deductions as $deduction) {
+            $nameKey='deduction-' . $deduction->id;
+            if ($request->has($nameKey)) {
+                array_push($arrayDeduction, $deduction->id);
+            }
+        }
+        $contract->deductions()->sync($arrayDeduction);
+
+
         Log::info("add contract $contract $user");
         session()->flash('success','El contrato a sido añadido en la base de datos correctamente');
-        return redirect(route('contract.create'));
+        return redirect(route('contract.index'));
     }
 
     /**
@@ -159,17 +170,26 @@ class ContractController extends Controller
 
         $contract->save();
 
-
         $user=auth()->user();
+
+        $arrayDeduction = array();
+        foreach ($user->deductions as $deduction) {
+            $nameKey='deduction-' . $deduction->id;
+            if ($request->has($nameKey)) {
+                array_push($arrayDeduction, $deduction->id);
+            }
+        }
+        $contract->deductions()->sync($arrayDeduction);
+
         Log::info("update contract $contract $user");
-        session()->flash('success','El contrato a sido actualizado en la base de datos correctamente');
+        session()->flash('success', 'El contrato a sido actualizado en la base de datos correctamente');
         return redirect(route('contract.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

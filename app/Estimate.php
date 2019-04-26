@@ -42,14 +42,34 @@ class Estimate extends Model
         return $this->belongsTo(Contract::class);
     }
 
+    /**
+     * Relation to Concept class
+     * 
+     * @return Illuminate\Database\Eloquent\Concerns\HasRelationships::belongsToMany
+     */
     public function concepts()
     {
         return $this->belongsToMany(Concept::class)->withTimestamps();
     }
 
+    /**
+     * Relation to Generator class
+     * 
+     * @return Illuminate\Database\Eloquent\Concerns\HasRelationships::hasMany
+     */
     public function generators()
     {
         return $this->hasMany(Generator::class);
+    }
+
+    /**
+     * Relation to Deduction class
+     * 
+     * @return Illuminate\Database\Eloquent\Concerns\HasRelationships::belongsToMany
+     */
+    public function deductions()
+    {
+        return $this->belongsToMany(Deduction::class)->withTimestamps();
     }
 
     /**
