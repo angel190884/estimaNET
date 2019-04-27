@@ -17,7 +17,7 @@ class Deduction extends Model
         'code',
         'name',
         'percentage',
-        'description'
+        'description',
     ];
 
     /**
@@ -46,7 +46,7 @@ class Deduction extends Model
      */
     public function contracts()
     {
-        return $this->belongsToMany(Contract::class)->withTimestamps();
+        return $this->belongsToMany(Contract::class)->withTimestamps()->withPivot('factor');
     }
 
     /**
@@ -56,7 +56,7 @@ class Deduction extends Model
      */
     public function estimates()
     {
-        return $this->belongsToMany(Estimate::class)->withTimestamps();
+        return $this->belongsToMany(Estimate::class)->withTimestamps()->withPivot('factor');
     }
 
     /**

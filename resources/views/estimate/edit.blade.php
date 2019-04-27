@@ -82,33 +82,58 @@
                                             @include('layouts.components.alert.field', ['field' => 'retention'])
                                         </div>
                                     </div>
-                                    <div class="col-sm-8 pb-3 text-center">
-                                        <label for="exampleAccount">Tipo*</label>
-                                        <div class="form-group">
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeOrdinary" value="1" {{($estimate->type == '1') ? 'checked' : ''}}> Normal
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeExtraordinary" value="2" {{($estimate->type == '2' | null ) ? 'checked' : ''}}> Extraordinaria
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeEnd" value="3" {{($estimate->type == '3' | null ) ? 'checked' : ''}}> Final
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input name="type" class="form-check-input" type="radio" id="estimateTypeCombinedEnd" value="4" {{($estimate->type == '4' | null ) ? 'checked' : ''}}> Final combinada
-                                                </label>
-                                            </div>
-                                        </div>
-                                        @include('layouts.components.alert.field', ['field' => 'type'])
+                                    
+                                    <div class="col-sm-4 pb-3 text-center">
+                                            <table class="table table-sm table-borderless text-center">
+                                                <thead>
+                                                        <tr>
+                                                        <th scope="col">Tipo</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><input name="type" class="form-check-input" type="radio" id="estimateTypeOrdinary" value="1" {{($estimate->type == '1') ? 'checked' : ''}}> Normal</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><input name="type" class="form-check-input" type="radio" id="estimateTypeExtraordinary" value="2" {{($estimate->type == '2' | null ) ? 'checked' : ''}}> Extraordinaria</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><input name="type" class="form-check-input" type="radio" id="estimateTypeEnd" value="3" {{($estimate->type == '3' | null ) ? 'checked' : ''}}> Final</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><input name="type" class="form-check-input" type="radio" id="estimateTypeCombinedEnd" value="4" {{($estimate->type == '4' | null ) ? 'checked' : ''}}> Final combinada</td>
+                                                        </tr>
+                                                    </tbody>
+                                            </table>
+                                            @include('layouts.components.alert.field', ['field' => 'type'])        
                                     </div>
+                                    <div class="col-sm-4 pb-3 text-center">
+                                        <table class="table table-sm table-borderless text-left">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Deducciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (auth()->user()->deductions()->typeEstimate()->get() as $deduction)
 
+                                                    <tr>
+                                                        <td>
+                                                            <label class="form-inline">
+                                                                <input name="{{ 'deduction-' . $deduction->id }}" class="form-group" type="checkbox" value="1" {{($estimate->deductions()->where('deduction_id',$deduction->id)->first()) ? 'checked' : ''}}> {{ $deduction->name}}
+                                                                @if ($estimate->deductions()->where('deduction_id',$deduction->id)->first())
+                                                                    <input name="{{ 'factor-' . $deduction->id }}" class="form-group" type="number" value="{{$deduction->estimates()->where('estimate_id',$estimate->id)->first()->pivot->factor}}" placeholder="x dias" step="0.01">
+                                                                @else
+                                                                    <input name="{{ 'factor-' . $deduction->id }}" class="form-group" type="number" value="0.00" placeholder="x dias" step="0.01">
+                                                                @endif
+                                                                
+                                                            </label>
+                                                        </td>    
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>       
+                                    </div>
                                     <button type="submit" class="btn btn-success btn-lg btn-block mt-5">Editar estimación</button>
                                 </div>
                             </div>

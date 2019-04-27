@@ -97,7 +97,7 @@ class Contract extends Model
      */
     public function deductions()
     {
-        return $this->belongsToMany(Deduction::class)->withTimestamps();
+        return $this->belongsToMany(Deduction::class)->withTimestamps()->withPivot('factor');
     }
 
     /**

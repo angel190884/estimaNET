@@ -117,7 +117,7 @@
                                                             <td class="text-right">{{ $estimate->totalPreviousAmountOk }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Importe de esta Estimación</td>
+                                                            <td><strong>Importe de esta Estimación</strong></td>
                                                             <td class="text-xs-center"></td>
                                                             <td class="text-xs-center"></td>
                                                             <td class="text-right">{{ $estimate->totalEstimateAmountOk }}</td>
@@ -147,52 +147,47 @@
                                                             <td class="text-right">{{ $estimate->totalForExecuteAmountOk }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Monto del Anticipo</td>
+                                                            <td><strong>Deducciones</strong></td>
                                                             <td class="text-xs-center"></td>
                                                             <td class="text-xs-center"></td>
-                                                            <td class="text-right">$ 0.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Amortizado Anterior</td>
-                                                            <td class="text-xs-center"></td>
-                                                            <td class="text-xs-center"></td>
-                                                            <td class="text-right">$ 0.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Amortizado en esta Estimación</td>
-                                                            <td class="text-xs-center"></td>
-                                                            <td class="text-xs-center"></td>
-                                                            <td class="text-right">$ 0.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Total amortizado</td>
-                                                            <td class="text-xs-center"></td>
-                                                            <td class="text-xs-center"></td>
-                                                            <td class="text-right">$ 0.00</td>
-                                                        </tr>
-                                                            <td>Total por Amortizar</td>
-                                                            <td class="text-xs-center"></td>
-                                                            <td class="text-xs-center"></td>
-                                                            <td class="text-right">$ 0.00</td>
+                                                            <td class="text-right"></td>
                                                         </tr>
                                                         
-                                                        <!--<tr>
-                                                            <td class="highrow">Total Estimado</td>
-                                                            <td class="highrow"></td>
-                                                            <td class="highrow text-xs-center"><strong>Subtotal</strong></td>
-                                                            <td class="highrow text-right">$958.00</td>
-                                                        </tr>-->
+                                                        @foreach ($estimate->contract->deductions()->typeContract()->get() as $deduction)
+                                                            @if($deduction->contracts()->first())
+                                                                <tr>
+                                                                    <td>{{ $deduction->code }}</td>
+                                                                    <td class="text-center">{{ $deduction->percentage }} %</td>
+                                                                    <td class="text-center">x {{ $deduction->contracts()->first()->pivot->factor }}</td>
+                                                                    <td class="text-right">{{ '$ ' . number_format(round(
+                                                                        ($estimate->totalEstimateAmount*($deduction->percentage * $deduction->contracts()->first()->pivot->factor))/100, 2),2) }}</td>
+                                                                </tr>
+                                                            @endif    
+                                                        @endforeach
+                                                        @foreach ($estimate->deductions()->typeEstimate()->get() as $deduction)
+                                                            @if($deduction->estimates()->where('estimate_id',$estimate->id)->first())
+                                                                <tr>
+                                                                    <td>{{ $deduction->code }}</td>
+                                                                    <td class="text-center">{{ $deduction->percentage }} %</td>
+                                                                    <td class="text-center">x {{ $deduction->estimates()->where('estimate_id',$estimate->id)->first()->pivot->factor }}</td>
+                                                                    <td class="text-right">{{ '$ ' . number_format(round(
+                                                                        ($estimate->totalEstimateAmount*($deduction->percentage * $deduction->estimates()->where('estimate_id',$estimate->id)->first()->pivot->factor))/100, 2),2) }}</td>
+                                                                </tr>
+                                                            @endif    
+                                                        @endforeach
                                                         <tr>
-                                                            <td class="highrow"></td>
-                                                            <td class="highrow"></td>
-                                                            <td class="highrow text-xs-center"><strong>Importe Neto a Pagar</strong></td>
-                                                            <td class="highrow text-right">$958.00</td>
+                                                            <td><strong>Total de Deducciones</strong></td>
+                                                                <td class="text-xs-center"></td>
+                                                                <td class="text-xs-center"></td>
+                                                                <td class="text-right">{{ $estimate->TotalDeductionsAmountOk }}</td>
+                                                            </tr>
+                                                        <tr>
+                                                            <td class="highrow text-right" colspan="2"><strong>Importe Neto a Pagar</strong></td>
+                                                            <td class="highrow text-right" colspan="2">{{ $estimate->amountNetOk }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="emptyrow"></td>
-                                                            <td class="emptyrow"></td>
-                                                            <td class="emptyrow text-xs-center"><strong>Importe Neto a Pagar con Letra</strong></td>
-                                                            <td class="emptyrow text-right">ONCE MIL DOSCIENTOS NOVENTA Y OCHO PESOS 36 / 100 M.N.</td>
+                                                            <td class="emptyrow text-right" colspan="2"><strong>Importe Neto a Pagar con Letra</strong></td>
+                                                            <td class="emptyrow text-right" colspan="2">{{ $estimate->amountNetLetterOk }}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>

@@ -74,7 +74,6 @@ class EstimateController extends Controller
      */
     public function show(Estimate $estimate)
     {
-        
         $chart = new EstimationAmounts;
         $chart->labels(['Total x Estimar', 'Estimado Anterior', 'Esta Estimación']);
         $chart->loaderColor('red');
@@ -104,10 +103,8 @@ class EstimateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreEstimate $request, $id)
+    public function update(StoreEstimate $request, Estimate $estimate)
     {
-        $estimate = Estimate::find($id);
-
         $estimate->number = $request['number'];
         $estimate->contract_id = $request['contract'];
         $estimate->start = $request['start'];
@@ -118,9 +115,26 @@ class EstimateController extends Controller
 
 
         $estimate->save();
-
-
+        
         $user=auth()->user();
+        
+        
+        foreach ($user->deductions as $deduction) {
+            $nameKey='deduction-' . $deduction->id;
+            $factorKey='factor-' . $deduction->id;
+
+            if ($request->has($nameKey)) {
+                if ($estimate->deductions()->where('deduction_id', $deduction->id)->first()) {
+                    $estimate->deductions()->updateExistingPivot($deduction->id, ['factor'=> $request[ $factorKey ]]);
+                } else {
+                    $estimate->deductions()->attach($deduction->id, ['factor'=> $request[ $factorKey ]]);
+                }
+            }
+            if (!$request->has($nameKey)) {
+                $estimate->deductions()->detach($deduction->id);
+            }
+        }
+        
         Log::info("update estimate $estimate $user");
         session()->flash('success', 'La estimación a sido actualizada en la base de datos correctamente');
         return redirect(route('estimate.index', ['code' => $estimate->contract->codeOk]));
@@ -139,7 +153,7 @@ class EstimateController extends Controller
 
     public function monitoringIndex()
     {
-        $contracts = auth()->user()->contracts()->active()->with('estimates')->get();
+        $contracts = auth()->user()->contracts()->active()->with('estimates', 'deductions', 'concepts')->get();
         return view('estimate.monitoringEstimates', compact('contracts'));
     }
 }

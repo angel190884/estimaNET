@@ -172,7 +172,7 @@
                                         <label for="exampleAccount">Deducciones</label>
                                         <div class="form-group">
                                             <div class="form-check">
-                                                 @foreach (auth()->user()->deductions()->typeContract()->get() as $deduction)
+                                                @foreach (auth()->user()->deductions()->typeContract()->get() as $deduction)
                                                     <label class="form-check-label">
                                                         <input name="{{ 'deduction-' . $deduction->id }}" class="form-check-input" type="checkbox" value="1" {{($contract->deductions()->where('deduction_id',$deduction->id)->first()) ? 'checked' : ''}}> {{ $deduction->name}}
                                                     </label><br>
