@@ -79,7 +79,7 @@
                                                     @else
                                                         <a class="btn btn-sm btn-primary text-white" title="Control Acumulativo" href="{{ route('report.cumulativeControl',$estimate) }}" target="_blank"><i class="fas fa-file-alt fa-2x"></i></i></a>
                                                     @endif
-                                                    <a class="btn btn-sm btn-primary text-white" title="Estado Contable" href="{{ route('report.accountingStatement',$estimate) }}"><i class="fas fa-file-invoice fa-2x"></i></a>                                            
+                                                        <a class="btn btn-sm btn-primary text-white" title="Estado Contable" href="{{ route('report.accountingStatement',$estimate) }}" target="_blank"><i class="fas fa-file-invoice fa-2x"></i></a>                                            
                                                     <!--<a class="btn btn-sm btn-primary text-danger" title="Oficio de Entrega"><i class="fas fa-file-signature fa-2x"></i></a>
                                                     <a class="btn btn-sm btn-primary text-danger" title="Hoja de Ruta"><i class="fas fa-file-export fa-2x"></i></a>
                                                     <a class="btn btn-sm btn-primary text-danger" title="Borrador Factura"><i class="fas fa-file-invoice-dollar fa-2x"></i></a>-->
