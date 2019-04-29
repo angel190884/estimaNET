@@ -11,30 +11,15 @@
                                 <div class="col-sm-12 col-md-2">
                                     Estimaciones
                                 </div>
-                                <div class="col-sm-12 col-md-10 text-md-right text-info hidden">
+                                <div class="col-sm-12 col-md-10 text-right text-info d-none d-sm-block">
                                     <div class="col-auto">
-                                        <label for="status-1" class="d-sm-none d-md-none">Contratista</label>
                                         <button class="btn text-dark" title="Empresa Contratista" id="status-1"><i class="fas fa-snowplow fa-2x"></i></button>
-
-                                        <label for="status-2" class="d-sm-none d-md-none">Super. Externa</label>
                                         <button class="btn btn-outline-primary" title="Supervisión Externa" id="status-2"><i class="fas fa-eye fa-2x"></i></button>
-
-                                        <label for="status-3" class="d-sm-none d-md-none">Super. Interna</label>
                                         <button class="btn btn-outline-secondary" title="Supervisión Interna" id="status-3"><i class="fas fa-clipboard-check fa-2x"></i></button>
-
-                                        <label for="status-4" class="d-sm-none d-md-none">Firma JUD</label>
                                         <button class="btn btn-outline-info" title="JUD para revisión" id="status-4"><i class="fas fa-feather-alt fa-2x"></i></button>
-
-                                        <label for="status-5" class="d-sm-none d-md-none">Firma Dir. Supervisión</label>
                                         <button class="btn btn-outline-warning text-dark" title="Director de Supervisión para revisión" id="status-5"><i class="fas fa-feather fa-2x"></i></button>
-
-                                        <label for="status-6" class="d-sm-none d-md-none">Ctrl. Técnico</label>
                                         <button class="btn btn-outline-danger" title="Control Técnico para revisión" id="status-6"><i class="fas fa-cogs fa-2x"></i></button>
-
-                                        <label for="status-6" class="d-sm-none d-md-none">Finanzas</label>
                                         <button class="btn btn-outline-dark" title="Finanzas para autorización" id="status-6"><i class="fas fa-dollar-sign fa-2x"></i></button>
-
-                                        <label for="status-6" class="d-sm-none d-md-none">Pagada</label>
                                         <button class="btn btn-outline-success" title="Pagada con CLC" id="status-6"><i class="fas fa-hand-holding-usd fa-2x"></i></button>
 
                                     </div>
