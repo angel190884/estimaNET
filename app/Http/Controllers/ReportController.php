@@ -14,22 +14,20 @@ class ReportController extends Controller
     {
         $data = collect();
 
-        foreach($estimate->generators->sortBy('concept.location')->groupBy('concept.location') as $location)
-        {
+        foreach ($estimate->generators->sortBy('concept.location')->groupBy('concept.location') as $location) {
+            $additions=$location->where('quantity', '>', 0);
 
-            $additions=$location->where('quantity','>',0);
-
-            $deductions=$location->where('quantity','<',0);
+            $deductions=$location->where('quantity', '<', 0);
 
             $subTotalAdditions=0;
             $subTotalDeductions=0;
 
-            foreach($additions as $generator){
+            foreach ($additions as $generator) {
                 $subTotalAdditions += $generator->amount;
             }
 
-            if (count($deductions) > 0){
-                foreach($deductions as $generator){
+            if (count($deductions) > 0) {
+                foreach ($deductions as $generator) {
                     $subTotalDeductions += $generator->amount;
                 }
             }
@@ -39,28 +37,27 @@ class ReportController extends Controller
                 'address'          =>$location->first()->concept->address,
                 'additions'          =>$additions,
                 'deductions'        =>$deductions,
-                'subTotalAdditions'  => number_format($subTotalAdditions,2,'.',','),
-                'subTotalDeductions'=> number_format($subTotalDeductions,2,'.',','),
-                'subTotal'          => number_format($subTotalAdditions+$subTotalDeductions,2,'.',','),
+                'subTotalAdditions'  => number_format($subTotalAdditions, 2, '.', ','),
+                'subTotalDeductions'=> number_format($subTotalDeductions, 2, '.', ','),
+                'subTotal'          => number_format($subTotalAdditions+$subTotalDeductions, 2, '.', ','),
 
-            ]),$location->first()->concept->location);
+            ]), $location->first()->concept->location);
         }
 
-        $pdf = PDF::loadView('reports.cumulativeControl.pdf',compact('estimate','data'));
-        $pdf->setPaper('letter','portrait');
-        return $pdf->stream('CA.pdf');
+        $pdf = PDF::loadView('reports.cumulativeControl.pdf', compact('estimate', 'data'));
+        $pdf->setPaper('letter', 'portrait');
+        return $pdf->stream('ControlAcumulativo.pdf');
     }
 
     public function cumulativeControlLocations(Estimate $estimate)
     {
-
-        $locations=$estimate->contract->locations()->orderBy('name','asc')->get();
+        $locations=$estimate->contract->locations()->orderBy('name', 'asc')->get();
 
         $data = collect();
         $subGenerators = collect();
         $array=array();
 
-        foreach ($estimate->generators as $generator){
+        foreach ($estimate->generators as $generator) {
             $subGenerators->push($generator->subGenerators);
         }
 
@@ -68,7 +65,7 @@ class ReportController extends Controller
 
         $total=0;
 
-        $locationsFiltered = $locations->filter(function ($value, $key) use ($subGenerators){
+        $locationsFiltered = $locations->filter(function ($value, $key) use ($subGenerators) {
             $additions =
                 $subGenerators
                     ->collapse()
@@ -85,11 +82,9 @@ class ReportController extends Controller
                     ->sortBy('generator.concept.code')->count();
 
             return $additions || $deductions > 0;
-
         });
 
-        foreach($locationsFiltered as $key => $location) {
-
+        foreach ($locationsFiltered as $key => $location) {
             $additions =
                 $subGenerators
                     ->collapse()
@@ -109,113 +104,105 @@ class ReportController extends Controller
             $subTotalDeductions = 0;
 
             //dump($additions);
-            if ($additions->isEmpty() && $deductions->isEmpty()){
+            if ($additions->isEmpty() && $deductions->isEmpty()) {
                 $locations->forget($key);
-
             }
 
-            foreach($additions as $subGenerator){
-                if ($estimate->contract->type == 2){
-                    if($estimate->start >= $estimate->contract->date_signature_covenant ){
+            foreach ($additions as $subGenerator) {
+                if ($estimate->contract->type == 2) {
+                    if ($estimate->start >= $estimate->contract->date_signature_covenant) {
                         if ($subGenerator->generator->concept->immovable == true) {
                             $unitPrice=$estimate->contract->originalAmount/100;
-                            $subGenerator->setAttribute('unit_price',$unitPrice * 100);
-                        }else{
-                            $unitPrice=( $estimate->contract->totalAmount + $estimate->contract->amount_adjustment ) / 100;
-                            $subGenerator->setAttribute('unit_price',$unitPrice * 100);
+                            $subGenerator->setAttribute('unit_price', $unitPrice * 100);
+                        } else {
+                            $unitPrice=($estimate->contract->totalAmount + $estimate->contract->amount_adjustment) / 100;
+                            $subGenerator->setAttribute('unit_price', $unitPrice * 100);
                         }
-                    }else{
+                    } else {
                         $unitPrice=$estimate->contract->originalAmount / 100;
-                        $subGenerator->setAttribute('unit_price',$unitPrice * 100);
+                        $subGenerator->setAttribute('unit_price', $unitPrice * 100);
                     }
-                }else{
+                } else {
                     $unitPrice=$subGenerator->generator->concept->unit_price;
-                    $subGenerator->setAttribute('unit_price',$unitPrice);
+                    $subGenerator->setAttribute('unit_price', $unitPrice);
                 }
 
-                if(array_key_exists($subGenerator->generator->concept->code,$array)){
-
-
-                    $subGenerator->setAttribute('acumuladoAnterior',Generator::format($array[$subGenerator->generator->concept->code]));
-                    $subGenerator->setAttribute('acumuladoActual',Generator::format($array[$subGenerator->generator->concept->code] + ($subGenerator->generator->lastQuantity + $subGenerator->quantity)));
-                    $subGenerator->setAttribute('importeAnterior',Generator::formatCash(round($unitPrice * $array[$subGenerator->generator->concept->code],2,PHP_ROUND_HALF_DOWN)));
-                    $subGenerator->setAttribute('importeActual',Generator::formatCash(round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN)));
-                    $subGenerator->setAttribute('importeAcumulado',Generator::formatCash(
-                        (round($unitPrice * $array[$subGenerator->generator->concept->code],2,PHP_ROUND_HALF_DOWN))+
-                        (round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN))
+                if (array_key_exists($subGenerator->generator->concept->code, $array)) {
+                    $subGenerator->setAttribute('acumuladoAnterior', Generator::format($array[$subGenerator->generator->concept->code]));
+                    $subGenerator->setAttribute('acumuladoActual', Generator::format($array[$subGenerator->generator->concept->code] + ($subGenerator->generator->lastQuantity + $subGenerator->quantity)));
+                    $subGenerator->setAttribute('importeAnterior', Generator::formatCash(round($unitPrice * $array[$subGenerator->generator->concept->code], 2, PHP_ROUND_HALF_DOWN)));
+                    $subGenerator->setAttribute('importeActual', Generator::formatCash(round($unitPrice * $subGenerator->quantity, 2, PHP_ROUND_HALF_DOWN)));
+                    $subGenerator->setAttribute('importeAcumulado', Generator::formatCash(
+                        (round($unitPrice * $array[$subGenerator->generator->concept->code], 2, PHP_ROUND_HALF_DOWN))+
+                        (round($unitPrice * $subGenerator->quantity, 2, PHP_ROUND_HALF_DOWN))
                     ));
                     //sumarle el valor de total y grabarlo en el arreglo
                     $array[$subGenerator->generator->concept->code] += ($subGenerator->generator->lastQuantity + $subGenerator->quantity);
-
-                }else{
+                } else {
                     //agregar valor a array si no existe aun
-                        $array[$subGenerator->generator->concept->code]=$subGenerator->generator->lastQuantity + $subGenerator->quantity;
-                    $subGenerator->setAttribute('acumuladoAnterior',Generator::format($subGenerator->generator->lastQuantity));
-                    $subGenerator->setAttribute('acumuladoActual',Generator::format($subGenerator->generator->lastQuantity + $subGenerator->quantity));
-                    $subGenerator->setAttribute('importeAnterior',Generator::formatCash(round($unitPrice * $subGenerator->generator->lastQuantity,2,PHP_ROUND_HALF_DOWN)));
-                    $subGenerator->setAttribute('importeActual',Generator::formatCash(round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN)));
-                    $subGenerator->setAttribute('importeAcumulado',Generator::formatCash(
-                        (round($unitPrice * $subGenerator->generator->lastQuantity,2,PHP_ROUND_HALF_DOWN))+
-                        (round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN))
+                    $array[$subGenerator->generator->concept->code]=$subGenerator->generator->lastQuantity + $subGenerator->quantity;
+                    $subGenerator->setAttribute('acumuladoAnterior', Generator::format($subGenerator->generator->lastQuantity));
+                    $subGenerator->setAttribute('acumuladoActual', Generator::format($subGenerator->generator->lastQuantity + $subGenerator->quantity));
+                    $subGenerator->setAttribute('importeAnterior', Generator::formatCash(round($unitPrice * $subGenerator->generator->lastQuantity, 2, PHP_ROUND_HALF_DOWN)));
+                    $subGenerator->setAttribute('importeActual', Generator::formatCash(round($unitPrice * $subGenerator->quantity, 2, PHP_ROUND_HALF_DOWN)));
+                    $subGenerator->setAttribute('importeAcumulado', Generator::formatCash(
+                        (round($unitPrice * $subGenerator->generator->lastQuantity, 2, PHP_ROUND_HALF_DOWN))+
+                        (round($unitPrice * $subGenerator->quantity, 2, PHP_ROUND_HALF_DOWN))
                     ));
                 }
 
-                $subTotalAdditions += round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN);
-                $total += round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN);
+                $subTotalAdditions += round($unitPrice * $subGenerator->quantity, 2, PHP_ROUND_HALF_DOWN);
+                $total += round($unitPrice * $subGenerator->quantity, 2, PHP_ROUND_HALF_DOWN);
                 //dump($subTotalAdditions);
             }
 
-            if (count($deductions) > 0){
+            if (count($deductions) > 0) {
                 //dd($deductivas);
-                foreach($deductions as $subGenerator){
-                    if ($estimate->contract->type == 2){
-                        if($estimate->start >= $estimate->contract->date_signature_covenant ){
+                foreach ($deductions as $subGenerator) {
+                    if ($estimate->contract->type == 2) {
+                        if ($estimate->start >= $estimate->contract->date_signature_covenant) {
                             if ($subGenerator->generator->concept->immovable == true) {
                                 $unitPrice=$estimate->contract->originalAmount/100;
-                                $subGenerator->setAttribute('unit_price',$unitPrice * 100);
-                            }else{
-                                $unitPrice=( $estimate->contract->totalAmount + $estimate->contract->amount_adjustment ) / 100;
-                                $subGenerator->setAttribute('unit_price',$unitPrice * 100);
+                                $subGenerator->setAttribute('unit_price', $unitPrice * 100);
+                            } else {
+                                $unitPrice=($estimate->contract->totalAmount + $estimate->contract->amount_adjustment) / 100;
+                                $subGenerator->setAttribute('unit_price', $unitPrice * 100);
                             }
-                        }else{
+                        } else {
                             $unitPrice=$estimate->contract->originalAmount / 100;
-                            $subGenerator->setAttribute('unit_price',$unitPrice * 100);
+                            $subGenerator->setAttribute('unit_price', $unitPrice * 100);
                         }
-                    }else{
+                    } else {
                         $unitPrice=$subGenerator->generator->concept->unit_price;
-                        $subGenerator->setAttribute('unit_price',$unitPrice);
+                        $subGenerator->setAttribute('unit_price', $unitPrice);
                     }
 
-                    if(array_key_exists($subGenerator->generator->concept->code,$array)){
-
-
-
-
-                        $subGenerator->setAttribute('acumuladoAnterior',Generator::format($array[$subGenerator->generator->concept->code]));
-                        $subGenerator->setAttribute('acumuladoActual',Generator::format($array[$subGenerator->generator->concept->code] + ($subGenerator->generator->lastQuantity + $subGenerator->quantity)));
-                        $subGenerator->setAttribute('importeAnterior',Generator::formatCash(round($unitPrice * $array[$subGenerator->generator->concept->code],2,PHP_ROUND_HALF_DOWN)));
-                        $subGenerator->setAttribute('importeActual',Generator::formatCash(round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN)));
-                        $subGenerator->setAttribute('importeAcumulado',Generator::formatCash(
-                            (round($unitPrice * $array[$subGenerator->generator->concept->code],2,PHP_ROUND_HALF_DOWN))+
-                            (round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN))
+                    if (array_key_exists($subGenerator->generator->concept->code, $array)) {
+                        $subGenerator->setAttribute('acumuladoAnterior', Generator::format($array[$subGenerator->generator->concept->code]));
+                        $subGenerator->setAttribute('acumuladoActual', Generator::format($array[$subGenerator->generator->concept->code] + ($subGenerator->generator->lastQuantity + $subGenerator->quantity)));
+                        $subGenerator->setAttribute('importeAnterior', Generator::formatCash(round($unitPrice * $array[$subGenerator->generator->concept->code], 2, PHP_ROUND_HALF_DOWN)));
+                        $subGenerator->setAttribute('importeActual', Generator::formatCash(round($unitPrice * $subGenerator->quantity, 2, PHP_ROUND_HALF_DOWN)));
+                        $subGenerator->setAttribute('importeAcumulado', Generator::formatCash(
+                            (round($unitPrice * $array[$subGenerator->generator->concept->code], 2, PHP_ROUND_HALF_DOWN))+
+                            (round($unitPrice * $subGenerator->quantity, 2, PHP_ROUND_HALF_DOWN))
                         ));
                         //sumarle el valor de total y grabarlo en el arreglo
                         $array[$subGenerator->generator->concept->code] += ($subGenerator->generator->lastQuantity + $subGenerator->quantity);
-                    }else{
+                    } else {
                         //agregar valor a array si no existe aun
                         $array[$subGenerator->generator->concept->code]=$subGenerator->generator->lastQuantity + $subGenerator->quantity;
-                        $subGenerator->setAttribute('acumuladoAnterior',Generator::format($subGenerator->generator->lastQuantity));
-                        $subGenerator->setAttribute('acumuladoActual',Generator::format($subGenerator->generator->lastQuantity + $subGenerator->quantity));
-                        $subGenerator->setAttribute('importeAnterior',Generator::formatCash(round($unitPrice * $subGenerator->generator->lastQuantity,2,PHP_ROUND_HALF_DOWN)));
-                        $subGenerator->setAttribute('importeActual',Generator::formatCash(round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN)));
-                        $subGenerator->setAttribute('importeAcumulado',Generator::formatCash(
-                            (round($unitPrice * $subGenerator->generator->lastQuantity,2,PHP_ROUND_HALF_DOWN))+
-                            (round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN))
+                        $subGenerator->setAttribute('acumuladoAnterior', Generator::format($subGenerator->generator->lastQuantity));
+                        $subGenerator->setAttribute('acumuladoActual', Generator::format($subGenerator->generator->lastQuantity + $subGenerator->quantity));
+                        $subGenerator->setAttribute('importeAnterior', Generator::formatCash(round($unitPrice * $subGenerator->generator->lastQuantity, 2, PHP_ROUND_HALF_DOWN)));
+                        $subGenerator->setAttribute('importeActual', Generator::formatCash(round($unitPrice * $subGenerator->quantity, 2, PHP_ROUND_HALF_DOWN)));
+                        $subGenerator->setAttribute('importeAcumulado', Generator::formatCash(
+                            (round($unitPrice * $subGenerator->generator->lastQuantity, 2, PHP_ROUND_HALF_DOWN))+
+                            (round($unitPrice * $subGenerator->quantity, 2, PHP_ROUND_HALF_DOWN))
                         ));
                     }
 
-                    $subTotalDeductions += round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN);
-                    $total += round($unitPrice * $subGenerator->quantity,2,PHP_ROUND_HALF_DOWN);
+                    $subTotalDeductions += round($unitPrice * $subGenerator->quantity, 2, PHP_ROUND_HALF_DOWN);
+                    $total += round($unitPrice * $subGenerator->quantity, 2, PHP_ROUND_HALF_DOWN);
                 }
             }
 
@@ -229,14 +216,21 @@ class ReportController extends Controller
                 'subTotalDeductions'=> Generator::formatCash($subTotalDeductions),
                 'subTotal'          => Generator::formatCash($subTotalAdditions+$subTotalDeductions),
 
-            ]),$location->name);
+            ]), $location->name);
         }
 
         $pdf = PDF::loadView(
             'reports.cumulativeControlLocations.pdf',
-            compact('estimate','data','total')
+            compact('estimate', 'data', 'total')
         );
-        $pdf->setPaper('letter','portrait');
-        return $pdf->stream('CAL.pdf',array('Attachment'=>0));
+        $pdf->setPaper('letter', 'portrait');
+        return $pdf->stream('ControlAacumFrentes.pdf', array('Attachment'=>0));
+    }
+
+    public function accountingStatement(Estimate $estimate)
+    {
+        $pdf = PDF::loadView('reports.accountingStatement.pdf', compact('estimate'));
+        $pdf->setPaper('letter', 'portrait');
+        return $pdf->stream('estadoContable.pdf');
     }
 }

@@ -32,7 +32,7 @@
                                                                 </div>
                                                                 <select name="contract_id" class="form-control" id="contractId" required>
                                                                     <option value="" selected>selecciona un contrato...</option>
-                                                                    @foreach(auth()->user()->contracts()->orderBy('code')->get() as $key => $contract)
+                                                                    @foreach(auth()->user()->contracts()->active()->split()->orderBy('code')->get() as $key => $contract)
                                                                         <option value="{{ $contract->id }}">{{ $contract->codeOk }}</option>
                                                                     @endforeach
                                                                 </select>
@@ -83,7 +83,7 @@
                                                     </div>
                                                     <select name="contract_id" class="form-control" id="codeContract">
                                                         <option value="" selected>selecciona un contrato dividido por frentes...</option>
-                                                        @foreach(auth()->user()->contracts()->split()->orderBy('code')->get() as $key => $contract)
+                                                        @foreach(auth()->user()->contracts()->active()->split()->orderBy('code')->get() as $key => $contract)
                                                             <option value="{{ $contract->id }}">{{ $contract->codeOk }}</option>
                                                         @endforeach
                                                     </select>

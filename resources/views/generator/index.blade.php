@@ -147,7 +147,7 @@
 
                                                                     <div class="input-group">
                                                                         <div class="input-group-prepend"><span class="input-group-text text-body"><i class="font-weight-bold text-muted">{{ $subGenerator->location->name }}</i></span></div>
-                                                                        <input name=quantitySubGenerator{{ $subGenerator->id }} id="subGenerator{{ $subGenerator->id }}" type="number" class="form-control" value="{{ $subGenerator->quantity }}" step='0.000001' required>
+                                                                        <input name="quantitySubGenerator{{ $subGenerator->id }}" id="subGenerator{{ $subGenerator->id }}" type="number" class="form-control" value="{{ $subGenerator->quantity }}" step='0.000001' required>
                                                                     </div>
                                                                 </div>
                                                             </div>

@@ -110,6 +110,7 @@ class Contract extends Model
         return strtoupper($this->code);
     }
 
+    
     public function getTotalOkAttribute()
     {
         return "$ " . number_format($this->amount_total, 2, '.', ',');
@@ -126,6 +127,10 @@ class Contract extends Model
     public function getSignatureOkAttribute()
     {
         return Carbon::parse($this->date_signature)->format('d-m-Y');
+    }
+    public function getSignatureWithLettersAttribute()
+    {
+        return $this->changeDateLetter($this->date_signature);
     }
     public function getCovenantOkAttribute()
     {
@@ -149,22 +154,23 @@ class Contract extends Model
     }
     public function getOriginalAmountAttribute()
     {
-        return round($this->amount_total,2,PHP_ROUND_HALF_DOWN);
+        return round($this->amount_total, 2, PHP_ROUND_HALF_DOWN);
     }
     public function getExtensionAmountAttribute()
     {
-        return round($this->amount_extension,2, PHP_ROUND_HALF_DOWN);
+        return round($this->amount_extension, 2, PHP_ROUND_HALF_DOWN);
     }
     public function getNameContractFormattedAttribute()
     {
         return strtoupper(
-            substr($this->code,-15,2)." ".
-            substr($this->code,-13,2)." ".
-            substr($this->code,-11,2)." ".
-            substr($this->code,-9,2)." ".
-            substr($this->code,-7,4)." ".
-            substr($this->code,-3,1)." ".
-            substr($this->code,-2));
+            substr($this->code, -15, 2)." ".
+            substr($this->code, -13, 2)." ".
+            substr($this->code, -11, 2)." ".
+            substr($this->code, -9, 2)." ".
+            substr($this->code, -7, 4)." ".
+            substr($this->code, -3, 1)." ".
+            substr($this->code, -2)
+        );
     }
     public function getTypeOkAttribute()
     {
@@ -179,6 +185,8 @@ class Contract extends Model
                 return 'builder';
         }
     }
+
+
     //QUERY SCOPE
     public function scopeCode($query, $code)
     {
@@ -200,14 +208,63 @@ class Contract extends Model
     private function format($number)
     {
         $numbers= explode(".", $number);
-        if ( ! isset($numbers[1])) {
+        if (! isset($numbers[1])) {
             $numbers[1] = null;
         }
-        if (strlen($numbers[1]) < 2 ) {
-            return number_format($number,2,'.',',');
-        }else {
-            return number_format($numbers[0],0,'.',',').'.'.$numbers[1];
+        if (strlen($numbers[1]) < 2) {
+            return number_format($number, 2, '.', ',');
+        } else {
+            return number_format($numbers[0], 0, '.', ',').'.'.$numbers[1];
         }
     }
 
+    
+    private function changeDateLetter($date)
+    {
+        if ($date=='0000-00-00') {
+            return '------';
+        }
+        $mes='';
+        $arraydate = explode("-", $date);
+            
+        if ($arraydate[1]=='01') {
+            $mes='ENERO';
+        }
+        if ($arraydate[1]=='02') {
+            $mes='FEBRERO';
+        }
+        if ($arraydate[1]=='03') {
+            $mes='MARZO';
+        }
+        if ($arraydate[1]=='04') {
+            $mes='ABRIL';
+        }
+        if ($arraydate[1]=='05') {
+            $mes='MAYO';
+        }
+        if ($arraydate[1]=='06') {
+            $mes='JUNIO';
+        }
+        if ($arraydate[1]=='07') {
+            $mes='JULIO';
+        }
+        if ($arraydate[1]=='08') {
+            $mes='AGOSTO';
+        }
+        if ($arraydate[1]=='09') {
+            $mes='SEPTIEMBRE';
+        }
+        if ($arraydate[1]=='10') {
+            $mes='OCTUBRE';
+        }
+        if ($arraydate[1]=='11') {
+            $mes='NOVIEMBRE';
+        }
+        if ($arraydate[1]=='12') {
+            $mes='DICIEMBRE';
+        }
+            
+        
+        return strtoupper($arraydate[2].' de '.$mes.' del '.$arraydate[0]);
+    }
 }

@@ -34,7 +34,7 @@ class Estimate extends Model
 
     /**
      * Relation to Contract class
-     * 
+     *
      * @return Illuminate\Database\Eloquent\Concerns\HasRelationships::belongsTo
      */
     public function contract()
@@ -44,7 +44,7 @@ class Estimate extends Model
 
     /**
      * Relation to Concept class
-     * 
+     *
      * @return Illuminate\Database\Eloquent\Concerns\HasRelationships::belongsToMany
      */
     public function concepts()
@@ -54,7 +54,7 @@ class Estimate extends Model
 
     /**
      * Relation to Generator class
-     * 
+     *
      * @return Illuminate\Database\Eloquent\Concerns\HasRelationships::hasMany
      */
     public function generators()
@@ -64,7 +64,7 @@ class Estimate extends Model
 
     /**
      * Relation to Deduction class
-     * 
+     *
      * @return Illuminate\Database\Eloquent\Concerns\HasRelationships::belongsToMany
      */
     public function deductions()
@@ -74,7 +74,7 @@ class Estimate extends Model
 
     /**
      * Return the start date with format.
-     * 
+     *
      * @return string
      */
     public function getStartOkAttribute()
@@ -83,7 +83,7 @@ class Estimate extends Model
     }
     /**
      * Return the finish date with format.
-     * 
+     *
      * @return string
      */
     public function getFinishOkAttribute()
@@ -92,7 +92,7 @@ class Estimate extends Model
     }
     /**
      * Return the date of emission with format.
-     * 
+     *
      * @return string
      */
     public function getReleaseOkAttribute()
@@ -101,7 +101,7 @@ class Estimate extends Model
     }
     /**
      * Return type. Retorna el tipo de estimacion con formato de letras.
-     * 
+     *
      * @return string
      */
     public function getTypeOkAttribute()
@@ -121,7 +121,7 @@ class Estimate extends Model
             break;
         case 5:
             $type= 'FINAL COMBINADA';
-            break;    
+            break;
         default:
             $type= 'NO ESPECIFICADO';
         }
@@ -129,7 +129,7 @@ class Estimate extends Model
     }
     /**
      * Retorna la letra segun el tipo de la estimación.
-     * 
+     *
      * @return string
      */
     public function getEstimateLetterAttribute()
@@ -141,7 +141,7 @@ class Estimate extends Model
     }
     /**
      * Retorna el numero de estimacion en formato de letras.
-     * 
+     *
      * @return string
      */
     public function getNumberEstimateLetterAttribute()
@@ -151,7 +151,7 @@ class Estimate extends Model
 
     /**
      * Retorna el tipo de estimacion en formato de letras.
-     * 
+     *
      * @return string
      */
     public function getTypeEstimateAttribute()
@@ -176,7 +176,7 @@ class Estimate extends Model
 
     /**
      * Retorna la fecha de entrega en formato de letras.
-     * 
+     *
      * @return string
      */
     public function getDateOfDeliveryAttribute()
@@ -186,7 +186,7 @@ class Estimate extends Model
 
     /**
      * Retorna el periodo de la estimacion en formato de letras.
-     * 
+     *
      * @return string
      */
     public function getFormattedPeriodEstimateAttribute()
@@ -198,7 +198,7 @@ class Estimate extends Model
     
     /**
      * Retorna la fecha de inicio de estimacion en formato de letras.
-     * 
+     *
      * @return string
      */
     public function getPeriodStartLetterAttribute()
@@ -208,27 +208,39 @@ class Estimate extends Model
 
     /**
      * Retorna la fecha de fin de estimacion en formato de letras.
-     * 
+     *
      * @return string
      */
     public function getPeriodFinishLetterAttribute()
     {
         return DateController::ChangeDateLetter($this->finish);
     }
+    
     /**
      * Retorna Monto total de la estimacion.
-     * 
+     *
      * @return Float
      */
     public function getTotalEstimateAmountAttribute(Estimate $estimate=null)
     {
         if ($estimate!=null) {
             $amount=$this->estimateAmount($estimate);
-            return $amount+$this->retention;
+            return $amount + $this->retention;
         }
         $amount=$this->estimateAmount;
-        return $amount+$this->retention;
+        return $amount + $this->retention;
     }
+
+    /**
+     * Retorna Monto total de la estimacion formateado con $.
+     *
+     * @return Float
+     */
+    public function getTotalEstimateAmountOkAttribute()
+    {
+        return '$ ' . $this->format($this->totalEstimateAmount);
+    }
+    
     public function getEstimateAmountAttribute(Estimate $estimate=null)
     {
         if ($estimate!=null) {
@@ -302,10 +314,7 @@ class Estimate extends Model
     {
         return '$ ' . $this->format($this->iva);
     }
-    public function getTotalEstimateAmountOkAttribute()
-    {
-        return '$ ' . $this->format($this->totalEstimateAmount);
-    }
+    
     public function getTotalEstimateAmountWithIvaAttribute()
     {
         return $this->totalEstimateAmount + $this->iva;
@@ -322,6 +331,7 @@ class Estimate extends Model
     {
         return '$ ' . $this->format($this->totalEstimated);
     }
+    
     public function getTotalPreviousAmountAttribute()
     {
         $totalPrevious = 0;
@@ -339,12 +349,16 @@ class Estimate extends Model
      * Query Scope.
      */
 
-    public function scopePreviousEstimates($query, Estimate $estimate)
+    public function scopePreviousEstimates($query,Estimate $estimate)
     {
         if ($estimate) {
-            return $query->with('contract', 'generators', 'deductions')->where('number', '<', $estimate->number)
-            ->where('contract_id', $estimate->contract->id);
+            return $query->with('contract', 'generators', 'deductions')
+                ->where('number', '<', $estimate->number)
+                ->where('contract_id', $estimate->contract->id);
         }
+        return $query->with('contract', 'generators', 'deductions')
+            ->where('number', '<', $this->number)
+            ->where('contract_id', $this->contract->id);
     }
 
     
@@ -383,7 +397,7 @@ class Estimate extends Model
 
     public function scopeGeneratorsPrevious()
     {
-        return $generators=Generator::where('estimates.number', '<', $this->number)
+        return Generator::where('estimates.number', '<', $this->number)
             ->where('contracts.id', $this->contract->id)
             ->join('concepts', 'concepts.id', '=', 'concept_estimate.concept_id')
             ->join('estimates', 'estimates.id', '=', 'concept_estimate.estimate_id')
@@ -629,7 +643,7 @@ class Estimate extends Model
             "VEINTI", 30 => "TREINTA", 40 => "CUARENTA", 50 => "CINCUENTA", 60 => "SESENTA", 70 => "SETENTA", 80 => "OCHENTA", 90 => "NOVENTA",
             100 => "CIENTO", 200 => "DOSCIENTOS", 300 => "TRESCIENTOS", 400 => "CUATROCIENTOS", 500 => "QUINIENTOS", 600 => "SEISCIENTOS", 700 => "SETECIENTOS", 800 => "OCHOCIENTOS", 900 => "NOVECIENTOS"
         );
-    //
+        //
         $xcifra = trim($xcifra);
         $xlength = strlen($xcifra);
         $xpos_punto = strpos($xcifra, ".");
@@ -662,19 +676,18 @@ class Estimate extends Model
                     switch ($xy) {
                         case 1: // checa las centenas
                             if (substr($xaux, 0, 3) < 100) { // si el grupo de tres dígitos es menor a una centena ( < 99) no hace nada y pasa a revisar las decenas
-                                
                             } else {
                                 $key = (int) substr($xaux, 0, 3);
-                                if (TRUE === array_key_exists($key, $xarray)){  // busco si la centena es número redondo (100, 200, 300, 400, etc..)
+                                if (true === array_key_exists($key, $xarray)) {  // busco si la centena es número redondo (100, 200, 300, 400, etc..)
                                     $xseek = $xarray[$key];
                                     $xsub = self::subfijo($xaux); // devuelve el subfijo correspondiente (Millón, Millones, Mil o nada)
-                                    if (substr($xaux, 0, 3) == 100)
+                                    if (substr($xaux, 0, 3) == 100) {
                                         $xcadena = " " . $xcadena . " CIEN " . $xsub;
-                                    else
+                                    } else {
                                         $xcadena = " " . $xcadena . " " . $xseek . " " . $xsub;
+                                    }
                                     $xy = 3; // la centena fue redonda, entonces termino el ciclo del for y ya no reviso decenas ni unidades
-                                }
-                                else { // entra aquí si la centena no fue numero redondo (101, 253, 120, 980, etc.)
+                                } else { // entra aquí si la centena no fue numero redondo (101, 253, 120, 980, etc.)
                                     $key = (int) substr($xaux, 0, 1) * 100;
                                     $xseek = $xarray[$key]; // toma el primer caracter de la centena y lo multiplica por cien y lo busca en el arreglo (para que busque 100,200,300, etc)
                                     $xcadena = " " . $xcadena . " " . $xseek;
@@ -683,31 +696,30 @@ class Estimate extends Model
                             break;
                         case 2: // checa las decenas (con la misma lógica que las centenas)
                             if (substr($xaux, 1, 2) < 10) {
-                                
                             } else {
                                 $key = (int) substr($xaux, 1, 2);
-                                if (TRUE === array_key_exists($key, $xarray)) {
+                                if (true === array_key_exists($key, $xarray)) {
                                     $xseek = $xarray[$key];
                                     $xsub = self::subfijo($xaux);
-                                    if (substr($xaux, 1, 2) == 20)
+                                    if (substr($xaux, 1, 2) == 20) {
                                         $xcadena = " " . $xcadena . " VEINTE " . $xsub;
-                                    else
+                                    } else {
                                         $xcadena = " " . $xcadena . " " . $xseek . " " . $xsub;
+                                    }
                                     $xy = 3;
-                                }
-                                else {
+                                } else {
                                     $key = (int) substr($xaux, 1, 1) * 10;
                                     $xseek = $xarray[$key];
-                                    if (20 == substr($xaux, 1, 1) * 10)
+                                    if (20 == substr($xaux, 1, 1) * 10) {
                                         $xcadena = " " . $xcadena . " " . $xseek;
-                                    else
+                                    } else {
                                         $xcadena = " " . $xcadena . " " . $xseek . " Y ";
+                                    }
                                 } // ENDIF ($xseek)
                             } // ENDIF (substr($xaux, 1, 2) < 10)
                             break;
                         case 3: // checa las unidades
                             if (substr($xaux, 2, 1) < 1) { // si la unidad es cero, ya no hace nada
-                                
                             } else {
                                 $key = (int) substr($xaux, 2, 1);
                                 $xseek = $xarray[$key]; // obtengo directamente el valor de la unidad (del uno al nueve)
@@ -720,26 +732,30 @@ class Estimate extends Model
                 $xi = $xi + 3;
             } // ENDDO
 
-            if (substr(trim($xcadena), -5, 5) == "ILLON") // si la cadena obtenida termina en MILLON o BILLON, entonces le agrega al final la conjuncion DE
+            if (substr(trim($xcadena), -5, 5) == "ILLON") { // si la cadena obtenida termina en MILLON o BILLON, entonces le agrega al final la conjuncion DE
                 $xcadena.= " DE";
+            }
 
-            if (substr(trim($xcadena), -7, 7) == "ILLONES") // si la cadena obtenida en MILLONES o BILLONES, entoncea le agrega al final la conjuncion DE
+            if (substr(trim($xcadena), -7, 7) == "ILLONES") { // si la cadena obtenida en MILLONES o BILLONES, entoncea le agrega al final la conjuncion DE
                 $xcadena.= " DE";
+            }
 
             // ----------- esta línea la puedes cambiar de acuerdo a tus necesidades o a tu país -------
             if (trim($xaux) != "") {
                 switch ($xz) {
                     case 0:
-                        if (trim(substr($XAUX, $xz * 6, 6)) == "1")
+                        if (trim(substr($XAUX, $xz * 6, 6)) == "1") {
                             $xcadena.= "UN BILLON ";
-                        else
+                        } else {
                             $xcadena.= " BILLONES ";
+                        }
                         break;
                     case 1:
-                        if (trim(substr($XAUX, $xz * 6, 6)) == "1")
+                        if (trim(substr($XAUX, $xz * 6, 6)) == "1") {
                             $xcadena.= "UN MILLON ";
-                        else
+                        } else {
                             $xcadena.= " MILLONES ";
+                        }
                         break;
                     case 2:
                         if ($xcifra < 1) {
@@ -768,17 +784,18 @@ class Estimate extends Model
 
     // END private FUNCTION
 
-    private  static function subfijo($xx)
+    private static function subfijo($xx)
     { // esta función regresa un subfijo para la cifra
         $xx = trim($xx);
         $xstrlen = strlen($xx);
-        if ($xstrlen == 1 || $xstrlen == 2 || $xstrlen == 3)
+        if ($xstrlen == 1 || $xstrlen == 2 || $xstrlen == 3) {
             $xsub = "";
+        }
         //
-        if ($xstrlen == 4 || $xstrlen == 5 || $xstrlen == 6)
+        if ($xstrlen == 4 || $xstrlen == 5 || $xstrlen == 6) {
             $xsub = "MIL";
+        }
         //
         return $xsub;
     }
-    
 }

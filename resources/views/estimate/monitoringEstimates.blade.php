@@ -87,7 +87,7 @@
                                             </td>
                                             <td class="d-none d-md-table-cell">$ {{ $contract->totalAmountOk }}</td>
                                             <td class="text-left">
-                                                @forelse($contract->estimates()->orderBy('number','asc')->get() as $estimate)
+                                                @forelse($contract->estimates()->with('generators')->orderBy('number','asc')->get() as $estimate)
                                                     @switch($estimate->status)
                                                         @case(1)
                                                         <a href="{{ route('estimate.show',$estimate) }}" class="btn btn-light text-dark" title="Empresa Contratista" id="status-1">{{ $estimate->number }}</a>

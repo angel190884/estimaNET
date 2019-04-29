@@ -85,7 +85,7 @@
                 </div>
 
                 <div class="links">
-                    <a href="{{ route('login') }}" title="Ingresar">Sistema Integral para el seguimiento de estimaciones en Obra Pública</a>
+                    <a href="{{ route('login') }}" title="Ingresar">Sistema Integral para el seguimiento de estimaciones en Obra.</a>
                     <!--<a href="https://laravel.com/docs">Documentation</a>
                     <a href="https://laracasts.com">Laracasts</a>
                     <a href="https://laravel-news.com">News</a>

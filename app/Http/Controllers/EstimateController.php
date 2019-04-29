@@ -81,7 +81,8 @@ class EstimateController extends Controller
         $chart->minimalist(true);
         $chart->displayLegend(false);
         $chart->dataset('montos', 'pie', [$estimate->totalForExecuteAmount, $estimate->totalPreviousAmount, $estimate->totalEstimateAmount])->options(['backgroundColor' => ['#FF637D', '#F4F1BB', '#66D7B1']]);
-    
+        //$chart->dataset('montos', 'pie', [10, 11, 10])->options(['backgroundColor' => ['#FF637D', '#F4F1BB', '#66D7B1']]);
+        
         return view('estimate.show', compact('estimate', 'chart'));
     }
 
