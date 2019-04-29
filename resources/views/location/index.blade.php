@@ -9,9 +9,9 @@
                         <div class="container-fluid m-auto p-0">
                             <div class="row">
                                 <div class="col-sm-12 col-md-5">
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#addLocation" title="Agregar Frente">
+                                    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addLocation" title="Agregar Frente">
                                         <i class="fas fa-plus"></i>
-                                    </button> Frentes
+                                    </button> Frentes 
                                     <!-- Modal add-->
                                     <div class="modal fade" id="addLocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
@@ -110,8 +110,8 @@
                             <table class="table table-hover table-striped">
                                 <thead class="thead-dark">
                                 <tr>
-                                    <th class="text-left">Código</th>
-                                    <th class="d-none d-md-table-cell">Contrato</th>
+                                    <th class="d-none d-md-table-cell text-left">Código</th>
+                                    <th>Contrato</th>
                                     <th>Frente</th>
                                     <th class="d-none d-md-table-cell">Ubicación</th>
                                     <!--<th>U.M.</th>
@@ -127,8 +127,8 @@
                                 @if(isset($locations))
                                     @forelse($locations as $location)
                                         <tr>
-                                            <th class="text-left">sys-{{ $location->id }}</th>
-                                            <td class="d-none d-md-table-cell">{{ $location->contract->codeOk }}</td>
+                                            <th class="d-none d-md-table-cell text-left">sys-{{ $location->id }}</th>
+                                            <td>{{ $location->contract->short_name }}</td>
                                             <td><small>{{ $location->name }}</small></td>
                                             <td class="d-none d-md-table-cell"><small>{{ $location->address }}</small></td>
 
