@@ -85,7 +85,7 @@
 			<td>CON I.V.A.</td>
 		</tr>
 
-		@include('reports.accountingstatement.partials.advancePayment')
+		@include('reports.accountingStatement.partials.advancePayment')
 
 		<tr>
 			<td><strong>Deducciones</strong></td>
