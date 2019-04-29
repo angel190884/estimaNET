@@ -53,10 +53,10 @@
                                     <th class="d-none d-md-table-cell">id sistema</th>
                                     <th class="d-none d-md-table-cell">Contrato</th>
                                     <th># Estimación</th>
-                                    <th>Tipo</th>
-                                    <th>Inicio</th>
-                                    <th>Fin</th>
-                                    <th>Impresión</th>
+                                    <th class="d-none d-md-table-cell">Tipo</th>
+                                    <th class="d-none d-md-table-cell">Inicio</th>
+                                    <th class="d-none d-md-table-cell">Fin</th>
+                                    <th class="d-none d-md-table-cell">Impresión</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
@@ -68,18 +68,18 @@
                                                 <th class="d-none d-md-table-cell">sys_{{ $estimate->id }}</th>
                                                 <td class="d-none d-md-table-cell">{{ $contract->short_name }}</td>
                                                 <th>{{ $estimate->number }}</th>
-                                                <td>{{ $estimate->typeOk }}</td>
-                                                <td>{{ $estimate->startOk }}</td>
-                                                <td>{{ $estimate->finishOk }}</td>
-                                                <td>{{ $estimate->releaseOk }}</td>
+                                                <td class="d-none d-md-table-cell">{{ $estimate->typeOk }}</td>
+                                                <td class="d-none d-md-table-cell">{{ $estimate->startOk }}</td>
+                                                <td class="d-none d-md-table-cell">{{ $estimate->finishOk }}</td>
+                                                <td class="d-none d-md-table-cell">{{ $estimate->releaseOk }}</td>
                                                 <td>
-                                                    <a href="{{ route('estimate.edit',$estimate) }}" class="btn btn-light btn-sm" role="button" title="Editar Estimación"><i class="fas fa-edit fa-2x"></i></a>
-                                                    <a href="{{ route('generator.list',$estimate) }}" class="btn btn-light btn-sm" role="button" title="Cargar Conceptos"><i class="fas fa-clipboard-list fa-2x"></i></a>
+                                                    <a href="{{ route('estimate.edit',$estimate) }}" class="btn btn-primary btn-sm" role="button" title="Editar Estimación"><i class="fas fa-edit fa-2x"></i></a>
+                                                    <a href="{{ route('generator.list',$estimate) }}" class="btn btn-primary btn-sm" role="button" title="Cargar Conceptos"><i class="fas fa-clipboard-list fa-2x"></i></a>
 
                                                     @if($contract->split_catalog)
-                                                        <a href="{{ route('report.cumulativeControlLocations',$estimate) }}" target="_blank" class="btn btn-light btn-sm" role="button" title="Imprimir Control Acumulativo"><i class="fas fa-file-pdf bg-danger text-white fa-2x"></i>CTRL ACUM</a>
+                                                        <a href="{{ route('report.cumulativeControlLocations',$estimate) }}" target="_blank" class="btn btn-primary btn-sm" role="button" title="Imprimir Control Acumulativo"><i class="fas fa-file-pdf bg-danger text-white fa-2x"></i></a>
                                                     @else
-                                                        <a href="{{ route('report.cumulativeControl',$estimate) }}" target="_blank" class="btn btn-light btn-sm" role="button" title="Imprimir Control Acumulativo"><i class="fas fa-file-pdf bg-danger text-white fa-2x"></i>CTRL ACUM</a>
+                                                        <a href="{{ route('report.cumulativeControl',$estimate) }}" target="_blank" class="btn btn-primary btn-sm" role="button" title="Imprimir Control Acumulativo"><i class="fas fa-file-pdf bg-danger text-white fa-2x"></i></a>
                                                     @endif
                                                 </td>
                                             </tr>
