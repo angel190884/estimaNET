@@ -113,7 +113,7 @@
                                 <tr>
                                     <th>Código</th>
                                     <th class="d-none d-md-table-cell">Nombre</th>
-                                    <th>Tipo</th>
+                                    <th class="d-none d-xs-table-cell">Tipo</th>
                                     <th>Porcentaje %</th>
                                     <th class="d-none d-md-table-cell">Descripción</th>
                                     <th>Acciones</th>
@@ -124,7 +124,7 @@
                                 <tr>
                                     <th>{{ $deduction->code }}</th>
                                     <td class="d-none d-md-table-cell">{{ $deduction->name }}</td>
-                                    <th>{{ $deduction->typeOk }}</th>
+                                    <th class="d-none d-xs-table-cell">{{ $deduction->typeOk }}</th>
                                     <td>{{ $deduction->percentage }}</td>
                                     <td class="d-none d-md-table-cell">{{ $deduction->description }}</td>
                                     <td>
