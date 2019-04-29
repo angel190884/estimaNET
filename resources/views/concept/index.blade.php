@@ -58,7 +58,7 @@
                                     <th class="d-none d-lg-table-cell">Frente</th>
                                     <th class="d-none d-lg-table-cell">Concepto</th>
                                     <th class="d-none d-md-table-cell">U.M.</th>
-                                    <th>P.U.</th>
+                                    <th class="d-none d-xs-table-cell">P.U.</th>
                                     <th>Cantidad</th>
                                     <th>tipo</th>
                                     <th>Acciones</th>
@@ -74,7 +74,7 @@
                                                     <td class="d-none d-lg-table-cell">{{ $concept->location }}</td>
                                                     <td class="d-none d-lg-table-cell">{{ $concept->name }}</td>
                                                     <td class="d-none d-md-table-cell">{{ $concept->measurement_unit }}</td>
-                                                    <td>{{ $concept->unitPriceOk }}</td>
+                                                    <td class="d-none d-xs-table-cell">{{ $concept->unitPriceOk }}</td>
                                                     <td>{{ $concept->quantityOk }}</td>
                                                     <td>{{ $concept->type }}</td>
                                                     <td>
