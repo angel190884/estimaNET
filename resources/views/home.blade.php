@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">Panel Pricipal</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -21,13 +21,13 @@
                     </div>
                     <div class="container">
                         <div class="row">
-                            <div class="col-6 col-lg-3">
+                            <div class="col-xs-12 col-6-md col-lg-3 p-3">
                                 <div class="card">
                                     <div class="card-body p-3 d-flex align-items-center">
-                                        <i class="fas fa-snowplow text-black-50 fa-2x px-1 mr-3"></i>
-                                        <div>
-                                            <div class="text-value-sm text-primary">CONTRATOS</div>
-                                        <div class="text-muted text-uppercase font-weight-bold small">total: {{ $numContracts }}</div>
+                                        <i class="fas fa-snowplow text-black-50 fa-2x px-1 mr-3 col-xs-12"></i>
+                                        <div class="col-xs-12">
+                                            <div class="text-value-sm text-primary col-xs-12">CONTRATOS</div>
+                                            <div class="text-muted text-uppercase font-weight-bold small col-xs-12">total: {{ $numContracts }}</div>
                                         </div>
                                     </div>
                                     <div class="card-footer px-3 py-2">
@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                     
-                            <div class="col-6 col-lg-3">
+                            <div class="col-xs-12 col-6-md col-lg-3 p-3">
                                 <div class="card">
                                     <div class="card-body p-3 d-flex align-items-center">
                                         <i class="fa fa-file-signature text-black-50 fa-2x px-1 mr-3"></i>
@@ -57,7 +57,7 @@
                                 </div>
                             </div>
                     
-                            <div class="col-6 col-lg-3">
+                            <div class="col-xs-12 col-6-md col-lg-3 p-3">
                                 <div class="card">
                                     <div class="card-body p-3 d-flex align-items-center">
                                         <i class="fas fa-map-marker-alt text-black-50 fa-2x px-1 mr-3"></i>
@@ -75,9 +75,9 @@
                                 </div>
                             </div>
                     
-                            <div class="col-6 col-lg-3">
+                            <div class="col-xs-12 col-6-md col-lg-3 p-3">
                                 <div class="card">
-                                    <div class="card-body p-3 d-flex align-items-center">
+                                    <div class=" card-body p-3 d-flex align-items-center">
                                         <i class="fa fa-bell text-black-50 fa-2x px-1 mr-3"></i>
                                         <div>
                                             <div class="text-value-sm text-primary">LOGS</div>
