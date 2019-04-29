@@ -14,9 +14,8 @@ class ContractsTableSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        
-        for ($i=0;$i <= 10;$i++) {
-            $companies = Company::all(); 
+        for ($i=0;$i <= 20;$i++) {
+            $companies = Company::all();
             $contract=factory(Contract::class)->create(
                 [
                     'type' => 1,
@@ -29,7 +28,6 @@ class ContractsTableSeeder extends Seeder
                 ]
             );
             $contract->companies()->attach($companies->random());
-
         }
 
         //Bouncer::allow('admin')->everything();
