@@ -63,6 +63,17 @@ class Estimate extends Model
     }
 
     /**
+     * Relation to Generator class
+     *
+     * @return Illuminate\Database\Eloquent\Concerns\HasRelationships::hasMany
+     */
+    public function subGenerators()
+    {
+        return $this->hasManyThrough(SubGenerator::class, Generator::class);
+    }
+
+    
+    /**
      * Relation to Deduction class
      *
      * @return Illuminate\Database\Eloquent\Concerns\HasRelationships::belongsToMany
@@ -241,71 +252,73 @@ class Estimate extends Model
         return '$ ' . $this->format($this->totalEstimateAmount);
     }
     
+    /**
+     * Retorna Monto de la estimacion.
+     *
+     * @param App\Estimate|null $estimate
+     * @return Float
+     */
     public function getEstimateAmountAttribute(Estimate $estimate=null)
     {
         if ($estimate!=null) {
             $total=0;
             if ($estimate->contract->type == 1) {
                 if ($estimate->contract->split_catalog) {
-                    $subGenerators = collect();
-                    foreach ($estimate->generators as $generator) {
-                        $subGenerators->push($generator->subGenerators);
-                    }
-                    foreach ($subGenerators->collapse()->sortBy('location.name') as $subGenerator) {
+                    foreach ($estimate->subGenerators->sortBy('location.name') as $subGenerator) {
                         $total+=round($subGenerator->quantity * $subGenerator->generator->concept->unit_price, 2, PHP_ROUND_HALF_DOWN);
                     }
-                } else {
-                    foreach ($estimate->generators as $generator) {
-                        $total+=round($generator->quantity * $generator->concept->unit_price, 2, PHP_ROUND_HALF_DOWN);
-                    }
-                }
-            } elseif ($estimate->contract->type == 2) {
-                if ($this->start >= $this->contract->date_finish_modified) {
-                    $unitPrice=($this->contract->totalAmount + $this->contract->amount_adjustment) / 100;
-                } else {
-                    $unitPrice=$this->contract->originalAmount/100;
+                    return round($total, 2, PHP_ROUND_HALF_DOWN);
                 }
                 foreach ($estimate->generators as $generator) {
-                    if ($generator->concept->immovable==false) {
-                        $total+=round($generator->quantity * ($unitPrice), 2, PHP_ROUND_HALF_DOWN);
-                    } else {
-                        $total+=round($generator->quantity * ($this->contract->originalAmount/100), 2, PHP_ROUND_HALF_DOWN);
-                    }
+                    $total+=round($generator->quantity * $generator->concept->unit_price, 2, PHP_ROUND_HALF_DOWN);
                 }
+                return round($total, 2, PHP_ROUND_HALF_DOWN);
             }
-            return $total;
+            $unitPrice = $this->contract->originalAmount / 100;
+            if ($this->start >= $this->contract->date_finish_modified) {
+                $unitPrice = ($this->contract->totalAmount + $this->contract->amount_adjustment) / 100;
+            }
+
+            foreach ($estimate->generators as $generator) {
+                if ($generator->concept->immovable==false) {
+                    $total+=round($generator->quantity * ($unitPrice), 2, PHP_ROUND_HALF_DOWN);
+                    return round($total, 2, PHP_ROUND_HALF_DOWN);
+                } 
+                return $total+=round($generator->quantity * ($this->contract->originalAmount/100), 2, PHP_ROUND_HALF_DOWN);
+            }
+            return round($total, 2, PHP_ROUND_HALF_DOWN);
         }
         $total=0;
         if ($this->contract->type == 1) {
             if ($this->contract->split_catalog) {
-                $subGenerators = collect();
-                foreach ($this->generators as $generator) {
-                    $subGenerators->push($generator->subGenerators);
-                }
-                foreach ($subGenerators->collapse()->sortBy('location.name') as $subGenerator) {
+                foreach ($this->subGenerators->sortBy('location.name') as $subGenerator) {
                     $total += round($subGenerator->quantity * $subGenerator->generator->concept->unit_price, 2, PHP_ROUND_HALF_DOWN);
                 }
-            } else {
-                foreach ($this->generators as $generator) {
-                    $total+=round($generator->quantity * $generator->concept->unit_price, 2, PHP_ROUND_HALF_DOWN);
-                }
-            }
-        } elseif ($this->contract->type == 2) {
-            if ($this->start >= $this->contract->date_finish_modified) {
-                $unitPrice=($this->contract->totalAmount + $this->contract->adjustment_amount) / 100;
-            } else {
-                $unitPrice=$this->contract->originalAmount/100;
+                return round($total, 2, PHP_ROUND_HALF_DOWN);
             }
             foreach ($this->generators as $generator) {
-                if ($generator->concept->immovable==false) {
-                    $total+=round($generator->total * ($unitPrice), 2, PHP_ROUND_HALF_DOWN);
-                } else {
-                    $total+=round($generator->total*($this->contract->originalAmount/100), 2, PHP_ROUND_HALF_DOWN);
-                }
+                $total+=round($generator->quantity * $generator->concept->unit_price, 2, PHP_ROUND_HALF_DOWN);
+            }
+            return round($total, 2, PHP_ROUND_HALF_DOWN);
+        }
+        $unitPrice=$this->contract->originalAmount/100;
+        if ($this->start >= $this->contract->date_finish_modified) {
+            $unitPrice=($this->contract->totalAmount + $this->contract->adjustment_amount) / 100;
+        }
+
+        foreach ($this->generators as $generator) {
+            switch ($generator->concept->immovable) {
+            case false:
+                $total += round($generator->total * $unitPrice, 2, PHP_ROUND_HALF_DOWN);
+                break;
+            default:
+                $total += round($generator->total*($this->contract->originalAmount/100), 2, PHP_ROUND_HALF_DOWN);
+                break;
             }
         }
         return round($total, 2, PHP_ROUND_HALF_DOWN);
     }
+    
     public function getIvaAttribute()
     {
         return round($this->totalEstimateAmount * 0.16, 2, PHP_ROUND_HALF_DOWN);
@@ -349,7 +362,7 @@ class Estimate extends Model
      * Query Scope.
      */
 
-    public function scopePreviousEstimates($query,Estimate $estimate)
+    public function scopePreviousEstimates($query, Estimate $estimate)
     {
         if ($estimate) {
             return $query->with('contract', 'generators', 'deductions')
