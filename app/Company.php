@@ -28,4 +28,14 @@ class Company extends Model
     {
         return $this->belongsToMany(Contract::class)->withTimestamps();
     }
+
+    /**
+     * Retorna el nombre con mayusculas.
+     *
+     * @return String
+     */
+    public function getReasonSocialOkAttribute()
+    {
+        return strtoupper($this->reason_social);
+    }
 }

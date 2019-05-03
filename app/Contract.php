@@ -101,7 +101,13 @@ class Contract extends Model
     }
 
     /**
-     * Return Code contract upper.
+     * **************************************************************************
+     * ************************DATOS*********************************************
+     * **************************************************************************
+     */
+
+    /**
+     * Retorna el nombre del contrato con Mayusculas.
      *
      * @return String
      */
@@ -110,56 +116,11 @@ class Contract extends Model
         return strtoupper($this->code);
     }
 
-    
-    public function getTotalOkAttribute()
-    {
-        return "$ " . number_format($this->amount_total, 2, '.', ',');
-    }
-
-    public function getStartOkAttribute()
-    {
-        return Carbon::parse($this->date_start)->format('d-m-Y');
-    }
-    public function getFinishOkAttribute()
-    {
-        return Carbon::parse($this->date_finish)->format('d-m-Y');
-    }
-    public function getSignatureOkAttribute()
-    {
-        return Carbon::parse($this->date_signature)->format('d-m-Y');
-    }
-    public function getSignatureWithLettersAttribute()
-    {
-        return $this->changeDateLetter($this->date_signature);
-    }
-    public function getCovenantOkAttribute()
-    {
-        return Carbon::parse($this->date_signature_covenant)->format('d-m-Y');
-    }
-    public function getDateModifiedOkAttribute()
-    {
-        if ($this->date_finish_modified) {
-            return Carbon::parse($this->date_finish_modified)->format('d-m-Y');
-        }
-        return "---";
-    }
-
-    public function getTotalAmountAttribute()
-    {
-        return $this->getOriginalAmountAttribute() + $this->getExtensionAmountAttribute();
-    }
-    public function getTotalAmountOkAttribute()
-    {
-        return $this->format($this->getOriginalAmountAttribute() + $this->getExtensionAmountAttribute());
-    }
-    public function getOriginalAmountAttribute()
-    {
-        return round($this->amount_total, 2, PHP_ROUND_HALF_DOWN);
-    }
-    public function getExtensionAmountAttribute()
-    {
-        return round($this->amount_extension, 2, PHP_ROUND_HALF_DOWN);
-    }
+    /**
+     * Retorna el code del contrato con Mayusculas y Formateado.
+     *
+     * @return String
+     */
     public function getNameContractFormattedAttribute()
     {
         return strtoupper(
@@ -172,22 +133,352 @@ class Contract extends Model
             substr($this->code, -2)
         );
     }
+    
+    /**
+     * Retorna el type del contrato con Mayusculas y Formateado a letras.
+     *
+     * @return String
+     */
     public function getTypeOkAttribute()
     {
         switch ($this->type) {
-            case 1:
-                return 'builder';
-                break;
-            case 2:
-                return 'supervision';
-                break;
-            default:
-                return 'builder';
+        case 1:
+            return 'builder';
+            break;
+        case 2:
+            return 'supervision';
+            break;
+        default:
+            return 'builder';
         }
     }
 
+    /**
+     * **************************************************************************
+     * ************************FECHAS********************************************
+     * **************************************************************************
+     */
 
-    //QUERY SCOPE
+    /**
+     * Retorna la fecha de inicio del contrato en formato d-m-Y.
+     *
+     * @return Date
+     */
+    public function getStartOkAttribute()
+    {
+        return Carbon::parse($this->date_start)->format('d-m-Y');
+    }
+
+    /**
+     * Retorna la fecha de fin del contrato en formato d-m-Y.
+     *
+     * @return Date
+     */
+    public function getFinishOkAttribute()
+    {
+        return Carbon::parse($this->date_finish)->format('d-m-Y');
+    }
+
+    /**
+     * Retorna la fecha de firma de contrato en formato d-m-Y.
+     *
+     * @return Date
+     */
+    public function getSignatureOkAttribute()
+    {
+        return Carbon::parse($this->date_signature)->format('d-m-Y');
+    }
+
+    /**
+     * Retorna la fecha de firma de convenio en formato d-m-Y.
+     *
+     * @return Date
+     */
+    public function getCovenantOkAttribute()
+    {
+        return Carbon::parse($this->date_signature_covenant)->format('d-m-Y');
+    }
+
+    /**
+     * Retorna la fecha de firma de fon modificado en formato d-m-Y o ---.
+     *
+     * @return Date
+     */
+    public function getDateModifiedOkAttribute()
+    {
+        if ($this->date_finish_modified) {
+            return Carbon::parse($this->date_finish_modified)->format('d-m-Y');
+        }
+        return "---";
+    }
+
+    /**
+     * Retorna la fecha de firma de contrato en formato largo con letras.
+     *
+     * @return Date
+     */
+    public function getSignatureWithLettersAttribute()
+    {
+        return $this->changeDateLetter($this->date_signature);
+    }
+
+    /**
+     * **************************************************************************
+     * ************************MONTOS********************************************
+     * **************************************************************************
+     */
+
+    /**
+     * Retorna el monto original del contrato a dos decimales.
+     *
+     * @return Date
+     */
+    public function getOriginalAmountAttribute()
+    {
+        return round($this->amount_total, 2, PHP_ROUND_HALF_DOWN);
+    }
+
+    /**
+     * Retorna el monto original del contrato a dos decimales con formato.
+     *
+     * @return String
+     */
+    public function getOriginalAmountOkAttribute()
+    {
+        return '$ '. $this->format($this->originalAmount);
+    }
+
+    /**
+     * Retorna el IVA del monto original del contrato a dos decimales.
+     *
+     * @return Float
+     */
+    public function getOriginalAmountIvaAttribute()
+    {
+        return round($this->originalAmount * 0.16, 2, PHP_ROUND_HALF_DOWN);
+    }
+
+    /**
+     * Retorna el IVA del monto original del contrato a dos decimales con Formato.
+     *
+     * @return String
+     */
+    public function getOriginalAmountIvaOkAttribute()
+    {
+        return '$ '. $this->format($this->originalAmountIva);
+    }
+
+    /**
+     * Retorna el monto original del contrato a dos decimales con IVA.
+     *
+     * @return Float
+     */
+    public function getOriginalAmountWithIvaAttribute()
+    {
+        return round($this->originalAmount + $this->originalAmountIva, 2, PHP_ROUND_HALF_DOWN);
+    }
+
+    /**
+     * Retorna el monto original del contrato a dos decimales con IVA y formato.
+     *
+     * @return String
+     */
+    public function getOriginalAmountWithIvaOkAttribute()
+    {
+        return '$ ' . $this->format($this->originalAmountWithIva);
+    }
+    
+    /**
+     * Retorna el monto de extension del contrato a dos decimales.
+     *
+     * @return Float
+     */
+    public function getExtensionAmountAttribute()
+    {
+        return round($this->amount_extension, 2, PHP_ROUND_HALF_DOWN);
+    }
+
+    /**
+     * Retorna el monto de extension del contrato a dos decimales y formato.
+     *
+     * @return String
+     */
+    public function getExtensionAmountOkAttribute()
+    {
+        return '$ ' . $this->format($this->extensionAmount);
+    }
+    
+    /**
+     * Retorna el monto del iva de extension del contrato a dos decimales.
+     *
+     * @return Float
+     */
+    public function getExtensionAmountIvaAttribute()
+    {
+        return round($this->extensionAmount * 0.16, 2, PHP_ROUND_HALF_DOWN);
+    }
+
+    /**
+     * Retorna el monto del iva de extension del contrato a dos decimales y formato.
+     *
+     * @return String
+     */
+    public function getExtensionAmountIvaOkAttribute()
+    {
+        return '$ ' . $this->format($this->extensionAmountIva);
+    }
+
+    /**
+     * Retorna el monto extension del contrato a dos decimales con IVA.
+     *
+     * @return Float
+     */
+    public function getExtensionAmountWithIvaAttribute()
+    {
+        return round($this->extensionAmount + $this->extensionAmountIva, 2, PHP_ROUND_HALF_DOWN);
+    }
+
+    /**
+     * Retorna el monto extension del contrato a dos decimales con IVA y formato.
+     *
+     * @return String
+     */
+    public function getExtensionAmountWithIvaOkAttribute()
+    {
+        return '$ ' . $this->format($this->extensionAmountWithIva);
+    }
+
+    /**
+     * Retorna el monto del Total del contrato a dos decimales.
+     *
+     * @return Float
+     */
+    public function getTotalAmountAttribute()
+    {
+        return $this->originalAmount + $this->extensionAmount;
+    }
+
+    /**
+     * Retorna el monto del Total del contrato a dos decimales y formato.
+     *
+     * @return String
+     */
+    public function getTotalAmountOkAttribute()
+    {
+        return '$ ' . $this->format($this->totalAmount);
+    }
+
+    /**
+     * Retorna el monto del iva del total del contrato a dos decimales.
+     *
+     * @return Float
+     */
+    public function getTotalAmountIvaAttribute()
+    {
+        return round($this->totalAmount * 0.16, 2, PHP_ROUND_HALF_DOWN);
+    }
+
+    /**
+     * Retorna el monto del iva del total del contrato a dos decimales y formato.
+     *
+     * @return String
+     */
+    public function getTotalAmountIvaOkAttribute()
+    {
+        return '$ ' . $this->format($this->TotalAmountIva);
+    }
+
+    /**
+     * Retorna el monto total del contrato a dos decimales con IVA.
+     *
+     * @return Float
+     */
+    public function getTotalAmountWithIvaAttribute()
+    {
+        return round($this->totalAmount + $this->totalAmountIva, 2, PHP_ROUND_HALF_DOWN);
+    }
+
+    /**
+     * Retorna el monto total del contrato a dos decimales con IVA y formato.
+     *
+     * @return String
+     */
+    public function getTotalAmountWithIvaOkAttribute()
+    {
+        return '$ ' . $this->format($this->totalAmountWithIva);
+    }
+    
+    /**
+     * Retorna el monto del Anticipo del contrato a dos decimales.
+     *
+     * @return Float
+     */
+    public function getAdvancePaymentAmountAttribute()
+    {
+        return $this->amount_anticipated;
+    }
+    
+    /**
+     * Retorna el monto del Anticipo del contrato a dos decimales y formato.
+     *
+     * @return String
+     */
+    public function getAdvancePaymentAmountOkAttribute()
+    {
+        return '$ ' . $this->format($this->advancePaymentAmount);
+    }
+
+    /**
+     * Retorna el monto del iva del anticipo del contrato a dos decimales.
+     *
+     * @return Float
+     */
+    public function getAdvancePaymentAmountIvaAttribute()
+    {
+        return round($this->advancePaymentAmount * 0.16, 2, PHP_ROUND_HALF_DOWN);
+    }
+
+    /**
+     * Retorna el monto del iva del anticipo del contrato a dos decimales y formato.
+     *
+     * @return String
+     */
+    public function getAdvancePaymentAmountIvaOkAttribute()
+    {
+        return '$ ' . $this->format($this->advancePaymentAmountIva);
+    }
+
+    /**
+     * Retorna el monto del anticipo del contrato a dos decimales con IVA.
+     *
+     * @return Float
+     */
+    public function getAdvancePaymentAmountWithIvaAttribute()
+    {
+        return round($this->advancePaymentAmount + $this->advancePaymentAmountIva, 2, PHP_ROUND_HALF_DOWN);
+    }
+
+    /**
+     * Retorna el monto del anticipo del contrato a dos decimales con IVA y formato.
+     *
+     * @return String
+     */
+    public function getAdvancePaymentAmountWithIvaOkAttribute()
+    {
+        return '$ ' . $this->format($this->advancePaymentAmountWithIva);
+    }
+    
+    /**
+     * **************************************************************************
+     * ************************QUERY SCOPES**************************************
+     * **************************************************************************
+     */
+
+    /**
+     * Retorna los contratos que contienen el codigo = $request->code.
+     *
+     * @return Query
+     */
     public function scopeCode($query, $code)
     {
         if ($code) {
@@ -195,16 +486,43 @@ class Contract extends Model
         }
     }
 
+    /**
+     * Retorna los contratos activos.
+     *
+     * @param Query $query query
+     * 
+     * @return Query
+     */
     public function scopeActive($query)
     {
         return $query->where('active', true);
     }
 
+    /**
+     * Retorna los contratos que se dividen por frentes que no vengan en su catalogo original.
+     *
+     * @param Query $query query
+     * 
+     * @return Query
+     */
     public function scopeSplit($query)
     {
         return $query->where('split_catalog', true);
     }
 
+    /**
+     * **************************************************************************
+     * ************************AUXILIARY FUNCTIONS*******************************
+     * **************************************************************************
+     */
+
+    /**
+     * Retorna un numero al formato establecido para numeros.
+     *
+     * @param Number $number number to change
+     * 
+     * @return String
+     */
     private function format($number)
     {
         $numbers= explode(".", $number);
@@ -213,12 +531,17 @@ class Contract extends Model
         }
         if (strlen($numbers[1]) < 2) {
             return number_format($number, 2, '.', ',');
-        } else {
-            return number_format($numbers[0], 0, '.', ',').'.'.$numbers[1];
         }
+        return number_format($numbers[0], 0, '.', ',').'.'.$numbers[1];
     }
 
-    
+    /**
+     * Retorna una fecha a formato de letras.
+     *
+     * @param Date $date number to change
+     * 
+     * @return String
+     */
     private function changeDateLetter($date)
     {
         if ($date=='0000-00-00') {
@@ -226,45 +549,49 @@ class Contract extends Model
         }
         $mes='';
         $arraydate = explode("-", $date);
-            
-        if ($arraydate[1]=='01') {
+
+        switch ($arraydate[1]) {
+        case '01':
             $mes='ENERO';
-        }
-        if ($arraydate[1]=='02') {
+            break;
+        case '02':
             $mes='FEBRERO';
-        }
-        if ($arraydate[1]=='03') {
+            break;
+        case '03':
             $mes='MARZO';
-        }
-        if ($arraydate[1]=='04') {
+            break;
+        case '04':
             $mes='ABRIL';
-        }
-        if ($arraydate[1]=='05') {
+            break;
+        case '05':
             $mes='MAYO';
-        }
-        if ($arraydate[1]=='06') {
+            break;
+        case '06':
             $mes='JUNIO';
-        }
-        if ($arraydate[1]=='07') {
+            break;
+        case '07':
             $mes='JULIO';
-        }
-        if ($arraydate[1]=='08') {
+            break;
+        case '08':
             $mes='AGOSTO';
-        }
-        if ($arraydate[1]=='09') {
+            break;
+        case '09':
             $mes='SEPTIEMBRE';
-        }
-        if ($arraydate[1]=='10') {
+            break;
+        case '10':
             $mes='OCTUBRE';
-        }
-        if ($arraydate[1]=='11') {
+            break;
+        case '11':
             $mes='NOVIEMBRE';
-        }
-        if ($arraydate[1]=='12') {
+            break;
+        case '12':
             $mes='DICIEMBRE';
+            break;
+        default:
+            '------';
+            break;
         }
-            
-        
-        return strtoupper($arraydate[2].' de '.$mes.' del '.$arraydate[0]);
+
+        return "$arraydate[2] DE $mes DEL $arraydate[0]";
     }
 }

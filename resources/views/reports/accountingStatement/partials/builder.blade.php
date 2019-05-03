@@ -4,7 +4,7 @@
 </div>
 <div class="datos2">
 	<div class="datos2_izq">NOMBRE DE LA EMPRESA:</div>
-	<div class="datos2_der">{{ $estimate->contract->companies()->first()->reason_social }}</div>
+	<div class="datos2_der">{{ $estimate->contract->companies()->first()->reasonSocialOk }}</div>
 </div>
 <div class="datos2">
 	<div>{{ strtoupper ($estimate->contract->name_contract) }}</div>

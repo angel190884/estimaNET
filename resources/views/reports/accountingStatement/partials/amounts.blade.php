@@ -12,16 +12,16 @@
 						{{ $estimate->number }} {{ $estimate->estimateLetter  }}
 					</td>
 					<td class="texto_monto">ORIGINAL CONTRATO</td>
-					<td>${{ number_format($estimate->contract->originalAmount,2) }}</td>
-					<td>${{ number_format($estimate->contract->originalIva,2) }}</td>
-					<td>${{ number_format($estimate->contract->originalAmountTotal,2) }}</td>
+					<td>{{ $estimate->contract->originalAmountOk }}</td>
+					<td>{{ $estimate->contract->originalAmountIvaOk }}</td>
+					<td>{{ $estimate->contract->originalAmountWithIvaOk  }}</td>
 				</tr>
 				<tr>
 					<td class="texto_monto">AMPLIACIÓN O REDUCCIÓN</td>
-					@if($estimate->period_start >= $estimate->contract->date_covenant )
-						<td>${{ number_format($estimate->contract->extensionAmount, 2) }}</td>
-						<td>${{ number_format($estimate->contract->extensionIva, 2) }}</td>
-						<td>${{ number_format($estimate->contract->extensionAmountTotal, 2) }}</td>
+					@if($estimate->start >= $estimate->contract->date_signature_covenant)
+						<td>{{ $estimate->contract->extensionAmountOk }}</td>
+						<td>{{ $estimate->contract->extensionAmountIvaOk }}</td>
+						<td>{{ $estimate->contract->extensionAmountWithIvaOk }}</td>
 					@else
 						<td>$0.00</td>
 						<td>$0.00</td>
@@ -30,21 +30,21 @@
 				</tr>
 				<tr>
 					<td class="texto_monto">TOTAL CONTRATADO</td>
-					@if($estimate->period_start >= $estimate->contract->date_covenant )
-						<td>${{ number_format($estimate->contract->totalAmount, 2) }}</td>
-						<td>${{ number_format($estimate->contract->totalAmountIva, 2) }}</td>
-						<td>${{ number_format($estimate->contract->total, 2) }}</td>
+					@if($estimate->start >= $estimate->contract->date_signature_covenant )
+						<td>{{ $estimate->contract->totalAmountOk }}</td>
+						<td>{{ $estimate->contract->totalAmountIvaOk }}</td>
+						<td>{{ $estimate->contract->totalAmountWithIvaOk }}</td>
 					@else
-						<td>${{ number_format($estimate->contract->originalAmount,2) }}</td>
-						<td>${{ number_format($estimate->contract->originalIva,2) }}</td>
-						<td>${{ number_format($estimate->contract->originalAmountTotal,2) }}</td>
+						<td>{{ $estimate->contract->originalAmountOk }}</td>
+						<td>{{ $estimate->contract->originalAmountIvaOk }}</td>
+						<td>{{ $estimate->contract->originalAmountWithIvaOk  }}</td>
 					@endif
 				</tr>
 				<tr>
 					<td class="texto_monto">ANTICIPO</td>
-					<td>${{ number_format($estimate->contract->anticipatedAmount, 2) }}</td>
-					<td>${{ number_format($estimate->contract->anticipatedAmountIva, 2) }}</td>
-					<td>${{ number_format($estimate->contract->totalAnticipatedAmount, 2) }}</td>
+					<td>{{ $estimate->contract->advancePaymentAmountOk }}</td>
+					<td>{{ $estimate->contract->advancePaymentAmountIvaOk }}</td>
+					<td>{{ $estimate->contract->advancePaymentAmountWithIvaOk }}</td>
 				</tr>
 				
 			</table>

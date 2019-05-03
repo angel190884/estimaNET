@@ -131,6 +131,6 @@
 		@include('reports.accountingStatement.partials.head')
 		@include('reports.accountingStatement.partials.amounts')
 		@include('reports.accountingStatement.partials.builder')
-		</div>www.estimanet.com
+		</div>https://www.estimanet.com
 	</body>
 </html>
