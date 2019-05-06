@@ -44,7 +44,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @forelse(auth()->user()->contracts()->get() as $contract)
+                            @forelse($contracts as $contract)
                                 <tr>
                                     <th>{{ $contract->short_name }}</th>
                                     <td class="d-none d-sm-table-cell">{{ $contract->codeOk }}</td>

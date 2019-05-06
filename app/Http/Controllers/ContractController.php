@@ -17,7 +17,8 @@ class ContractController extends Controller
      */
     public function index()
     {
-        return view('contract.index');
+        $contracts = auth()->user()->contracts()->orderBy('short_name')->get();
+        return view('contract.index', compact('contracts'));
     }
 
     /**
@@ -39,7 +40,7 @@ class ContractController extends Controller
      */
     public function store(StoreContract $request)
     {
-        if(count($contract = Contract::where('code',$request['code'])->first())){
+        if (count($contract = Contract::where('code', $request['code'])->first())) {
             Log::error("Duplicate contract : $contract");
             return redirect(route('contract.create'))->withErrors('El contrato que intentas grabar ya existe favor de verificar código');
         }
@@ -80,7 +81,7 @@ class ContractController extends Controller
         $contract->users()->attach(auth()->user());
 
 
-        if ($company = Company::find($request['company'])){
+        if ($company = Company::find($request['company'])) {
             $contract->companies()->attach($company);
         }
 
@@ -97,7 +98,7 @@ class ContractController extends Controller
 
 
         Log::info("add contract $contract $user");
-        session()->flash('success','El contrato a sido añadido en la base de datos correctamente');
+        session()->flash('success', 'El contrato a sido añadido en la base de datos correctamente');
         return redirect(route('contract.index'));
     }
 
@@ -122,7 +123,7 @@ class ContractController extends Controller
     {
         //dd($contract->companies()->count());
         $companies= Company::orderBy('reason_social')->pluck('reason_social', 'id');
-        return view('contract.edit', compact('contract','companies'));
+        return view('contract.edit', compact('contract', 'companies'));
     }
 
     /**

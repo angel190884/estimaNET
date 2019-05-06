@@ -42,7 +42,7 @@
                                     <th>Contrato</th>
                                     <th class="d-none d-md-table-cell">Empresa</th>
                                     <th>Tipo</th>
-                                    <th class="d-none d-md-table-cell">Monto</th>
+                                    <th class="d-none d-md-table-cell">Monto sin I.V.A.</th>
                                     <th>Estimaciones</th>
                                 </tr>
                                 </thead>
@@ -70,7 +70,7 @@
                                                     <i class="fas fa-snowplow"></i>
                                                 @endswitch
                                             </td>
-                                            <td class="d-none d-md-table-cell">$ {{ $contract->totalAmountOk }}</td>
+                                            <td class="d-none d-md-table-cell">{{ $contract->totalAmountOk }}</td>
                                             <td class="text-left">
                                                 @forelse($contract->estimates()->with('generators')->orderBy('number','asc')->get() as $estimate)
                                                     @switch($estimate->status)

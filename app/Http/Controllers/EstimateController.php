@@ -154,7 +154,7 @@ class EstimateController extends Controller
 
     public function monitoringIndex()
     {
-        $contracts = auth()->user()->contracts()->active()->with('estimates', 'deductions', 'concepts')->get();
+        $contracts = auth()->user()->contracts()->active()->orderBy('short_name')->with('estimates', 'deductions', 'concepts')->get();
         return view('estimate.monitoringEstimates', compact('contracts'));
     }
 }
