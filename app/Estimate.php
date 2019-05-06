@@ -92,6 +92,7 @@ class Estimate extends Model
     {
         return Carbon::parse($this->start)->format('d-m-Y');
     }
+
     /**
      * Return the finish date with format.
      *
@@ -101,6 +102,7 @@ class Estimate extends Model
     {
         return Carbon::parse($this->finish)->format('d-m-Y');
     }
+
     /**
      * Return the date of emission with format.
      *
@@ -110,6 +112,7 @@ class Estimate extends Model
     {
         return Carbon::parse($this->release)->format('d-m-Y');
     }
+
     /**
      * Return type. Retorna el tipo de estimacion con formato de letras.
      *
@@ -131,13 +134,14 @@ class Estimate extends Model
             $type= 'COMBINADA';
             break;
         case 5:
-            $type= 'FINAL COMBINADA';
+            $type= 'COMBINADA FINAL';
             break;
         default:
             $type= 'NO ESPECIFICADO';
         }
         return $type;
     }
+
     /**
      * Retorna la letra segun el tipo de la estimación.
      *
@@ -150,6 +154,7 @@ class Estimate extends Model
         }
         return strtoupper($this->getNumberEstimateLetterAttribute().' '.$this->getTypeOkAttribute());
     }
+
     /**
      * Retorna el numero de estimacion en formato de letras.
      *
@@ -161,36 +166,11 @@ class Estimate extends Model
     }
 
     /**
-     * Retorna el tipo de estimacion en formato de letras.
-     *
-     * @return string
-     */
-    public function getTypeEstimateAttribute()
-    {
-        if ($this->type=='1') {
-            return 'NORMAL';
-        }
-        if ($this->type=='2') {
-            return 'EXTRAORDINARIA';
-        }
-        if ($this->type=='4') {
-            return 'COMBINADA';
-        }
-        if ($this->type=='3') {
-            return 'FINAL';
-        }
-        if ($this->type=='5') {
-            return 'COMBINADA FINAL';
-        }
-        return 'NO ESPECIFICADO';
-    }
-
-    /**
      * Retorna la fecha de entrega en formato de letras.
      *
      * @return string
      */
-    public function getDateOfDeliveryAttribute()
+    public function getDateOfIssueAttribute()
     {
         return DateController::ChangeDateLetter($this->release);
     }
@@ -230,16 +210,16 @@ class Estimate extends Model
     /**
      * Retorna Monto total de la estimacion.
      *
+     * @param App\Estimate|null $estimate estimate
+     *
      * @return Float
      */
     public function getTotalEstimateAmountAttribute(Estimate $estimate=null)
     {
         if ($estimate!=null) {
-            $amount=$this->estimateAmount($estimate);
-            return $amount + $this->retention;
+            return $this->estimateAmount($estimate) + $this->retention;
         }
-        $amount=$this->estimateAmount;
-        return $amount + $this->retention;
+        return $this->estimateAmount + $this->retention;
     }
 
     /**
@@ -255,7 +235,8 @@ class Estimate extends Model
     /**
      * Retorna Monto de la estimacion.
      *
-     * @param App\Estimate|null $estimate
+     * @param App\Estimate|null $estimate estimate
+     *
      * @return Float
      */
     public function getEstimateAmountAttribute(Estimate $estimate=null)
@@ -283,7 +264,7 @@ class Estimate extends Model
                 if ($generator->concept->immovable==false) {
                     $total+=round($generator->quantity * ($unitPrice), 2, PHP_ROUND_HALF_DOWN);
                     return round($total, 2, PHP_ROUND_HALF_DOWN);
-                } 
+                }
                 return $total+=round($generator->quantity * ($this->contract->originalAmount/100), 2, PHP_ROUND_HALF_DOWN);
             }
             return round($total, 2, PHP_ROUND_HALF_DOWN);
@@ -319,32 +300,71 @@ class Estimate extends Model
         return round($total, 2, PHP_ROUND_HALF_DOWN);
     }
     
-    public function getIvaAttribute()
+    /**
+     * Retorna iva del Monto de la estimacion.
+     *
+     * @return Float
+     */
+    public function getTotalEstimateAmountIvaAttribute()
     {
         return round($this->totalEstimateAmount * 0.16, 2, PHP_ROUND_HALF_DOWN);
     }
-    public function getIvaOkAttribute()
+
+    /**
+     * Retorna iva del Monto de la estimacion con formato $.
+     *
+     * @return Float
+     */
+    public function getTotalEstimateAmountIvaOkAttribute()
     {
-        return '$ ' . $this->format($this->iva);
+        return '$ ' . $this->format($this->totalEstimateAmountIva);
     }
     
+    /**
+     * Retorna Monto de la estimacion con iva.
+     *
+     * @return Float
+     */
     public function getTotalEstimateAmountWithIvaAttribute()
     {
-        return $this->totalEstimateAmount + $this->iva;
+        return $this->totalEstimateAmount + $this->totalEstimateAmountIva;
     }
+
+    /**
+     * Retorna Monto de la estimacion con iva formateado $.
+     *
+     * @return Float
+     */
     public function getTotalEstimateAmountWithIvaOkAttribute()
     {
         return '$ ' . $this->format($this->totalEstimateAmountWithIva);
     }
+
+    /**
+     * Retorna total estimado.
+     *
+     * @return Float
+     */
     public function getTotalEstimatedAttribute()
     {
         return $this->totalEstimateAmountWithIva + $this->totalPreviousAmount;
     }
+
+    /**
+     * Retorna total estimado con formato $.
+     *
+     * @return Float
+     */
     public function getTotalEstimatedOkAttribute()
     {
         return '$ ' . $this->format($this->totalEstimated);
     }
     
+    /**
+     * Retorna Monto Previo.
+     *
+     * @return Float
+     */
     public function getTotalPreviousAmountAttribute()
     {
         $totalPrevious = 0;
@@ -353,39 +373,42 @@ class Estimate extends Model
         }
         return round($totalPrevious, 2, PHP_ROUND_HALF_DOWN);
     }
+
+    /**
+     * Retorna monto previo con formato $.
+     *
+     * @return Float
+     */
     public function getTotalPreviousAmountOkAttribute()
     {
         return '$ ' . $this->format($this->totalPreviousAmount);
     }
 
     /**
-     * Query Scope.
+     * Retorna monto total por ejecutar con repescto al total del contrato.
+     *
+     * @return Float
      */
-
-    public function scopePreviousEstimates($query, Estimate $estimate)
-    {
-        if ($estimate) {
-            return $query->with('contract', 'generators', 'deductions')
-                ->where('number', '<', $estimate->number)
-                ->where('contract_id', $estimate->contract->id);
-        }
-        return $query->with('contract', 'generators', 'deductions')
-            ->where('number', '<', $this->number)
-            ->where('contract_id', $this->contract->id);
-    }
-
-    
-
     public function getTotalForExecuteAmountAttribute()
     {
-        return round($this->contract->totalAmount - ($this->totalEstimateAmount + $this->totalPreviousAmount), 2, PHP_ROUND_HALF_DOWN);
+        return round($this->contract->totalAmountWithIva - ($this->totalEstimateAmountWithIva + $this->totalPreviousAmount), 2, PHP_ROUND_HALF_DOWN);
     }
 
+    /**
+     * Retorna monto total por ejecutar con repescto al total del contrato con formato $.
+     *
+     * @return Float
+     */
     public function getTotalForExecuteAmountOkAttribute()
     {
         return '$ ' . $this->format($this->totalForExecuteAmount);
     }
 
+    /**
+     * Retorna monto total de las deducciones y sanciones del contrato y estimacion.
+     *
+     * @return Float
+     */
     public function getTotalDeductionsAmountAttribute()
     {
         $total = 0;
@@ -399,15 +422,68 @@ class Estimate extends Model
         }
         return $total;
     }
+
+    /**
+     * Retorna monto total de las deducciones y sanciones del contrato y estimacion con formato $.
+     *
+     * @return Float
+     */
     public function getTotalDeductionsAmountOkAttribute()
     {
         return '$ ' . $this->format($this->totalDeductionsAmount);
     }
+
+    /**
+     * Retorna monto total de la estimacion con formato $.
+     *
+     * @return Float
+     */
     public function getAmountNetOkAttribute()
     {
-        return '$ ' . $this->format($this->totalEstimateAmount - $this->totalDeductionsAmount);
+        return '$ ' . $this->format($this->totalEstimateAmountWithIva - $this->totalDeductionsAmount);
     }
 
+    /**
+     * Retorna monto total de la estimacion con letras formato 00/100 M.N..
+     *
+     * @return String
+     */
+    public function getAmountNetLetterOkAttribute()
+    {
+        return $this->numtoletras($this->totalEstimateAmountWithIva - $this->totalDeductionsAmount);
+    }
+
+    /**
+     * **************************************************************************
+     * ************************QUERY SCOPES**************************************
+     * **************************************************************************
+     */
+
+    /**
+     * Retorna estimaciones previas.
+     *
+     * @param Query        $query    query
+     * @param App\Estimate $estimate estimate
+     *
+     * @return Query
+     */
+    public function scopePreviousEstimates($query, Estimate $estimate)
+    {
+        if ($estimate) {
+            return $query->with('contract', 'generators', 'deductions')
+                ->where('number', '<', $estimate->number)
+                ->where('contract_id', $estimate->contract->id);
+        }
+        return $query->with('contract', 'generators', 'deductions')
+            ->where('number', '<', $this->number)
+            ->where('contract_id', $this->contract->id);
+    }
+
+    /**
+     * Retorna estimaciones previas.
+     *
+     * @return Generator
+     */
     public function scopeGeneratorsPrevious()
     {
         return Generator::where('estimates.number', '<', $this->number)
@@ -416,221 +492,42 @@ class Estimate extends Model
             ->join('estimates', 'estimates.id', '=', 'concept_estimate.estimate_id')
             ->join('contracts', 'contracts.id', '=', 'estimates.contract_id');
     }
+
+    /**
+     * **************************************************************************
+     * ************************AUXILIARY FUNCTIONS*******************************
+     * **************************************************************************
+     */
+
     /**
      * Retorna el numero de la estimación en letras.
      *
+     * @param int $number number
+     *
      * @return string
      */
-    private function transformNumber($number)
+    public function transformNumber($number)
     {
-        /*
-        * todo cambiar if por switch
-        */
-        if ($number==0) {
-            $numberLetter = "cero";
-        } elseif ($number==1) {
-            $numberLetter = "Uno";
-        } elseif ($number==2) {
-            $numberLetter = "Dos";
-        } elseif ($number==3) {
-            $numberLetter = "Tres";
-        } elseif ($number==4) {
-            $numberLetter = "Cuatro";
-        } elseif ($number==5) {
-            $numberLetter = "Cinco";
-        } elseif ($number==6) {
-            $numberLetter = "Seis";
-        } elseif ($number==7) {
-            $numberLetter = "Siete";
-        } elseif ($number==8) {
-            $numberLetter = "Ocho";
-        } elseif ($number==9) {
-            $numberLetter = "Nueve";
-        } elseif ($number==10) {
-            $numberLetter = "Diez";
-        } elseif ($number==11) {
-            $numberLetter = "Once";
-        } elseif ($number==12) {
-            $numberLetter = "Doce";
-        } elseif ($number==13) {
-            $numberLetter = "Trece";
-        } elseif ($number==14) {
-            $numberLetter = "Catorce";
-        } elseif ($number==15) {
-            $numberLetter = "Quince";
-        } elseif ($number==16) {
-            $numberLetter = "Dieciseis";
-        } elseif ($number==17) {
-            $numberLetter = "Decisiete";
-        } elseif ($number==18) {
-            $numberLetter = "Dieciocho";
-        } elseif ($number==19) {
-            $numberLetter = "Diecinueve";
-        } elseif ($number==20) {
-            $numberLetter = "Veinte";
-        } elseif ($number==21) {
-            $numberLetter = "Veintiuno";
-        } elseif ($number==22) {
-            $numberLetter = "Veintidos";
-        } elseif ($number==23) {
-            $numberLetter = "Veintitres";
-        } elseif ($number==24) {
-            $numberLetter = "Veinticuatro";
-        } elseif ($number==25) {
-            $numberLetter = "Veinticinco";
-        } elseif ($number==26) {
-            $numberLetter = "Veintiseis";
-        } elseif ($number==27) {
-            $numberLetter = "Veintisiente";
-        } elseif ($number==28) {
-            $numberLetter = "Veintiocho";
-        } elseif ($number==29) {
-            $numberLetter = "Veintinueve";
-        } elseif ($number==30) {
-            $numberLetter = "Treinta";
-        } elseif ($number==31) {
-            $numberLetter = "Treinta y uno";
-        } elseif ($number==32) {
-            $numberLetter = "Treinta y dos";
-        } elseif ($number==33) {
-            $numberLetter = "Treinta y tres";
-        } elseif ($number==34) {
-            $numberLetter = "Treinta y cuatro";
-        } elseif ($number==35) {
-            $numberLetter = "Treinta y cinco";
-        } elseif ($number==36) {
-            $numberLetter = "Treinta y seis";
-        } elseif ($number==37) {
-            $numberLetter = "Treinta y siete";
-        } elseif ($number==38) {
-            $numberLetter = "Treinta y ocho";
-        } elseif ($number==39) {
-            $numberLetter = "Treinta y nueve";
-        } elseif ($number==40) {
-            $numberLetter = "Cuarenta";
-        } elseif ($number==41) {
-            $numberLetter = "Cuarenta y uno";
-        } elseif ($number==42) {
-            $numberLetter = "Cuarenta y dos";
-        } elseif ($number==43) {
-            $numberLetter = "Cuarenta y tres";
-        } elseif ($number==44) {
-            $numberLetter = "Cuarenta y cuatro";
-        } elseif ($number==45) {
-            $numberLetter = "Cuarenta y cinco";
-        } elseif ($number==46) {
-            $numberLetter = "Cuarenta y seis";
-        } elseif ($number==47) {
-            $numberLetter = "Cuarenta y siete";
-        } elseif ($number==48) {
-            $numberLetter = "Cuarenta y ocho";
-        } elseif ($number==49) {
-            $numberLetter = "Cuarenta y nueve";
-        } elseif ($number==50) {
-            $numberLetter = "Cincuenta";
-        } elseif ($number==51) {
-            $numberLetter = "Cincuenta y uno";
-        } elseif ($number==52) {
-            $numberLetter = "Cincuenta y dos";
-        } elseif ($number==53) {
-            $numberLetter = "Cincuenta y tres";
-        } elseif ($number==54) {
-            $numberLetter = "Cincuenta y cuatro";
-        } elseif ($number==55) {
-            $numberLetter = "Cincuenta y cinco";
-        } elseif ($number==56) {
-            $numberLetter = "Cincuenta y seis";
-        } elseif ($number==57) {
-            $numberLetter = "Cincuenta y siete";
-        } elseif ($number==58) {
-            $numberLetter = "Cincuenta y ocho";
-        } elseif ($number==59) {
-            $numberLetter = "Cincuenta y nueve";
-        } elseif ($number==60) {
-            $numberLetter = "Sesenta";
-        } elseif ($number==61) {
-            $numberLetter = "Sesenta y uno";
-        } elseif ($number==62) {
-            $numberLetter = "Sesenta y dos";
-        } elseif ($number==63) {
-            $numberLetter = "Sesenta y tres";
-        } elseif ($number==64) {
-            $numberLetter = "Sesenta y cuatro";
-        } elseif ($number==65) {
-            $numberLetter = "Sesenta y cinco";
-        } elseif ($number==66) {
-            $numberLetter = "Sesenta y seis";
-        } elseif ($number==67) {
-            $numberLetter = "Sesenta y siete";
-        } elseif ($number==68) {
-            $numberLetter = "Sesenta y ocho";
-        } elseif ($number==69) {
-            $numberLetter = "Sesenta y nueve";
-        } elseif ($number==70) {
-            $numberLetter = "Setenta";
-        } elseif ($number==71) {
-            $numberLetter = "Setenta y uno";
-        } elseif ($number==72) {
-            $numberLetter = "Setenta y dos";
-        } elseif ($number==73) {
-            $numberLetter = "Setenta y tres";
-        } elseif ($number==74) {
-            $numberLetter = "Setenta y cuatro";
-        } elseif ($number==75) {
-            $numberLetter = "Setenta y cinco";
-        } elseif ($number==76) {
-            $numberLetter = "Setenta y seis";
-        } elseif ($number==77) {
-            $numberLetter = "Setenta y siete";
-        } elseif ($number==78) {
-            $numberLetter = "Setenta y ocho";
-        } elseif ($number==79) {
-            $numberLetter = "Setenta y nueve";
-        } elseif ($number==80) {
-            $numberLetter = "Ochenta";
-        } elseif ($number==81) {
-            $numberLetter = "Ochenta y uno";
-        } elseif ($number==82) {
-            $numberLetter = "Ochenta y dos";
-        } elseif ($number==83) {
-            $numberLetter = "Ochenta y tres";
-        } elseif ($number==84) {
-            $numberLetter = "Ochenta y cuatro";
-        } elseif ($number==85) {
-            $numberLetter = "Ochenta y cinco";
-        } elseif ($number==86) {
-            $numberLetter = "Ochenta y seis";
-        } elseif ($number==87) {
-            $numberLetter = "Ochenta y siete";
-        } elseif ($number==88) {
-            $numberLetter = "Ochenta y ocho";
-        } elseif ($number==89) {
-            $numberLetter = "Ochenta y nueve";
-        } elseif ($number==90) {
-            $numberLetter = "Noventa";
-        } elseif ($number==91) {
-            $numberLetter = "Noventa y uno";
-        } elseif ($number==92) {
-            $numberLetter = "Noventa y dos";
-        } elseif ($number==93) {
-            $numberLetter = "Noventa y tres";
-        } elseif ($number==94) {
-            $numberLetter = "Noventa y cuatro";
-        } elseif ($number==95) {
-            $numberLetter = "Noventa y cinco";
-        } elseif ($number==96) {
-            $numberLetter = "Noventa y seis";
-        } elseif ($number==97) {
-            $numberLetter = "Noventa y siete";
-        } elseif ($number==98) {
-            $numberLetter = "Noventa y ocho";
-        } else {
-            $numberLetter = "Noventa y nueve";
+        $array = ['uno', 'dos' , 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho',
+        'nueve','diez','once','doce','trece','catorce', 'quince', 'diesiséis',
+        'diecisiete', 'dieciocho', 'diecinueve', 'veinte', 'veintiuno', 'veintidos',
+        'veintitres', 'veinticuatro'];
+
+        if (isset($array[$number - 1])) {
+            return $array[$number - 1];
         }
-        return $numberLetter; //Retornar el resultado
+
+        return 'n/a';
     }
 
-    private function format($number)
+    /**
+     * Retorna un numero con formato $ 999,999.00.
+     *
+     * @param Int $number number
+     *
+     * @return string
+     */
+    public function format($number)
     {
         $numbers= explode(".", $number);
         if (! isset($numbers[1])) {
@@ -638,17 +535,18 @@ class Estimate extends Model
         }
         if (strlen($numbers[1]) < 2) {
             return number_format($number, 2, '.', ',');
-        } else {
-            return number_format($numbers[0], 0, '.', ',').'.'.$numbers[1];
         }
+        return number_format($numbers[0], 0, '.', ',').'.'.$numbers[1];
     }
 
-    public function getAmountNetLetterOkAttribute()
-    {
-        return $this->numtoletras($this->totalEstimateAmount - $this->totalDeductionsAmount);
-    }
-
-    public static function numtoletras($xcifra)
+    /**
+     * Retorna la cantidad con formato de letras 00/100 M.N.
+     *
+     * @param Float $xcifra number
+     *
+     * @return string
+     */
+    public function numtoletras($xcifra)
     {
         $xarray = array(0 => "Cero",
             1 => "UN", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE",

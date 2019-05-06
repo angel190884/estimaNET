@@ -34,7 +34,7 @@
                                                 <div class="card-header">Detalles del Contrato</div>
                                                 <div class="card-block">
                                                     <strong>Contrato:</strong><br>
-                                                    {{ $estimate->contract->nameContractFormatted }}<br>
+                                                    {{ $estimate->contract->nameContractFormatted }} <a href="{{ route('contract.edit',$estimate->contract) }}"><i class="fas fa-pen" title="editar contracto"></i></a> <br>
                                                     <strong>Fechas</strong><br>
                                                     <i class="fas fa-play-circle" title="Fecha de inicio"></i>{{ $estimate->contract->startOk }}<br>
                                                     <i class="fas fa-stop-circle" title="Fecha de Terminación"></i>{{ $estimate->contract->finishOk }}<br>
@@ -52,7 +52,7 @@
                                                     <strong>Fechas:</strong><br>
                                                     <i class="fas fa-play-circle" title="Fecha de inicio"></i>{{ $estimate->startOk }}<br>
                                                     <i class="fas fa-stop-circle" title="Fecha de Término"></i>{{ $estimate->finishOk }}<br>
-                                                    <i class="fas fa-calendar-check" title="Fecha de Emisión"></i>{{ $estimate->release }}<br>
+                                                    <i class="fas fa-calendar-check" title="Fecha de Emisión"></i>{{ $estimate->releaseOK }}<br>
                                                 </div>
                                             </div>
                                         </div>
@@ -70,6 +70,7 @@
                                                 <div class="card-block">
                                                     <strong>Sistema:</strong><br>
                                                     <a class="btn btn-sm btn-primary text-white" title="Actualizar" href="{{ url()->current() }}"><i class="fas fa-sync fa-2x"></i></a>
+                                                    <a class="btn btn-sm btn-primary text-white" title="Editar Estimación" href="{{ route('estimate.edit', $estimate) }}"><i class="fas fa-edit fa-2x"></i></a>
                                                     <!--<a class="btn btn-sm btn-primary text-white" title="Control de Ruta" href="#"><i class="fas fa-route fa-2x"></i></a>-->
                                                     <a class="btn btn-sm btn-primary text-white" title="Editar Conceptos" href="{{ route('generator.list',$estimate) }}"><i class="fas fa-clipboard-list fa-2x"></i></a><br>
                                                     
@@ -116,7 +117,7 @@
                                                             <td class="text-right">{{ $estimate->totalPreviousAmountOk }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>Importe de esta Estimación</strong></td>
+                                                            <td>Importe de esta Estimación</td>
                                                             <td class="text-xs-center"></td>
                                                             <td class="text-xs-center"></td>
                                                             <td class="text-right">{{ $estimate->totalEstimateAmountOk }}</td>
@@ -125,13 +126,13 @@
                                                             <td>I.V.A.</td>
                                                             <td class="text-xs-center"></td>
                                                             <td class="text-xs-center"></td>
-                                                            <td class="text-right">{{ $estimate->ivaOk}}</td>
+                                                            <td class="text-right">{{ $estimate->totalEstimateAmountIvaOk}}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Monto total de esta Estimación</td>
+                                                            <td><strong> Monto total de esta Estimación</strong></td>
                                                             <td class="text-xs-center"></td>
                                                             <td class="text-xs-center"></td>
-                                                            <td class="text-right">{{ $estimate->totalEstimateAmountWithIvaOk }}</td>
+                                                            <td class="text-right"><strong>{{ $estimate->totalEstimateAmountWithIvaOk }}</strong></td>
                                                         </tr>
                                                         <tr>
                                                             <td>Total Estimado</td>
@@ -178,11 +179,11 @@
                                                             <td><strong>Total de Deducciones</strong></td>
                                                                 <td class="text-xs-center"></td>
                                                                 <td class="text-xs-center"></td>
-                                                                <td class="text-right">{{ $estimate->TotalDeductionsAmountOk }}</td>
+                                                                <td class="text-right"><strong>{{ $estimate->TotalDeductionsAmountOk }}</strong></td>
                                                             </tr>
                                                         <tr>
                                                             <td class="highrow text-right" colspan="2"><strong>Importe Neto a Pagar</strong></td>
-                                                            <td class="highrow text-right" colspan="2">{{ $estimate->amountNetOk }}</td>
+                                                            <td class="highrow text-right" colspan="2"><strong>{{ $estimate->amountNetOk }}</strong></td>
                                                         </tr>
                                                         <tr>
                                                             <td class="emptyrow text-right" colspan="2"><strong>Importe Neto a Pagar con Letra</strong></td>

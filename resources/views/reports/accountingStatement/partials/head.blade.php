@@ -11,6 +11,6 @@
 		<p style="font-size: 7px">CONVENIO No.- {{ $estimate->contract->codeOk }} - C1</p>
 	@else
 		<p>CONTRATO No.- {{ $estimate->contract->nameContractFormatted }} </p>
-		<p>FECHA FIRMA.- {{ strtoupper($estimate->contract->signatureWithLetters) }} </p>
+		<p>FECHA FIRMA.- {{ $estimate->contract->signatureWithLetters }} </p>
 	@endif
 </div>

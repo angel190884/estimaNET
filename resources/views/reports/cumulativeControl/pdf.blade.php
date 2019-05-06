@@ -202,7 +202,7 @@
     <table>
         <tr>
             <td colspan="6">CONTROL ACUMULATIVO A LA ESTIMACIÓN: <b>{{ $estimate->number }} {{ $estimate->estimateLetter }}</b></td>
-            <td colspan="3" align="center">FECHA: <b>{{ $estimate->dateOfDelivery }}</b></td>
+            <td colspan="3" align="center">FECHA: <b>{{ $estimate->dateOfIssue }}</b></td>
             <td colspan="3" align="center">VERSIÓN:</td>
         </tr>
         <tr>

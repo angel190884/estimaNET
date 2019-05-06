@@ -84,7 +84,7 @@
 				text-align: right;
 			}
 			.texto{
-				text-align: left;
+				text-align: right;
 			}
 			.cuentas_td{
 				border-bottom: 1px solid black;

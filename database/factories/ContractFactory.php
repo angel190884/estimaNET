@@ -2,6 +2,7 @@
 
 use App\Contract;
 use Faker\Generator as Faker;
+use Carbon\Carbon;
 
 $factory->define(Contract::class, function (Faker $faker) {
     return [
@@ -13,19 +14,19 @@ $factory->define(Contract::class, function (Faker $faker) {
         'location'          =>  $faker->address,
         
         'amount_total'         =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 100000, $max = 1000000),
-        'amount_anticipated'   =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 500,   $max = 100000),
-        'amount_extension'     =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 100,  $max = 100000),
-        'amount_adjustment'    =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 0.1,  $max = 1000),
+        'amount_anticipated'   =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 500, $max = 100000),
+        'amount_extension'     =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 100, $max = 100000),
+        'amount_adjustment'    =>  $faker->randomFloat($nbMaxDecimals = 2, $min = 0.1, $max = 1000),
 
-        'date_start'         =>  $faker->date($format = 'Y-m-d', $max = 'now'),
-        'date_finish'        =>  $faker->date($format = 'Y-m-d', $max = 'now'),
+        'date_start'         =>  $faker->dateTimeBetween('-2 years', '-1 years'),//$faker->date($format = 'Y-m-d', $max = 'now'),
+        'date_finish'        =>  $faker->dateTimeBetween('-1 years', '+0 days'),//$faker->date($format = 'Y-m-d', $max = 'now'),
         'date_signature'     =>  $faker->date($format = 'Y-m-d', $max = 'now'),
         'date_finish_modified'      =>  $faker->date($format = 'Y-m-d', $max = 'now'),
         'date_signature_covenant'      =>  $faker->date($format = 'Y-m-d', $max = 'now'),
 
         'type'              =>  $faker->numberBetween($min = '1', $max = '2'),
 
-        'active'        =>  $faker->randomElement($array = array ('1','0')),
-        'split_catalog' =>  $faker->randomElement($array = array ('1','0')),
+        'active'        =>  $faker->randomElement($array = array('1','0')),
+        'split_catalog' =>  $faker->randomElement($array = array('1','0')),
     ];
 });

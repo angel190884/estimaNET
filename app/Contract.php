@@ -170,6 +170,16 @@ class Contract extends Model
     }
 
     /**
+     * Retorna la fecha de inicio del contrato en formato de letras.
+     *
+     * @return Date
+     */
+    public function getStartWithLettersAttribute()
+    {
+        return $this->changeDateLetter($this->date_start);
+    }
+
+    /**
      * Retorna la fecha de fin del contrato en formato d-m-Y.
      *
      * @return Date
@@ -177,6 +187,16 @@ class Contract extends Model
     public function getFinishOkAttribute()
     {
         return Carbon::parse($this->date_finish)->format('d-m-Y');
+    }
+
+    /**
+     * Retorna la fecha de fin del contrato en formato de letras.
+     *
+     * @return Date
+     */
+    public function getFinishWithLettersAttribute()
+    {
+        return $this->changeDateLetter($this->date_finish);
     }
 
     /**
@@ -190,21 +210,41 @@ class Contract extends Model
     }
 
     /**
+     * Retorna la fecha de firma de contrato en formato largo con letras.
+     *
+     * @return Date
+     */
+    public function getSignatureWithLettersAttribute()
+    {
+        return $this->changeDateLetter($this->date_signature);
+    }
+
+    /**
      * Retorna la fecha de firma de convenio en formato d-m-Y.
      *
      * @return Date
      */
-    public function getCovenantOkAttribute()
+    public function getSignatureCovenantOkAttribute()
     {
         return Carbon::parse($this->date_signature_covenant)->format('d-m-Y');
     }
 
     /**
-     * Retorna la fecha de firma de fon modificado en formato d-m-Y o ---.
+     * Retorna la fecha de firma de convenio en formato de letras.
      *
      * @return Date
      */
-    public function getDateModifiedOkAttribute()
+    public function getSignatureCovenantWithLettersAttribute()
+    {
+        return $this->changeDateLetter($this->date_signature_covenant);
+    }
+
+    /**
+     * Retorna la fecha de firma de fon modificado en formato d-m-Y o ---.
+     *
+     * @return Date|String
+     */
+    public function getFinishModifiedOkAttribute()
     {
         if ($this->date_finish_modified) {
             return Carbon::parse($this->date_finish_modified)->format('d-m-Y');
@@ -213,13 +253,16 @@ class Contract extends Model
     }
 
     /**
-     * Retorna la fecha de firma de contrato en formato largo con letras.
+     * Retorna la fecha de firma de fon modificado en formato de letras o ---.
      *
-     * @return Date
+     * @return String
      */
-    public function getSignatureWithLettersAttribute()
+    public function getFinishModifiedWithLettersAttribute()
     {
-        return $this->changeDateLetter($this->date_signature);
+        if ($this->date_finish_modified) {
+            return $this->changeDateLetter($this->date_finish_modified);
+        }
+        return "---";
     }
 
     /**
@@ -490,7 +533,7 @@ class Contract extends Model
      * Retorna los contratos activos.
      *
      * @param Query $query query
-     * 
+     *
      * @return Query
      */
     public function scopeActive($query)
@@ -502,7 +545,7 @@ class Contract extends Model
      * Retorna los contratos que se dividen por frentes que no vengan en su catalogo original.
      *
      * @param Query $query query
-     * 
+     *
      * @return Query
      */
     public function scopeSplit($query)
@@ -520,7 +563,7 @@ class Contract extends Model
      * Retorna un numero al formato establecido para numeros.
      *
      * @param Number $number number to change
-     * 
+     *
      * @return String
      */
     private function format($number)
@@ -539,7 +582,7 @@ class Contract extends Model
      * Retorna una fecha a formato de letras.
      *
      * @param Date $date number to change
-     * 
+     *
      * @return String
      */
     private function changeDateLetter($date)

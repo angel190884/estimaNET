@@ -9,7 +9,7 @@
 				</tr>
 				<tr>
 					<td colspan="3" rowspan="4" class="num_est">
-						{{ $estimate->number }} {{ $estimate->estimateLetter  }}
+						{{ $estimate->number }} ({{ $estimate->estimateLetter  }})
 					</td>
 					<td class="texto_monto">ORIGINAL CONTRATO</td>
 					<td>{{ $estimate->contract->originalAmountOk }}</td>
