@@ -38,7 +38,7 @@
                                                     <strong>Fechas</strong><br>
                                                     <i class="fas fa-play-circle" title="Fecha de inicio"></i>{{ $estimate->contract->startOk }}<br>
                                                     <i class="fas fa-stop-circle" title="Fecha de Terminación"></i>{{ $estimate->contract->finishOk }}<br>
-                                                    <i class="fas fa-stopwatch" title="Fecha de Término Modificada"></i>{{ $estimate->contract->dateModifiedOk }}<br>                                            
+                                                    <i class="fas fa-stopwatch" title="Fecha de Término Modificada"></i>{{ $estimate->contract->finishModifiedOk }}<br>                                            
                                                     <br>
                                                 </div>
                                             </div>
