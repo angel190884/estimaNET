@@ -52,12 +52,12 @@
                                     <td class="d-none d-md-table-cell">{{ $contract->startOk }}</td>
                                     <td class="d-none d-md-table-cell">{{ $contract->finishOk }}</td>
                                     <td class="d-none d-lg-table-cell">{{ $contract->signatureOk }}</td>
-                                    <td class="d-none d-lg-table-cell">{{ $contract->covenantOk }}</td>
-                                    <td class="d-none d-lg-table-cell">{{ $contract->dateModifiedOk }}</td>
+                                    <td class="d-none d-lg-table-cell">{{ $contract->signatureCovenantOk }}</td>
+                                    <td class="d-none d-lg-table-cell">{{ $contract->finishModifiedOk }}</td>
 
-                                    <td class="d-none d-sm-table-cell">{{ $contract->totalOk }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $contract->anticipated }}</td>
-                                    <td class="d-none d-xl-table-cell">{{ $contract->extension }}</td>
+                                    <td class="d-none d-sm-table-cell">{{ $contract->originalAmountOk }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $contract->advancePaymentAmountOk }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ $contract->extensionAmountOk }}</td>
 
                                     <td>
                                         <a href="{{ route('contract.edit',$contract) }}"><i class="fas fa-edit"></i></a>
