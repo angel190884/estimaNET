@@ -22,7 +22,7 @@
                         </p>
                     </div>
                     <div class="container">
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-xs-12 col-6-md col-lg-3 p-3">
                                 <div class="card">
                                     <div class="card-body p-3 d-flex align-items-center">
