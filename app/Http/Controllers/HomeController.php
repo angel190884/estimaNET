@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Contract;
 use App\Estimate;
 use App\Location;
+use App\Company;
 
 class HomeController extends Controller
 {
@@ -26,16 +27,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $numContracts = Contract::active()
-            ->count();
-        $numEstimates = Estimate::join('contracts', 'contracts.id', '=', 'estimates.contract_id')
-            ->where('contracts.active', true)
-            ->count();
-        $numLocations = Location::join('contracts', 'contracts.id', '=', 'locations.contract_id')
-            ->where('contracts.active', true)
-            ->where('contracts.split_catalog', true)
-            ->count();
-        
-        return view('home', compact('numContracts', 'numEstimates', 'numLocations'));
+        $user = auth()->user();
+        $contracts = $user->contracts()->active()->get();
+        $numContracts = $contracts->count();
+        $numEstimates = 0;
+        $numLocations = 0;
+        foreach ($contracts as $contract) {
+            if ($contract->split_catalog) {
+                $numLocations += $contract->locations()->count();
+            }
+            $numEstimates += $contract->estimates()->count();
+        }
+
+        $numCompanies = Company::count();
+        return view('home', compact('numContracts', 'numEstimates', 'numLocations', 'numCompanies'));
     }
 }
