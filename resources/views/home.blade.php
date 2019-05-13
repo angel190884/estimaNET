@@ -18,7 +18,7 @@
                         <img src="{{ asset('storage/imgs/builder.png') }}" width="200px">
                         <h1 class="display-5">EstimaNET</h1>
                         <p class="lead">
-                            Sistema Integral para el control de tus estimaciones en un solo lugar.
+                            Sistema Integral para el control de tus estimaciones en obra.
                         </p>
                     </div>
                     <div class="container">
