@@ -1,6 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +19,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
-        'password' => '$2a$04$nYH8j1ZUaTF4A0vnRYdcKe8sJHzSsW/Pqpj0GqlCkd3C7XzBSRAVe', // secret
-        'remember_token' => str_random(10),
+        'password' => '$2a$04$2A3WwdcurPjW5aR1KXVId.KnnNpYDB5.UA.kbLvuWruOFDMu9f7am', // password
+        'remember_token' => Str::random(10),
     ];
 });

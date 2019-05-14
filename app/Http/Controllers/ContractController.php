@@ -91,7 +91,7 @@ class ContractController extends Controller
         foreach ($user->deductions as $deduction) {
             $nameKey='deduction-' . $deduction->id;
             if ($request->has($nameKey)) {
-                array_push($arrayDeduction, $deduction->id);
+                Arr::push($arrayDeduction, $deduction->id);
             }
         }
         $contract->deductions()->sync($arrayDeduction);
@@ -177,7 +177,7 @@ class ContractController extends Controller
         foreach ($user->deductions as $deduction) {
             $nameKey='deduction-' . $deduction->id;
             if ($request->has($nameKey)) {
-                array_push($arrayDeduction, $deduction->id);
+                Arr::push($arrayDeduction, $deduction->id);
             }
         }
         $contract->deductions()->sync($arrayDeduction);

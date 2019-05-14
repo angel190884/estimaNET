@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\DateController;
+use Illuminate\Support\Arr;
 
 class Estimate extends Model
 {
