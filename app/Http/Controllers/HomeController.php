@@ -29,17 +29,21 @@ class HomeController extends Controller
     {
         $user = auth()->user();
         $contracts = $user->contracts()->active()->get();
-        $numContracts = $contracts->count();
-        $numEstimates = 0;
-        $numLocations = 0;
-        foreach ($contracts as $contract) {
-            if ($contract->split_catalog) {
-                $numLocations += $contract->locations()->count();
+        if ($user->isA('admin', 'editor')) {
+            $numContracts = $contracts->count();
+            $numEstimates = 0;
+            $numLocations = 0;
+            foreach ($contracts as $contract) {
+                if ($contract->split_catalog) {
+                    $numLocations += $contract->locations()->count();
+                }
+                $numEstimates += $contract->estimates()->count();
             }
-            $numEstimates += $contract->estimates()->count();
+            $numCompanies = Company::count();
+            return view('home', compact('numContracts', 'numEstimates', 'numLocations', 'numCompanies'));
         }
-
-        $numCompanies = Company::count();
-        return view('home', compact('numContracts', 'numEstimates', 'numLocations', 'numCompanies'));
+        if ($user->isA('visor')) {
+            return view('home', compact('contracts'));
+        }
     }
 }

@@ -36,104 +36,106 @@
                             <li class="nav-item active">
                                 <a class="nav-link" href="{{ route('home') }}">Inicio <span class="sr-only">(current)</span></a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Contratos
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    @can('listContracts')
-                                        <a class="dropdown-item" href="{{ route('contract.index') }}">Listar</a>
-                                    @endcan
+                            @if (auth()->user()->isAn('admin','editor'))
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Contratos
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        @can('listContracts')
+                                            <a class="dropdown-item" href="{{ route('contract.index') }}">Listar</a>
+                                        @endcan
 
-                                    @can('viewContract')
-                                        <!--<a class="dropdown-item" href="{{ route('contract.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>-->
-                                    @endcan
+                                        @can('viewContract')
+                                            <!--<a class="dropdown-item" href="{{ route('contract.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>-->
+                                        @endcan
 
-                                    @can('newContract')
-                                        <a class="dropdown-item" href="{{ route('contract.create') }}">Agregar</a>
-                                    @endcan
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Estimaciones
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    @can('listEstimates')
-                                        <a class="dropdown-item" href="{{ route('estimate.index') }}">Listar</a>
-                                    @endcan
+                                        @can('newContract')
+                                            <a class="dropdown-item" href="{{ route('contract.create') }}">Agregar</a>
+                                        @endcan
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Estimaciones
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        @can('listEstimates')
+                                            <a class="dropdown-item" href="{{ route('estimate.index') }}">Listar</a>
+                                        @endcan
 
-                                    @can('viewEstimate')
-                                    <!--<a class="dropdown-item" href="{{ route('estimate.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>-->
-                                    @endcan
+                                        @can('viewEstimate')
+                                        <!--<a class="dropdown-item" href="{{ route('estimate.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>-->
+                                        @endcan
 
-                                    @can('newEstimate')
-                                        <a class="dropdown-item" href="{{ route('estimate.create') }}">Agregar</a>
-                                    @endcan
+                                        @can('newEstimate')
+                                            <a class="dropdown-item" href="{{ route('estimate.create') }}">Agregar</a>
+                                        @endcan
 
-                                    @can('monitoringEstimates')
-                                        <a class="dropdown-item" href="{{ route('monitoring.index') }}">Monitorear Estimaciones</a>
-                                    @endcan
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Catálogos
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    @can('listConcepts')
-                                        <a class="dropdown-item" href="{{ route('concept.index') }}">Conceptos</a>
-                                    @endcan
+                                        @can('monitoringEstimates')
+                                            <a class="dropdown-item" href="{{ route('monitoring.index') }}">Monitorear Estimaciones</a>
+                                        @endcan
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Catálogos
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        @can('listConcepts')
+                                            <a class="dropdown-item" href="{{ route('concept.index') }}">Conceptos</a>
+                                        @endcan
 
-                                    @can('viewConcept')
-                                    <!--<a class="dropdown-item" href="{{ route('concept.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>-->
-                                    @endcan
+                                        @can('viewConcept')
+                                        <!--<a class="dropdown-item" href="{{ route('concept.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>-->
+                                        @endcan
 
-                                    @can('newConcept')
-                                            <a class="dropdown-item" href="{{ route('concept.create') }}">Agregar concepto</a>
-                                    @endcan
+                                        @can('newConcept')
+                                                <a class="dropdown-item" href="{{ route('concept.create') }}">Agregar concepto</a>
+                                        @endcan
 
-                                    @can('listDeductions')
-                                            <a class="dropdown-item" href="{{ route('deduction.index') }}">Deducciones y/o Sanciones</a>
-                                    @endcan
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Frentes
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    @can('listLocations')
-                                        <a class="dropdown-item" href="{{ route('location.index') }}">Listar</a>
-                                    @endcan
+                                        @can('listDeductions')
+                                                <a class="dropdown-item" href="{{ route('deduction.index') }}">Deducciones y/o Sanciones</a>
+                                        @endcan
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Frentes
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        @can('listLocations')
+                                            <a class="dropdown-item" href="{{ route('location.index') }}">Listar</a>
+                                        @endcan
 
-                                    @can('viewLocation')
-                                    <!--<a class="dropdown-item" href="{{ route('location.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>-->
-                                    @endcan
+                                        @can('viewLocation')
+                                        <!--<a class="dropdown-item" href="{{ route('location.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>-->
+                                        @endcan
 
-                                    @can('newLocation')
-                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addLocation">Agregar frente</a>
-                                    @endcan
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Empresas
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    @can('listCompanies')
-                                        <a class="dropdown-item" href="{{ route('contract.index') }}">Listar<sup class="text-danger"> Pendiente</sup></a>
-                                    @endcan
+                                        @can('newLocation')
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addLocation">Agregar frente</a>
+                                        @endcan
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Empresas
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        @can('listCompanies')
+                                            <a class="dropdown-item" href="{{ route('contract.index') }}">Listar<sup class="text-danger"> Pendiente</sup></a>
+                                        @endcan
 
-                                    @can('viewCompany')
-                                        <a class="dropdown-item" href="{{ route('contract.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>
-                                    @endcan
+                                        @can('viewCompany')
+                                            <a class="dropdown-item" href="{{ route('contract.index') }}">Mostrar<sup class="text-danger"> Pendiente</sup></a>
+                                        @endcan
 
-                                    @can('newCompany')
-                                        <a class="dropdown-item" href="{{ route('contract.index') }}">Agregar<sup class="text-danger"> Pendiente</sup></a>
-                                    @endcan
-                                </div>
-                            </li>
+                                        @can('newCompany')
+                                            <a class="dropdown-item" href="{{ route('contract.index') }}">Agregar<sup class="text-danger"> Pendiente</sup></a>
+                                        @endcan
+                                    </div>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                 @endauth
