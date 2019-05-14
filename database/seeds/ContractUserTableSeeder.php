@@ -16,7 +16,9 @@ class ContractUserTableSeeder extends Seeder
         $users = User::all();
         $contracts = Contract::all();
         foreach ($users as $user) {
-            $user->contracts()->sync($contracts);
+            if($user->whereIs('editor','admin')){
+                $user->contracts()->sync($contracts);    
+            }
         }
     }
 }

@@ -44,18 +44,7 @@ class UsersTableSeeder extends Seeder
          * +------------------------------------------------------------+
          */
 
-        $user = factory(User::class)->create(
-            [
-                'name' => 'angel daniel peregrino juarez',
-                'email' => 'angel190884@gmail.com'
-            ]
-        );
-
-        $user->assign('admin');
-
-        //Bouncer::allow('admin')->everything();
-
-        $user->allow()->to(
+        \Bouncer::allow('admin')->to(
             [
                 //Contracts
                 'viewContract',
@@ -89,11 +78,52 @@ class UsersTableSeeder extends Seeder
             ]
         );
 
+        $user = factory(User::class)->create(
+            [
+                'name' => 'angel daniel peregrino juarez',
+                'email' => 'angel190884@gmail.com'
+            ]
+        );
+        $user->assign('admin');
+
         /**
          * +------------------------------------------------------------+
          * | Role: visor                                                |
          * +------------------------------------------------------------+
          */
+        \Bouncer::allow('editor')->to(
+            [
+                //Contracts
+                'viewContract',
+                'listContracts',
+                'newContract',
+
+                //Companies
+                'viewCompany',
+                'listCompanies',
+                'newCompany',
+
+                //Estimates
+                'viewEstimate',
+                'listEstimates',
+                'newEstimate',
+                'monitoringEstimates',
+
+                //Concept
+                'viewConcept',
+                'listConcepts',
+                'newConcept',
+
+                //Locations
+                'viewLocation',
+                'listLocations',
+                'newLocation',
+
+                //Deductions
+                'listDeductions',
+
+            ]
+        );
 
         $user = factory(User::class)->create(
             [
@@ -101,6 +131,25 @@ class UsersTableSeeder extends Seeder
                 'email' => 'angel_190884@hotmail.com'
             ]
         );
+        $user->assign('editor');
+        /**
+         * +------------------------------------------------------------+
+         * | Role: visor                                                |
+         * +------------------------------------------------------------+
+         */
+        \Bouncer::allow('visor')->to(
+            [
+                'monitoringEstimates',
+            ]
+        );
+
+        $user = factory(User::class)->create(
+            [
+                'name' => 'visor',
+                'email' => 'visor@visor.com'
+            ]
+        );
         $user->assign('visor');
+        
     }
 }
