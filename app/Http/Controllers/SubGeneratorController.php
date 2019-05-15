@@ -71,30 +71,32 @@ class SubGeneratorController extends Controller
     public function update(Request $request, $id)
     {
         $user=auth()->user();
-        $generator = Generator::find($id);
+        $generator = Generator::findOrFail($id);
         $total = 0;
 
-        foreach ($generator->subGenerators()->get() as $subGenerator){
+        foreach ($generator->subGenerators()->get() as $subGenerator) {
             $textRequest = 'quantitySubGenerator'.$subGenerator->id;
             $total+=$request[$textRequest];
         }
 
         if (round(
-                $generator->lastQuantity + $total,
-                6,PHP_ROUND_HALF_DOWN)
+            $generator->lastQuantity + $total,
+            6,
+            PHP_ROUND_HALF_DOWN
+        )
             >
             round(
                 $generator->concept->quantityMax,
                 6,
                 PHP_ROUND_HALF_DOWN
-            )){
-            $exceededQuantity = round(round($generator->lastQuantity + $total,6,PHP_ROUND_HALF_DOWN) -
-                round($generator->concept->quantityMax,6,PHP_ROUND_HALF_DOWN),6 ,PHP_ROUND_HALF_DOWN);
-            session()->flash('danger',"El acumulado anterior + la suma de la subdivisión, excede del 125% por $exceededQuantity de la cantidad permitida del concepto favor de revisar!!!");
+            )) {
+            $exceededQuantity = round(round($generator->lastQuantity + $total, 6, PHP_ROUND_HALF_DOWN) -
+                round($generator->concept->quantityMax, 6, PHP_ROUND_HALF_DOWN), 6, PHP_ROUND_HALF_DOWN);
+            session()->flash('danger', "El acumulado anterior + la suma de la subdivisión, excede del 125% por $exceededQuantity de la cantidad permitida del concepto favor de revisar!!!");
             return redirect(route('generator.list', $generator->estimate->id));
         }
 
-        foreach ($generator->subGenerators()->get() as $subGenerator){
+        foreach ($generator->subGenerators()->get() as $subGenerator) {
             $textRequest = 'quantitySubGenerator'.$subGenerator->id;
             $subGenerator->quantity = $request[$textRequest];
             $subGenerator->save();
@@ -108,9 +110,8 @@ class SubGeneratorController extends Controller
         $generator->save();
 
         Log::info("update generator $generator $user");
-        session()->flash('success','El generador a sido subdivido correctamente');
-        return redirect(route('generator.list',$generator->estimate->id));
-
+        session()->flash('success', 'El generador a sido subdivido correctamente');
+        return redirect(route('generator.list', $generator->estimate->id));
     }
 
     /**

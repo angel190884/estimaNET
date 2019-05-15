@@ -176,7 +176,7 @@ class Contract extends Model
      */
     public function getStartWithLettersAttribute()
     {
-        return $this->changeDateLetter($this->date_start);
+        return changeDateLetter($this->date_start);
     }
 
     /**
@@ -196,7 +196,7 @@ class Contract extends Model
      */
     public function getFinishWithLettersAttribute()
     {
-        return $this->changeDateLetter($this->date_finish);
+        return changeDateLetter($this->date_finish);
     }
 
     /**
@@ -216,7 +216,7 @@ class Contract extends Model
      */
     public function getSignatureWithLettersAttribute()
     {
-        return $this->changeDateLetter($this->date_signature);
+        return changeDateLetter($this->date_signature);
     }
 
     /**
@@ -236,7 +236,7 @@ class Contract extends Model
      */
     public function getSignatureCovenantWithLettersAttribute()
     {
-        return $this->changeDateLetter($this->date_signature_covenant);
+        return changeDateLetter($this->date_signature_covenant);
     }
 
     /**
@@ -260,7 +260,7 @@ class Contract extends Model
     public function getFinishModifiedWithLettersAttribute()
     {
         if ($this->date_finish_modified) {
-            return $this->changeDateLetter($this->date_finish_modified);
+            return changeDateLetter($this->date_finish_modified);
         }
         return "---";
     }
@@ -288,7 +288,7 @@ class Contract extends Model
      */
     public function getOriginalAmountOkAttribute()
     {
-        return '$ '. $this->format($this->originalAmount);
+        return '$ '. format($this->originalAmount);
     }
 
     /**
@@ -308,7 +308,7 @@ class Contract extends Model
      */
     public function getOriginalAmountIvaOkAttribute()
     {
-        return '$ '. $this->format($this->originalAmountIva);
+        return '$ '. format($this->originalAmountIva);
     }
 
     /**
@@ -328,7 +328,7 @@ class Contract extends Model
      */
     public function getOriginalAmountWithIvaOkAttribute()
     {
-        return '$ ' . $this->format($this->originalAmountWithIva);
+        return '$ ' . format($this->originalAmountWithIva);
     }
     
     /**
@@ -348,7 +348,7 @@ class Contract extends Model
      */
     public function getExtensionAmountOkAttribute()
     {
-        return '$ ' . $this->format($this->extensionAmount);
+        return '$ ' . format($this->extensionAmount);
     }
     
     /**
@@ -368,7 +368,7 @@ class Contract extends Model
      */
     public function getExtensionAmountIvaOkAttribute()
     {
-        return '$ ' . $this->format($this->extensionAmountIva);
+        return '$ ' . format($this->extensionAmountIva);
     }
 
     /**
@@ -388,7 +388,7 @@ class Contract extends Model
      */
     public function getExtensionAmountWithIvaOkAttribute()
     {
-        return '$ ' . $this->format($this->extensionAmountWithIva);
+        return '$ ' . format($this->extensionAmountWithIva);
     }
 
     /**
@@ -408,7 +408,7 @@ class Contract extends Model
      */
     public function getTotalAmountOkAttribute()
     {
-        return '$ ' . $this->format($this->totalAmount);
+        return '$ ' . format($this->totalAmount);
     }
 
     /**
@@ -428,7 +428,7 @@ class Contract extends Model
      */
     public function getTotalAmountIvaOkAttribute()
     {
-        return '$ ' . $this->format($this->TotalAmountIva);
+        return '$ ' . format($this->TotalAmountIva);
     }
 
     /**
@@ -448,7 +448,7 @@ class Contract extends Model
      */
     public function getTotalAmountWithIvaOkAttribute()
     {
-        return '$ ' . $this->format($this->totalAmountWithIva);
+        return '$ ' . format($this->totalAmountWithIva);
     }
     
     /**
@@ -468,7 +468,7 @@ class Contract extends Model
      */
     public function getAdvancePaymentAmountOkAttribute()
     {
-        return '$ ' . $this->format($this->advancePaymentAmount);
+        return '$ ' . format($this->advancePaymentAmount);
     }
 
     /**
@@ -488,7 +488,7 @@ class Contract extends Model
      */
     public function getAdvancePaymentAmountIvaOkAttribute()
     {
-        return '$ ' . $this->format($this->advancePaymentAmountIva);
+        return '$ ' . format($this->advancePaymentAmountIva);
     }
 
     /**
@@ -508,16 +508,16 @@ class Contract extends Model
      */
     public function getAdvancePaymentAmountWithIvaOkAttribute()
     {
-        return '$ ' . $this->format($this->advancePaymentAmountWithIva);
+        return '$ ' . format($this->advancePaymentAmountWithIva);
     }
     
-    /**
+    /*
      * **************************************************************************
      * ************************QUERY SCOPES**************************************
      * **************************************************************************
      */
 
-    /**
+    /*
      * Retorna los contratos que contienen el codigo = $request->code.
      *
      * @return Query
@@ -551,90 +551,5 @@ class Contract extends Model
     public function scopeSplit($query)
     {
         return $query->where('split_catalog', true);
-    }
-
-    /**
-     * **************************************************************************
-     * ************************AUXILIARY FUNCTIONS*******************************
-     * **************************************************************************
-     */
-
-    /**
-     * Retorna un numero al formato establecido para numeros.
-     *
-     * @param Number $number number to change
-     *
-     * @return String
-     */
-    private function format($number)
-    {
-        $numbers= explode(".", $number);
-        if (! isset($numbers[1])) {
-            $numbers[1] = null;
-        }
-        if (strlen($numbers[1]) < 2) {
-            return number_format($number, 2, '.', ',');
-        }
-        return number_format($numbers[0], 0, '.', ',').'.'.$numbers[1];
-    }
-
-    /**
-     * Retorna una fecha a formato de letras.
-     *
-     * @param Date $date number to change
-     *
-     * @return String
-     */
-    private function changeDateLetter($date)
-    {
-        if ($date=='0000-00-00') {
-            return '------';
-        }
-        $mes='';
-        $arraydate = explode("-", $date);
-
-        switch ($arraydate[1]) {
-        case '01':
-            $mes='ENERO';
-            break;
-        case '02':
-            $mes='FEBRERO';
-            break;
-        case '03':
-            $mes='MARZO';
-            break;
-        case '04':
-            $mes='ABRIL';
-            break;
-        case '05':
-            $mes='MAYO';
-            break;
-        case '06':
-            $mes='JUNIO';
-            break;
-        case '07':
-            $mes='JULIO';
-            break;
-        case '08':
-            $mes='AGOSTO';
-            break;
-        case '09':
-            $mes='SEPTIEMBRE';
-            break;
-        case '10':
-            $mes='OCTUBRE';
-            break;
-        case '11':
-            $mes='NOVIEMBRE';
-            break;
-        case '12':
-            $mes='DICIEMBRE';
-            break;
-        default:
-            '------';
-            break;
-        }
-
-        return "$arraydate[2] DE $mes DEL $arraydate[0]";
     }
 }

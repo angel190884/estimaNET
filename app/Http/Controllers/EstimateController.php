@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Contract;
 use App\Estimate;
 use App\Http\Requests\StoreEstimate;
 use Illuminate\Http\Request;

@@ -58,17 +58,16 @@ class Generator extends Model
 
     public function validate()
     {
-        if ($this->quantity == 0){
+        if ($this->quantity == 0) {
             return false;
         }
-        if($this->estimate->contract->split_catalog){
-            if (round($this->quantity,6,PHP_ROUND_HALF_DOWN) != round($this->subGenerators()->sum('quantity'),6, PHP_ROUND_HALF_DOWN)){
-
+        if ($this->estimate->contract->split_catalog) {
+            if (round($this->quantity, 6, PHP_ROUND_HALF_DOWN) != round($this->subGenerators()->sum('quantity'), 6, PHP_ROUND_HALF_DOWN)) {
                 return false;
             }
         }
 
-        if (round($this->quantity,6, PHP_ROUND_HALF_DOWN) + round($this->getLastQuantityAttribute(),6,PHP_ROUND_HALF_DOWN) > round($this->concept->quantityMax,6,PHP_ROUND_HALF_DOWN)){
+        if (round($this->quantity, 6, PHP_ROUND_HALF_DOWN) + round($this->getLastQuantityAttribute(), 6, PHP_ROUND_HALF_DOWN) > round($this->concept->quantityMax, 6, PHP_ROUND_HALF_DOWN)) {
             return false;
         }
 
@@ -77,12 +76,12 @@ class Generator extends Model
 
     public function getQuantityOkAttribute()
     {
-        return $this->format($this->quantity);
+        return format($this->quantity);
     }
 
     public function getLastQuantityOkAttribute()
     {
-        return $this->format($this->getLastQuantityAttribute());
+        return format($this->getLastQuantityAttribute());
     }
 
     public function getLastQuantityAttribute()
@@ -91,30 +90,29 @@ class Generator extends Model
         $previousEstimates = $estimate->contract->estimates()->previousEstimates($estimate)->get();
         //dump($previousEstimates);
         $total = 0;
-        foreach ($previousEstimates as $previousEstimate){
+        foreach ($previousEstimates as $previousEstimate) {
             $total+= $previousEstimate
                 ->generators
                 //->select('quantity')
-                ->where('concept_id',$this->concept_id)
+                ->where('concept_id', $this->concept_id)
                 ->sum->quantity;
         }
         return $total;
-
     }
 
     public function getAccumulatedQuantityOkAttribute()
     {
-        return $this->format($this->getLastQuantityAttribute() + $this->quantity);
+        return format($this->getLastQuantityAttribute() + $this->quantity);
     }
 
     public function getAmountAttribute()
     {
-        return round ( $this->quantity * $this->concept->unit_price, 2, PHP_ROUND_HALF_DOWN);
+        return round($this->quantity * $this->concept->unit_price, 2, PHP_ROUND_HALF_DOWN);
     }
 
     public function getAmountOkAttribute()
     {
-        return '$' . $this->format(round ( $this->quantity * $this->concept->unit_price, 2, PHP_ROUND_HALF_DOWN));
+        return '$' . format(round($this->quantity * $this->concept->unit_price, 2, PHP_ROUND_HALF_DOWN));
     }
 
     public function getLastAmountAttribute()
@@ -123,14 +121,14 @@ class Generator extends Model
         $previousEstimates = $estimate->contract->estimates()->previousEstimates($estimate)->get();
         $total = 0;
 
-        foreach ($previousEstimates as $previousEstimate){
+        foreach ($previousEstimates as $previousEstimate) {
             $generatorsPrevious = $previousEstimate
                 ->generators()
-                ->where('concept_id','=',$this->concept_id)
+                ->where('concept_id', '=', $this->concept_id)
                 ->get();
 
-            foreach ($generatorsPrevious as $generatorPrevious){
-                $total+= round($generatorPrevious->quantity * $generatorPrevious->concept->unit_price,2,PHP_ROUND_HALF_DOWN);
+            foreach ($generatorsPrevious as $generatorPrevious) {
+                $total+= round($generatorPrevious->quantity * $generatorPrevious->concept->unit_price, 2, PHP_ROUND_HALF_DOWN);
             }
         }
         return $total;
@@ -138,36 +136,22 @@ class Generator extends Model
 
     public function getLastAmountOkAttribute()
     {
-        return '$' . $this->format($this->getLastAmountAttribute());
+        return '$' . format($this->getLastAmountAttribute());
     }
 
 
     public function getAccumulatedAmountAttribute()
     {
-        return '$' . $this->format($this->getLastAmountAttribute() + $this->getAmountAttribute());
+        return '$' . format($this->getLastAmountAttribute() + $this->getAmountAttribute());
     }
 
     public function getMaximumQuantityPossibleOkAttribute()
     {
         return round(
-            round($this->concept->quantityMax,6, PHP_ROUND_HALF_DOWN) -
-            round($this->getLastQuantityAttribute(),6,PHP_ROUND_HALF_DOWN),6, PHP_ROUND_HALF_DOWN);
-    }
-
-    static function format($number)
-    {
-        $numbers= explode(".", $number);
-        if ( ! isset($numbers[1])) {
-            $numbers[1] = null;
-        }
-        if (strlen($numbers[1]) < 2 ) {
-            return number_format($number,2,'.',',');
-        }else {
-            return number_format($numbers[0],0,'.',',').'.'.$numbers[1];
-        }
-    }
-    static function formatCash($number)
-    {
-        return '$' . Generator::format($number);
+            round($this->concept->quantityMax, 6, PHP_ROUND_HALF_DOWN) -
+            round($this->getLastQuantityAttribute(), 6, PHP_ROUND_HALF_DOWN),
+            6,
+            PHP_ROUND_HALF_DOWN
+        );
     }
 }
