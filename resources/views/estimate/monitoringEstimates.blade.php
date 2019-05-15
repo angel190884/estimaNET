@@ -10,7 +10,7 @@
                             <div class="row">
                                 <div class="col-sm-12 col-md-2">
                                     Estimaciones
-                                </div>
+                                </div>                                
                                 <div class="col-sm-12 col-md-10 text-right text-info d-none d-sm-block">
                                     <div class="col-auto">
                                         <button class="btn text-dark" title="Empresa Contratista" id="status-1"><i class="fas fa-snowplow fa-2x"></i></button>
@@ -34,6 +34,35 @@
                                 {{ session('status') }}
                             </div>
                         @endif
+                        <div>
+                            <p >
+                                <button class="btn btn-sm btn-info btn-block hidden-sm-up visible" type="button" data-toggle="collapse" data-target="#collapseExample"
+                                    aria-expanded="false" aria-controls="collapseExample">
+                                    Ver Nomenclatura
+                                </button>
+                            </p>
+                            <div class="collapse" id="collapseExample">
+                                <div class="card card-block">
+                                    <button class="btn text-dark" title="Empresa Contratista" id="status-1"><i
+                                            class="fas fa-snowplow fa-2x"></i>Empresa Contratista</button>
+                                    <button class="btn btn-primary" title="Supervisión Externa" id="status-2"><i
+                                            class="fas fa-eye fa-2x"></i>Supervisión Externa</button>
+                                    <button class="btn btn-secondary" title="Supervisión Interna" id="status-3"><i
+                                            class="fas fa-clipboard-check fa-2x"></i>Supervisión Interna</button>
+                                    <button class="btn btn-info" title="JUD para revisión" id="status-4"><i
+                                            class="fas fa-feather-alt fa-2x"></i>JUD para revisión</button>
+                                    <button class="btn btn-warning text-dark" title="Director de Supervisión para revisión" id="status-5"><i
+                                            class="fas fa-feather fa-2x"></i>Director de Supervisión para revisión</button>
+                                    <button class="btn btn-danger" title="Control Técnico para revisión" id="status-6"><i
+                                            class="fas fa-cogs fa-2x"></i>Control Técnico para revisión</button>
+                                    <button class="btn btn-dark" title="Finanzas para autorización" id="status-6"><i
+                                            class="fas fa-dollar-sign fa-2x"></i>Finanzas para autorización</button>
+                                    <button class="btn btn-success" title="Pagada con CLC" id="status-6"><i
+                                            class="fas fa-hand-holding-usd fa-2x"></i>Pagada con CLC</button>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div class="table-responsive text-center">
                             <table class="table table-hover table-striped">
                                 <thead class="thead-dark">
