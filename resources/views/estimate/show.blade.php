@@ -34,7 +34,11 @@
                                                 <div class="card-header">Detalles del Contrato</div>
                                                 <div class="card-block">
                                                     <strong>Contrato:</strong><br>
-                                                    {{ $estimate->contract->nameContractFormatted }} <a href="{{ route('contract.edit',$estimate->contract) }}"><i class="fas fa-pen" title="editar contracto"></i></a> <br>
+                                                    {{ $estimate->contract->nameContractFormatted }} 
+                                                    @can('viewContract')
+                                                        <a href="{{ route('contract.edit',$estimate->contract) }}"><i class="fas fa-pen" title="editar contracto"></i></a>
+                                                    @endcan    
+                                                    <br>
                                                     <strong>Fechas</strong><br>
                                                     <i class="fas fa-play-circle" title="Fecha de inicio"></i>{{ $estimate->contract->startOk }}<br>
                                                     <i class="fas fa-stop-circle" title="Fecha de Terminación"></i>{{ $estimate->contract->finishOk }}<br>
@@ -70,10 +74,12 @@
                                                 <div class="card-block">
                                                     <strong>Sistema:</strong><br>
                                                     <a class="btn btn-sm btn-primary text-white" title="Actualizar" href="{{ url()->current() }}"><i class="fas fa-sync fa-2x"></i></a>
-                                                    <a class="btn btn-sm btn-primary text-white" title="Editar Estimación" href="{{ route('estimate.edit', $estimate) }}"><i class="fas fa-edit fa-2x"></i></a>
-                                                    <!--<a class="btn btn-sm btn-primary text-white" title="Control de Ruta" href="#"><i class="fas fa-route fa-2x"></i></a>-->
-                                                    <a class="btn btn-sm btn-primary text-white" title="Editar Conceptos" href="{{ route('generator.list',$estimate) }}"><i class="fas fa-clipboard-list fa-2x"></i></a><br>
-                                                    
+                                                    @can('viewContract')
+                                                        <a class="btn btn-sm btn-primary text-white" title="Editar Estimación" href="{{ route('estimate.edit', $estimate) }}"><i class="fas fa-edit fa-2x"></i></a>
+                                                        <!--<a class="btn btn-sm btn-primary text-white" title="Control de Ruta" href="#"><i class="fas fa-route fa-2x"></i></a>-->
+                                                        <a class="btn btn-sm btn-primary text-white" title="Editar Conceptos" href="{{ route('generator.list',$estimate) }}"><i class="fas fa-clipboard-list fa-2x"></i></a>
+                                                    @endcan
+                                                    <br>
                                                     <strong>PDF's</strong><br>
                                                     @if($estimate->contract->split_catalog)
                                                         <a class="btn btn-sm btn-primary text-white" title="Control Acumulativo" href="{{ route('report.cumulativeControlLocations',$estimate) }}" target="_blank"><i class="fas fa-file-alt fa-2x"></i></i></a>
