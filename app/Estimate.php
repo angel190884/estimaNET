@@ -368,7 +368,7 @@ class Estimate extends Model
     public function getTotalPreviousAmountAttribute()
     {
         $totalPrevious = 0;
-        foreach ($this->previousEstimates($this)->get() as $estimate) {
+        foreach ($this->previousEstimates()->get() as $estimate) {
             $totalPrevious+=$estimate->totalEstimateAmountWithIva;
         }
         return round($totalPrevious, 2, PHP_ROUND_HALF_DOWN);
@@ -414,11 +414,11 @@ class Estimate extends Model
         $total = 0;
         foreach ($this->deductions()->get() as $sanction) {
             $percentage = ($sanction->percentage * $sanction->pivot->factor) / 100;
-            $total += round($this->totalEstimateAmount *  $percentage, 2);
+            $total += round($this->totalEstimateAmount *  $percentage, 2, PHP_ROUND_HALF_DOWN);
         }
         foreach ($this->contract->deductions()->get() as $deduction) {
             $percentage = ($deduction->percentage * $deduction->pivot->factor) / 100;
-            $total += round($this->totalEstimateAmount *  $percentage, 2);
+            $total += round($this->totalEstimateAmount *  $percentage, 2, PHP_ROUND_HALF_DOWN);
         }
         return $total;
     }
@@ -444,6 +444,16 @@ class Estimate extends Model
     }
 
     /**
+     * Retorna monto de retencion o devolucion de la estimacion con formato $.
+     *
+     * @return Float
+     */
+    public function getRetentionOkAttribute()
+    {
+        return '$ ' . format($this->retention);
+    }
+
+    /**
      * Retorna monto total de la estimacion con letras formato 00/100 M.N..
      *
      * @return String
@@ -462,18 +472,12 @@ class Estimate extends Model
     /**
      * Retorna estimaciones previas.
      *
-     * @param Query        $query    query
-     * @param App\Estimate $estimate estimate
+     * @param Query $query query
      *
      * @return Query
      */
-    public function scopePreviousEstimates($query, Estimate $estimate)
+    public function scopePreviousEstimates($query)
     {
-        if ($estimate) {
-            return $query->with('contract', 'generators', 'deductions')
-                ->where('number', '<', $estimate->number)
-                ->where('contract_id', $estimate->contract->id);
-        }
         return $query->with('contract', 'generators', 'deductions')
             ->where('number', '<', $this->number)
             ->where('contract_id', $this->contract->id);

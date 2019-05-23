@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Contract;
-use App\Http\Requests\StoreContract;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\StoreContract;
 
 class ContractController extends Controller
 {
@@ -173,11 +174,11 @@ class ContractController extends Controller
 
         $user=auth()->user();
 
-        $arrayDeduction = array();
+        $arrayDeduction = [];
         foreach ($user->deductions as $deduction) {
             $nameKey='deduction-' . $deduction->id;
             if ($request->has($nameKey)) {
-                Arr::push($arrayDeduction, $deduction->id);
+                array_push($arrayDeduction, $deduction->id);
             }
         }
         $contract->deductions()->sync($arrayDeduction);

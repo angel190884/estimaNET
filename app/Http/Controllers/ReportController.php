@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Contract;
 use App\Estimate;
 use App\Generator;
-use App\SubGenerator;
+use Illuminate\Support\Arr;
 use Barryvdh\DomPDF\Facade as PDF;
-use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
@@ -232,5 +232,43 @@ class ReportController extends Controller
         $pdf = PDF::loadView('reports.accountingStatement.pdf', compact('estimate'));
         $pdf->setPaper('letter', 'portrait');
         return $pdf->stream('estadoContable.pdf');
+    }
+
+    public function finalSummary(Contract $contract)
+    {
+        $concepts = $contract->concepts()->with('contract.estimates')->orderBy('id', 'asc')->get();
+        $numEstimates = $contract->estimates()->count();
+        $estimates = $contract->estimates()->with('generators.concept')->get();
+        //dump($concepts, $numEstimates, $estimates, $contract);
+        foreach ($concepts as $concept) {
+            $concept->setAttribute(
+                'data',
+                Generator::join('concepts', 'concepts.id', '=', 'concept_estimate.concept_id')
+                    ->join('estimates', 'estimates.id', '=', 'concept_estimate.estimate_id')
+                    ->select(
+                        'concepts.code',
+                        'concepts.name',
+                        'concepts.measurement_unit',
+                        'concepts.quantity',
+                        'concepts.unit_price',
+                        'concept_estimate.quantity',
+                        'estimates.number'
+                    )
+                    ->where('concept_id', $concept->id)
+                    ->orderBy('code', 'asc')
+                    ->get()
+            );
+            $concept->setAttribute(
+                'total',
+                Generator::where('concept_id', $concept->id)
+                    ->sum('quantity')
+            );
+        }
+
+        //dd($concepts->first());
+        //$pdf = PDF::loadView('reports.finalSummary.pdf', compact('contract', 'concepts', 'estimates'));
+        //$pdf->setPaper('letter', 'portrait');
+        //return $pdf->download('SabanaFiniquito.pdf', array('Attachment'=>0));
+        return view('reports.finalSummary.pdf', compact('contract', 'concepts', 'estimates', 'numEstimates', 'totalDeductionsAmountOk'));
     }
 }

@@ -41,4 +41,5 @@ Route::resource('location', 'LocationController')->middleware('auth');
 
 Route::prefix('report')->get('cumulativeControl/{estimate}', ['as' => 'report.cumulativeControl', 'uses' => 'ReportController@cumulativeControl'])->middleware('auth');
 Route::prefix('report')->get('cumulativeControlLocations/{estimate}', ['as' => 'report.cumulativeControlLocations', 'uses' => 'ReportController@cumulativeControlLocations'])->middleware('auth');
-Route::prefix('report')->get('AccountingStatement/{estimate}', ['as' => 'report.accountingStatement', 'uses' => 'ReportController@accountingStatement'])->middleware('auth');
+Route::prefix('report')->get('accountingStatement/{estimate}', ['as' => 'report.accountingStatement', 'uses' => 'ReportController@accountingStatement'])->middleware('auth');
+Route::prefix('report')->get('finalSummary/{contract}', ['as' => 'report.finalSummary', 'uses' => 'ReportController@finalSummary'])->middleware('auth');
