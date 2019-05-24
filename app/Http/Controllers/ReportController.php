@@ -264,11 +264,6 @@ class ReportController extends Controller
                     ->sum('quantity')
             );
         }
-
-        //dd($concepts->first());
-        //$pdf = PDF::loadView('reports.finalSummary.pdf', compact('contract', 'concepts', 'estimates'));
-        //$pdf->setPaper('letter', 'portrait');
-        //return $pdf->download('SabanaFiniquito.pdf', array('Attachment'=>0));
-        return view('reports.finalSummary.pdf', compact('contract', 'concepts', 'estimates', 'numEstimates', 'totalDeductionsAmountOk'));
+        return view('reports.finalSummary.pdf', compact('contract', 'concepts', 'estimates', 'numEstimates'));
     }
 }
