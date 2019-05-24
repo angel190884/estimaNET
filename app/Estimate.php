@@ -368,7 +368,7 @@ class Estimate extends Model
     public function getTotalPreviousAmountAttribute()
     {
         $totalPrevious = 0;
-        foreach ($this->previousEstimates()->get() as $estimate) {
+        foreach ($this->previousEstimates($this)->get() as $estimate) {
             $totalPrevious+=$estimate->totalEstimateAmountWithIva;
         }
         return round($totalPrevious, 2, PHP_ROUND_HALF_DOWN);
@@ -476,8 +476,13 @@ class Estimate extends Model
      *
      * @return Query
      */
-    public function scopePreviousEstimates($query)
+    public function scopePreviousEstimates($query, Estimate $estimate)
     {
+        if ($estimate) {
+            return $query->with('contract', 'generators', 'deductions')
+                ->where('number', '<', $estimate->number)
+                ->where('contract_id', $estimate->contract->id);
+        }
         return $query->with('contract', 'generators', 'deductions')
             ->where('number', '<', $this->number)
             ->where('contract_id', $this->contract->id);
