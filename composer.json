@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.11",
+        "aws/aws-sdk-php": "~3.0",
         "barryvdh/laravel-dompdf": "^0.8.3",
         "consoletvs/charts": "6.*",
         "dompdf/dompdf": "^0.8.3",
@@ -16,9 +17,9 @@
         "laravel/framework": "5.8.*",
         "laravel/helpers": "^1.0",
         "laravel/tinker": "^1.0",
+        "maatwebsite/excel": "^3.1",
         "rap2hpoutre/laravel-log-viewer": "^1.0",
-        "silber/bouncer": "v1.0.0-rc.5",
-        "aws/aws-sdk-php": "~3.0"
+        "silber/bouncer": "v1.0.0-rc.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
