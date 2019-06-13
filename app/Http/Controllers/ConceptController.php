@@ -3,12 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Concept;
+use App\Contract;
 use App\Http\Requests\StoreConcept;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ConceptsImport;
 
 class ConceptController extends Controller
 {
+    private $user;
+
+    public function __construct()
+    {
+        $this->user = auth()->user();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +25,7 @@ class ConceptController extends Controller
      */
     public function index(Request $request)
     {
-        return view('concept.index',compact('request'));
+        return view('concept.index', compact('request'));
     }
 
     /**
@@ -37,7 +46,7 @@ class ConceptController extends Controller
      */
     public function store(StoreConcept $request)
     {
-        if(count($concept = Concept::where('code',$request['code'])->first())){
+        if (count($concept = Concept::where('code', $request['code'])->first())) {
             Log::error("Duplicate contract : $concept");
             return redirect(route('contract.create'))->withErrors('El contrato que intentas grabar ya existe favor de verificar código');
         }
@@ -56,7 +65,7 @@ class ConceptController extends Controller
 
         $user=auth()->user();
         Log::info("add concept $concept $user");
-        session()->flash('success','El concepto a sido añadido en la base de datos correctamente');
+        session()->flash('success', 'El concepto a sido añadido en la base de datos correctamente');
         return redirect(route('concept.create'));
     }
 
@@ -110,7 +119,7 @@ class ConceptController extends Controller
 
         $user=auth()->user();
         Log::info("update concept $concept $user");
-        session()->flash('success','El concepto a sido actualizado en la base de datos correctamente');
+        session()->flash('success', 'El concepto a sido actualizado en la base de datos correctamente');
         return redirect(route('concept.index'));
     }
 
@@ -123,5 +132,27 @@ class ConceptController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Update catalog from excel.
+     *
+     * @param  Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updateCatalog(Request $request)
+    {
+        if (mb_strtolower($request->file('file')->getClientOriginalExtension()) == "xlsx") {
+
+            Excel::import(new ConceptsImport($request->contract_id), request()->file('file'));
+            
+            Log::info("add catalog excel $this->user");
+            session()->flash('success', 'El catalogo a sido agregado en la base de datos correctamente.');
+            return redirect(route('contract.index'));
+        } 
+
+        session()->flash('danger', 'El archivo que intentas procesar NO es un archivo de Excel con extensión XLSX.');
+        return redirect(route('contract.index'));
     }
 }

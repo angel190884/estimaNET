@@ -31,6 +31,8 @@ Route::resource('estimate', 'EstimateController')->middleware('auth');
 Route::get('monitoringEstimate', ['as' => 'monitoring.index', 'uses' => 'EstimateController@monitoringIndex'])->middleware('auth');
 
 Route::resource('concept', 'ConceptController')->middleware('auth');
+Route::post('create/catalog', ['as' => 'catalog.excel.update', 'uses' => 'ConceptController@updateCatalog'])->middleware('auth');
+
 
 Route::resource('generator', 'GeneratorController')->middleware('auth');
 Route::get('generatorList/{estimate}', ['as' => 'generator.list', 'uses' => 'GeneratorController@list'])->middleware('auth');

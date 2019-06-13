@@ -62,6 +62,42 @@
                                     <td>
                                         <a href="{{ route('contract.edit',$contract) }}"><i class="fas fa-edit fa-2x"></i></a>
                                         <a href="{{ route('report.finalSummary',$contract) }}"><i class="fas fa-file-invoice-dollar fa-2x"></i></a>
+                                        <a href="#" data-toggle="modal" data-target="#uploadCatalog" alt="Subir Catálogo"><i class="fas fa-list-alt fa-2x"></i></a>
+                                        
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="uploadCatalog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <form action="{{ route('catalog.excel.update') }}" method="POST" accept-charset="UTF-8" enctype="multipart/form-data">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Subir Catálogo</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                            {!! csrf_field() !!}
+                                                            <input type="hidden" name="contract_id" value="{{ $contract->id }}">
+                                                            
+                                                            <div class="form-group">
+                                                                <p class="bg-warning text-black-50">Deberas cargar el catalogo en formato xlsx, 
+                                                                    con el formato correcto, si no lo tienes descargalo 
+                                                                    <a href="{{ asset('storage/files/catalog.xlsx') }}">aqui</a> respetando los nombres
+                                                                    de las columnas.
+                                                                </p>
+                                                                <label for="exampleFormControlFile1">Upload Excel</label>
+                                                                <input name="file" type="file" class="form-control-file form-control-lg" id="exampleFormControlFile1">
+                                                            </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                        <button type="submit" class="btn btn-primary">Subir Archivo</button>
+                                                    </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
